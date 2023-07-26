@@ -1,6 +1,8 @@
 // A world holds block data
 
 export class World {
+  blocks: {[x: number]: {[y: number]: {[z: number]: number}}};
+
   constructor() {
     this.blocks = {}
   }
