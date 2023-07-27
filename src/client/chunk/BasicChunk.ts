@@ -2,7 +2,7 @@ import {Block} from "../Block";
 import {IChunk} from "./IChunk";
 import {Vector3} from "babylonjs";
 
-const CHUNK_SIZE = 16;
+const CHUNK_SIZE = 32;
 
 // A chunk holds block data
 export class BasicChunk implements IChunk {
@@ -25,7 +25,11 @@ export class BasicChunk implements IChunk {
   }
 
   // Get the block at an xyz coordinate
-  getBlock(x: number, y: number, z: number) : Block {
+  getBlock(x: number, y: number, z: number) : Block | undefined {
+    // Ensure the coordinates are within the bounds of the chunk
+    if (x < 0 || y < 0 || z < 0) return undefined;
+    if (x >= CHUNK_SIZE || y >= CHUNK_SIZE || z >= CHUNK_SIZE) return undefined;
+
     return this.blocks[x][y][z];
   }
 

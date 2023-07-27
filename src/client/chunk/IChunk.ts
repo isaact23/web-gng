@@ -3,7 +3,7 @@ import {Vector3} from "babylonjs";
 
 export interface IChunk {
   // Get the block at an xyz coordinate
-  getBlock(x: number, y: number, z: number) : Block;
+  getBlock(x: number, y: number, z: number) : Block | undefined;
 
   // Set a block at an xyz coordinate
   setBlock(x: number, y: number, z: number, block: Block) : void;
