@@ -1,5 +1,5 @@
-import { Block } from "./block";
-import { Chunk } from "./chunk";
+import { Block } from "./Block";
+import * as Chunk from "./chunk/Chunk";
 import * as Babylon from "babylonjs";
 
 const canvas = document.getElementById("renderCanvas"); // Get the canvas element
@@ -8,7 +8,7 @@ if (!(canvas instanceof HTMLCanvasElement)) {
 }
 const engine = new Babylon.Engine(canvas, true); // Generate the Babylon 3D engine
 
-const createScene = function (chunk: Chunk) {
+const createScene = function (chunk: Chunk.IChunk) {
   const scene = new Babylon.Scene(engine);
 
   const camera = new Babylon.UniversalCamera("camera1", new Babylon.Vector3(5, 4, 5), scene);
@@ -35,7 +35,7 @@ const createScene = function (chunk: Chunk) {
 };
 
 // Create block data
-const chunk = new Chunk();
+const chunk = new Chunk.BasicChunk();
 chunk.setBlock(0, 0, 0, Block.Stone);
 chunk.setBlock(2, 0, 0, Block.Stone);
 chunk.setBlock(4, 0, 0, Block.Air);

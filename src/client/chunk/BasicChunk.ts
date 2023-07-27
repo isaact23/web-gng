@@ -1,10 +1,11 @@
-import {Block} from "./block";
+import {Block} from "../Block";
+import {IChunk} from "./IChunk";
 import {Vector3} from "babylonjs";
 
 const CHUNK_SIZE = 16;
 
 // A chunk holds block data
-export class Chunk {
+export class BasicChunk implements IChunk {
 
   private blocks : Block[][][];
 
@@ -29,12 +30,12 @@ export class Chunk {
   }
 
   // Set a block at an xyz coordinate
-  setBlock(x: number, y: number, z: number, block: Block) {
+  setBlock(x: number, y: number, z: number, block: Block) : void {
     this.blocks[x][y][z] = block;
   }
 
   // Get iterator for all non-air blocks in the chunk
-  *getIterator(): Generator<[Vector3, Block], any, unknown> {
+  *getIterator() : Generator<[Vector3, Block], any, unknown> {
     for (var x = 0; x < CHUNK_SIZE; x++) {
       for (var y = 0; y < CHUNK_SIZE; y++) {
         for (var z = 0; z < CHUNK_SIZE; z++) {

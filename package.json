@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Voxels in the sky",
   "scripts": {
-    "start": "ts-node src/server/server.ts",
+    "start": "ts-node src/server/Server.ts",
     "webpack": "npx webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
