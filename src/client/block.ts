@@ -1,4 +1,4 @@
-export const Block = Object.freeze({
-  Air: 0,
-  Stone: 1
-});
+export enum Block {
+  Air,
+  Stone
+}
