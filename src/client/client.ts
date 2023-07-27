@@ -1,5 +1,5 @@
-import { Block } from "./block.js";
-import { World } from "./world.js";
+import { Block } from "./block";
+import { World } from "./world";
 import * as Babylon from "babylonjs";
 
 const canvas = document.getElementById("renderCanvas"); // Get the canvas element

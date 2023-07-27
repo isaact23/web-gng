@@ -7,11 +7,11 @@ export class World {
     this.blocks = {}
   }
 
-  getBlock(x, y, z) {
+  getBlock(x: number, y: number, z: number) {
     return this.blocks[x][y][z];
   }
 
-  setBlock(x, y, z, block) {
+  setBlock(x: number, y: number, z: number, block: number) {
     if (this.blocks[x] === undefined) { this.blocks[x] = {}};
     if (this.blocks[x][y] === undefined) { this.blocks[x][y] = {}};
 
