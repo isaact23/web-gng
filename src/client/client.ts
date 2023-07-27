@@ -1,5 +1,5 @@
 import { Block } from "./block";
-import { World } from "./world";
+import { Chunk } from "./chunk";
 import * as Babylon from "babylonjs";
 
 const canvas = document.getElementById("renderCanvas"); // Get the canvas element
@@ -8,7 +8,7 @@ if (!(canvas instanceof HTMLCanvasElement)) {
 }
 const engine = new Babylon.Engine(canvas, true); // Generate the Babylon 3D engine
 
-const createScene = function (world: World) {
+const createScene = function (chunk: Chunk) {
   const scene = new Babylon.Scene(engine);
 
   const camera = new Babylon.UniversalCamera("camera1", new Babylon.Vector3(5, 4, 5), scene);
@@ -25,8 +25,9 @@ const createScene = function (world: World) {
   p1.position = new Babylon.Vector3(0, 0, 0);
   p1.rotation = new Babylon.Vector3(Math.PI / 2, 0, 0);
 
-  const blockIterator = world.getIterator();
-  for (let block of blockIterator) {
+  const blockIterator = chunk.getIterator();
+  for (let [coordinate, block] of blockIterator) {
+    console.log(coordinate);
     console.log(block);
   }
 
@@ -34,13 +35,13 @@ const createScene = function (world: World) {
 };
 
 // Create block data
-const world = new World();
-world.setBlock(0, 0, 0, Block.Stone);
-world.setBlock(2, 0, 0, Block.Stone);
-world.setBlock(4, 0, 0, Block.Air);
+const chunk = new Chunk();
+chunk.setBlock(0, 0, 0, Block.Stone);
+chunk.setBlock(2, 0, 0, Block.Stone);
+chunk.setBlock(4, 0, 0, Block.Air);
 
 // Create Babylon 3D environment
-const scene = createScene(world);
+const scene = createScene(chunk);
 
 engine.runRenderLoop(function () {
   scene.render();
