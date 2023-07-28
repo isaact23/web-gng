@@ -1,11 +1,7 @@
 import { Block } from "./Block";
 import * as Chunk from "./chunk/Chunk";
 import * as Scene from "./scene/Scene";
-
-const canvas = document.getElementById("renderCanvas"); // Get the canvas element
-if (!(canvas instanceof HTMLCanvasElement)) {
-  throw "Could not find HTMLCanvasElement renderCanvas";
-}
+import * as View from "./view/View";
 
 // Create block data
 const chunk = new Chunk.BasicChunk();
@@ -19,7 +15,10 @@ for (let x = 0; x < 32; x++) {
   }
 }
 
+// Create view
+const view: View.IView = new View.BasicView();
+
 // Create Babylon 3D environment
-const scene: Scene.IScene = new Scene.BasicScene(canvas);
+const scene: Scene.IScene = new Scene.BasicScene(view);
 scene.init();
 scene.loadChunk(chunk);
