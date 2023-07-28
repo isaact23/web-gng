@@ -3,3 +3,4 @@
 
 export {IScene} from "./IScene";
 export {BasicScene} from "./BasicScene";
+export {MeshScene} from "./MeshScene";

@@ -19,6 +19,12 @@ function createChunk(coord: Vector3) : Chunk.IChunk {
   return chunk;
 }
 
+// Create chunk
+//const chunk = createChunk(new Vector3(0, 0, 0));
+const chunk = new Chunk.BasicChunk(new Vector3(0, 0, 0));
+chunk.setBlock(0, 0, 0, Block.Stone);
+chunk.setBlock(0, 0, 2, Block.Stone);
+
 // Create world (group of chunks)
 /*
 const world: World.IWorld = new World.BasicWorld();
@@ -30,11 +36,7 @@ world.addChunk(chunk2);
 const view: View.IView = new View.BasicView();
 
 // Create Babylon 3D environment
-const scene: Scene.IScene = new Scene.BasicScene();
+const scene: Scene.IScene = new Scene.MeshScene();
 scene.init(view);
 
-for (let x = 0; x < 3; x++) {
-  for (let z = 0; z < 2; z++) {
-    scene.loadChunk(createChunk(new Vector3(x, 0, z)));
-  }
-}
+scene.loadChunk(chunk);
