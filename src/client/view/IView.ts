@@ -1,4 +1,4 @@
 export interface IView {
-  getCanvas() : HTMLElement;
+  getCanvas() : HTMLCanvasElement;
   getFpsElement() : HTMLElement;
 }

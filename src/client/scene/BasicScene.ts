@@ -3,33 +3,31 @@ import * as Babylon from "babylonjs";
 import { Block } from "../Block";
 import { IChunk } from "../chunk/IChunk";
 import { IScene } from "./IScene";
+import { IView } from "../view/IView";
 
 export class BasicScene implements IScene {
-  private engine: Babylon.Engine;
-  private scene: Babylon.Scene;
-  private canvas: HTMLCanvasElement;
+  private scene : Babylon.Scene | undefined;
 
-  constructor(canvas: HTMLCanvasElement) {
-    this.engine = new Babylon.Engine(canvas, true);
-    this.scene = new Babylon.Scene(this.engine);
-    this.canvas = canvas;
+  init(view: IView) : void {
+    const canvas = view.getCanvas();
+    const engine = new Babylon.Engine(canvas, true);
+    const scene = new Babylon.Scene(engine);
+    this.scene = scene;
 
-    const scene = this.scene;
-    this.engine.runRenderLoop(function () {
+    const fpsElement = view.getFpsElement();
+    engine.runRenderLoop(function () {
       scene.render();
+      fpsElement.innerHTML = engine.getFps().toFixed();
     });
     
-    const engine = this.engine;
     window.addEventListener("resize", function () {
       engine.resize();
     });
-  }
 
-  init() : void {
-    const camera = new Babylon.UniversalCamera("camera1", new Babylon.Vector3(5, 4, 5), this.scene);
-    camera.attachControl(this.canvas, true);
+    const camera = new Babylon.UniversalCamera("camera1", new Babylon.Vector3(5, 4, 5), scene);
+    camera.attachControl(canvas, true);
   
-    const light = new Babylon.HemisphericLight("light", new Babylon.Vector3(0, 1, 0), this.scene);
+    const light = new Babylon.HemisphericLight("light", new Babylon.Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
   }
 

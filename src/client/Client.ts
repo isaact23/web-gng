@@ -19,6 +19,6 @@ for (let x = 0; x < 32; x++) {
 const view: View.IView = new View.BasicView();
 
 // Create Babylon 3D environment
-const scene: Scene.IScene = new Scene.BasicScene(view);
-scene.init();
+const scene: Scene.IScene = new Scene.BasicScene();
+scene.init(view);
 scene.loadChunk(chunk);
