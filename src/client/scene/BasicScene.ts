@@ -32,9 +32,9 @@ export class BasicScene implements IScene {
   }
 
   loadChunk(chunk: IChunk) : void {
-  
+
     // Spawn blocks
-    const blockIterator = chunk.getIterator();
+    const blockIterator = chunk.getWorldSpaceIterator();
     for (let [coordinate, block] of blockIterator) {
       const aboveBlock = chunk.getBlock(coordinate.x, coordinate.y + 1, coordinate.z);
       if (aboveBlock == Block.Air || aboveBlock == undefined) {
