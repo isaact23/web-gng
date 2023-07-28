@@ -15,8 +15,5 @@ export interface IChunk {
   getCoordinate() : Vector3;
 
   // Get iterator for local-space positions of all non-air blocks in the chunk
-  getLocalSpaceIterator() : Generator<[Vector3, Block], any, unknown>;
-
-  // Get iterator for world-space positions of all non-air blocks in the chunk
-  getWorldSpaceIterator() : Generator<[Vector3, Block], any, unknown>;
+  getIterator() : Generator<[Vector3, Block], any, unknown>;
 }

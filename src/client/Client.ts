@@ -5,26 +5,18 @@ import * as Scene from "./scene/Scene";
 import * as View from "./view/View";
 import * as World from "./world/World";
 
-// Create block data
-const chunk1 = new Chunk.BasicChunk(new Vector3(0, 0, 0));
-for (let x = 0; x < 32; x++) {
-  for (let y = 0; y < 32; y++) {
-    for (let z = 0; z < 32; z++) {
-      let layerRadius = 0.01 * (y ** 2) - 1;
-      if (Math.sqrt(((x - 16) ** 2) + ((z - 16) ** 2)) > layerRadius) continue;
-      chunk1.setBlock(x, y, z, Block.Stone);
+function createChunk(coord: Vector3) : Chunk.IChunk {
+  const chunk = new Chunk.BasicChunk(coord);
+  for (let x = 0; x < 32; x++) {
+    for (let y = 0; y < 32; y++) {
+      for (let z = 0; z < 32; z++) {
+        let layerRadius = 0.01 * (y ** 2) - 1;
+        if (Math.sqrt(((x - 16) ** 2) + ((z - 16) ** 2)) > layerRadius) continue;
+        chunk.setBlock(x, y, z, Block.Stone);
+      }
     }
   }
-}
-const chunk2 = new Chunk.BasicChunk(new Vector3(0, 0, 1));
-for (let x = 0; x < 32; x++) {
-  for (let y = 0; y < 32; y++) {
-    for (let z = 0; z < 32; z++) {
-      let layerRadius = 0.01 * (y ** 2) - 1;
-      if (Math.sqrt(((x - 16) ** 2) + ((z - 16) ** 2)) > layerRadius) continue;
-      chunk2.setBlock(x, y, z, Block.Stone);
-    }
-  }
+  return chunk;
 }
 
 // Create world (group of chunks)
@@ -40,5 +32,9 @@ const view: View.IView = new View.BasicView();
 // Create Babylon 3D environment
 const scene: Scene.IScene = new Scene.BasicScene();
 scene.init(view);
-scene.loadChunk(chunk1);
-scene.loadChunk(chunk2);
+
+for (let x = 0; x < 3; x++) {
+  for (let z = 0; z < 2; z++) {
+    scene.loadChunk(createChunk(new Vector3(x, 0, z)));
+  }
+}

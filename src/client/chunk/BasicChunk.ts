@@ -49,29 +49,13 @@ export class BasicChunk implements IChunk {
   }
 
   // Get iterator for local-space positions of all non-air blocks in the chunk
-  *getLocalSpaceIterator() : Generator<[Vector3, Block], any, unknown> {
+  *getIterator() : Generator<[Vector3, Block], any, unknown> {
     for (var x = 0; x < CHUNK_SIZE; x++) {
       for (var y = 0; y < CHUNK_SIZE; y++) {
         for (var z = 0; z < CHUNK_SIZE; z++) {
           const block = this.blocks[x][y][z];
           if (block != Block.Air) {
             yield [new Vector3(x, y, z), block];
-          }
-        }
-      }
-    }
-  }
-
-  // Get iterator for world-space positions of all non-air blocks in the chunk
-  *getWorldSpaceIterator() : Generator<[Vector3, Block], any, unknown> {
-    const offset = this.coordinate.multiplyByFloats(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE);
-
-    for (var x = 0; x < CHUNK_SIZE; x++) {
-      for (var y = 0; y < CHUNK_SIZE; y++) {
-        for (var z = 0; z < CHUNK_SIZE; z++) {
-          const block = this.blocks[x][y][z];
-          if (block != Block.Air) {
-            yield [new Vector3(x, y, z).add(offset), block];
           }
         }
       }
