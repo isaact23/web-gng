@@ -117,6 +117,7 @@ export class MeshScene implements IScene {
     }
 
     const builtMesh = mesh.getMesh();
+    builtMesh.position = chunkGlobalCoord;
     this.scene?.addMesh(builtMesh);
   }
 }
