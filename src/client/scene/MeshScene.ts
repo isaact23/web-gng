@@ -1,5 +1,4 @@
 import * as Babylon from "babylonjs";
-
 import * as Mesh from "../mesh/Mesh";
 
 import { Block } from "../Block";
@@ -15,6 +14,8 @@ export class MeshScene implements IScene {
     const engine = new Babylon.Engine(canvas, true);
     const scene = new Babylon.Scene(engine);
     this.scene = scene;
+
+    scene.debugLayer.show();
 
     const fpsElement = view.getFpsElement();
     engine.runRenderLoop(function () {
@@ -118,6 +119,11 @@ export class MeshScene implements IScene {
 
     const builtMesh = mesh.getMesh();
     builtMesh.position = chunkGlobalCoord;
+
+    const mat = new Babylon.StandardMaterial("stone", this.scene);
+    mat.diffuseTexture = new Babylon.Texture("img/stone.png");
+    builtMesh.material = mat;
+
     this.scene?.addMesh(builtMesh);
   }
 }
