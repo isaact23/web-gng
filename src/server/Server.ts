@@ -5,6 +5,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.static("dist"));
+app.use(express.static("public"));
 
 app.get("/", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
