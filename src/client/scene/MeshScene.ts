@@ -1,10 +1,11 @@
 import * as Babylon from "babylonjs";
 import * as Mesh from "../mesh/Mesh";
 
-import { Block } from "../Block";
+import { Face, Block } from "../Block";
 import { IChunk } from "../chunk/IChunk";
 import { IScene } from "./IScene";
 import { IView } from "../view/IView";
+import * as TextureManager from "../TextureManager";
 
 export class MeshScene implements IScene {
   private scene : Babylon.Scene | undefined;
@@ -15,7 +16,7 @@ export class MeshScene implements IScene {
     const scene = new Babylon.Scene(engine);
     this.scene = scene;
 
-    //scene.debugLayer.show();
+    scene.debugLayer.show();
 
     const fpsElement = view.getFpsElement();
     engine.runRenderLoop(function () {
@@ -27,11 +28,32 @@ export class MeshScene implements IScene {
       engine.resize();
     });
 
-    const camera = new Babylon.UniversalCamera("camera1", new Babylon.Vector3(5, 4, 5), scene);
+    const camera = new Babylon.UniversalCamera("camera1", new Babylon.Vector3(0, 0, 0), scene);
     camera.attachControl(canvas, true);
   
-    const light = new Babylon.HemisphericLight("light", new Babylon.Vector3(0, 1, 0), scene);
+    const light = new Babylon.HemisphericLight("light", new Babylon.Vector3(-1, 1, 0), scene);
     light.intensity = 0.7;
+
+    const mesh: Mesh.IMesh = new Mesh.BasicMesh();
+    mesh.addVertex(0, 0, 10);
+    mesh.addVertex(3, 0, 10);
+    mesh.addVertex(3, 3, 10);
+    mesh.addVertex(0, 3, 10);
+    mesh.addTriangle(0, 1, 2);
+    mesh.addTriangle(2, 3, 0);
+
+    //const uvs = TextureManager.getTextureUvs(Block.Stone, Face.Front);
+    mesh.addUvs();
+
+    const mat = new Babylon.StandardMaterial("tilemap", this.scene);
+    const tex = new Babylon.Texture("img/test.png");
+    tex.updateSamplingMode(Babylon.Texture.NEAREST_NEAREST);
+    mat.diffuseTexture = tex;
+
+    const builtMesh = mesh.getMesh();
+    builtMesh.material = mat;
+
+    this.scene?.addMesh(builtMesh);
   }
 
   loadChunk(chunk: IChunk) : void {

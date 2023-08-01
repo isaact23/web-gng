@@ -6,10 +6,12 @@ export class BasicMesh implements IMesh {
   private nextIndex: number;
   private vertexData: Babylon.VertexData;
   private mesh: Babylon.Mesh;
+  private material: Babylon.Material | undefined;
 
   private vertexIndexMapping: {[x: number]: {[y: number]: {[z: number]: number}}};
   private positions: Array<number>;
   private indices: Array<number>;
+  private uvs: Array<number>;
 
   constructor() {
     this.nextIndex = -1;
@@ -19,6 +21,7 @@ export class BasicMesh implements IMesh {
     this.vertexIndexMapping = {};
     this.positions = [];
     this.indices = [];
+    this.uvs = [];
   }
 
   // Add a vertex to the mesh (unless it already exists) and return its index.
@@ -50,10 +53,16 @@ export class BasicMesh implements IMesh {
     this.indices.push(c);
   }
 
+  // Add uvs to the mesh.
+  addUvs() : void {
+    this.uvs = [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0];
+  }
+
   // Return the generated mesh.
   getMesh() : Babylon.Mesh {
     this.vertexData.positions = this.positions;
     this.vertexData.indices = this.indices;
+    this.vertexData.uvs = this.uvs;
     this.vertexData.applyToMesh(this.mesh);
     return this.mesh;
   }

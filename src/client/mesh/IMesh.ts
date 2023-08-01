@@ -7,6 +7,9 @@ export interface IMesh {
   // Add a triangle between three vertex indices.
   addTriangle(a: number, b: number, c: number) : void;
 
+  // Add uvs to the mesh.
+  addUvs() : void;
+
   // Return the generated mesh.
   getMesh() : Babylon.Mesh;
 }

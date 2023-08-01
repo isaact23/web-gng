@@ -1,4 +1,14 @@
 export enum Block {
   Air,
-  Stone
+  Stone,
+  Grass
+}
+
+export enum Face {
+  Front,
+  Left,
+  Back,
+  Right,
+  Top,
+  Bottom
 }
