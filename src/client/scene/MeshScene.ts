@@ -16,7 +16,7 @@ export class MeshScene implements IScene {
     const scene = new Babylon.Scene(engine);
     this.scene = scene;
 
-    scene.debugLayer.show();
+    //scene.debugLayer.show();
 
     const fpsElement = view.getFpsElement();
     engine.runRenderLoop(function () {
@@ -34,7 +34,7 @@ export class MeshScene implements IScene {
     const light = new Babylon.HemisphericLight("light", new Babylon.Vector3(-1, 1, 0), scene);
     light.intensity = 0.7;
 
-    const mesh: Mesh.IMesh = new Mesh.BasicMesh();
+    /*const mesh: Mesh.IMesh = new Mesh.BasicMesh();
     mesh.addVertex(0, 0, 10);
     mesh.addVertex(3, 0, 10);
     mesh.addVertex(3, 3, 10);
@@ -53,7 +53,7 @@ export class MeshScene implements IScene {
     const builtMesh = mesh.getMesh();
     builtMesh.material = mat;
 
-    this.scene?.addMesh(builtMesh);
+    this.scene?.addMesh(builtMesh);*/
   }
 
   loadChunk(chunk: IChunk) : void {

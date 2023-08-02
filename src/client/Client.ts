@@ -33,12 +33,12 @@ const view: View.IView = new View.BasicView();
 const scene: Scene.IScene = new Scene.MeshScene();
 scene.init(view);
 
-/*for (let x = 0; x < 3; x++) {
-  for (let z = 0; z < 3; z++) {
-    scene.loadChunk(createChunk(new Vector3(x, 0, z)));
+/*for (let x = 0; x < 7; x++) {
+  for (let y = 0; y < 7; y++) {
+    for (let z = 0; z < 7; z++) {
+      scene.loadChunk(createChunk(new Vector3(x, y, z)));
+    }
   }
 }*/
 
-//const chunk = new Chunk.BasicChunk(new Vector3(0, 0, 0));
-//chunk.setBlock(0, 0, 4, Block.Stone);
-//scene.loadChunk(chunk);
+scene.loadChunk(createChunk(new Vector3(0, -1, 2)));
