@@ -1,5 +1,4 @@
 import * as Babylon from "babylonjs";
-import * as Mesh from "../mesh/Mesh";
 
 import { MeshGeneratorChunk } from "../chunk/Chunk";
 import { IScene } from "./IScene";
