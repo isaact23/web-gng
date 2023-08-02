@@ -45,6 +45,8 @@ export class MeshGeneratorChunk extends BasicChunk {
         
         triangles.push(vIndex, vIndex + 1, vIndex + 2);
         triangles.push(vIndex + 2, vIndex + 3, vIndex);
+
+        vIndex += 4;
       }
 
       const frontBlock = this.getBlock(coord.x + 1, coord.y, coord.z);
@@ -57,6 +59,8 @@ export class MeshGeneratorChunk extends BasicChunk {
         
         triangles.push(vIndex, vIndex + 1, vIndex + 2);
         triangles.push(vIndex + 2, vIndex + 3, vIndex);
+
+        vIndex += 4;
       }
 
       const backBlock = this.getBlock(coord.x - 1, coord.y, coord.z);
@@ -69,6 +73,8 @@ export class MeshGeneratorChunk extends BasicChunk {
         
         triangles.push(vIndex, vIndex + 1, vIndex + 2);
         triangles.push(vIndex + 2, vIndex + 3, vIndex);
+
+        vIndex += 4;
       }
 
       const leftBlock = this.getBlock(coord.x, coord.y, coord.z - 1);
@@ -81,6 +87,8 @@ export class MeshGeneratorChunk extends BasicChunk {
         
         triangles.push(vIndex, vIndex + 1, vIndex + 2);
         triangles.push(vIndex + 2, vIndex + 3, vIndex);
+
+        vIndex += 4;
       }
 
       const rightBlock = this.getBlock(coord.x, coord.y, coord.z + 1);
@@ -93,6 +101,8 @@ export class MeshGeneratorChunk extends BasicChunk {
         
         triangles.push(vIndex, vIndex + 1, vIndex + 2);
         triangles.push(vIndex + 2, vIndex + 3, vIndex);
+
+        vIndex += 4;
       }
     }
 
