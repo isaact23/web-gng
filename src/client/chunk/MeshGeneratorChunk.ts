@@ -1,9 +1,8 @@
-import {Face, Block, getFaceVectors} from "../Block";
+import {Face, Block} from "../Block";
 import {BasicChunk} from "./BasicChunk";
 
 import * as TextureManager from "../TextureManager";
 import * as Babylon from "babylonjs";
-import {Vector3} from "babylonjs";
 
 // TODO: Implement greedy meshing
 
@@ -21,23 +20,9 @@ export class MeshGeneratorChunk extends BasicChunk {
 
     let vIndex = 0;
 
-    const faceVectors = getFaceVectors();
-
     // Generate vertex and triangle data.
     // For each block in the chunk,
     for (let [coord, block] of blockIterator) {
-
-      // For each face in the block,
-      for (let faceVector of faceVectors) {
-
-        const face = faceVector[0];
-        const vec = faceVector[1];
-
-        const adjacentBlock = this.getBlock(coord.x + vec.x, coord.y + vec.y, coord.z + vec.z);
-        if (adjacentBlock == Block.Air || adjacentBlock === undefined) {
-          
-        }
-      }
 
       const aboveBlock = this.getBlock(coord.x, coord.y + 1, coord.z);
       if (aboveBlock == Block.Air || aboveBlock === undefined) {
@@ -53,7 +38,7 @@ export class MeshGeneratorChunk extends BasicChunk {
         triangles.push(vIndex + 2, vIndex + 3, vIndex);
 
         uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
-        uvs.push(uvBlock[2], uvBlock[0]); // Bottom right
+        uvs.push(uvBlock[2], uvBlock[1]); // Bottom right
         uvs.push(uvBlock[2], uvBlock[3]); // Top right
         uvs.push(uvBlock[0], uvBlock[3]); // Top left
 
@@ -74,7 +59,7 @@ export class MeshGeneratorChunk extends BasicChunk {
         triangles.push(vIndex + 2, vIndex + 3, vIndex);
 
         uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
-        uvs.push(uvBlock[2], uvBlock[0]); // Bottom right
+        uvs.push(uvBlock[2], uvBlock[1]); // Bottom right
         uvs.push(uvBlock[2], uvBlock[3]); // Top right
         uvs.push(uvBlock[0], uvBlock[3]); // Top left
 
