@@ -5,13 +5,11 @@ import {Vector3} from "babylonjs";
 // A chunk holds block data
 export class BasicChunk implements IChunk {
 
-  protected blocks : Block[][][];
-  protected size: number;
+  private blocks : Block[][][];
 
   // Create an empty chunk
-  constructor(private coordinate: Vector3, size: number = 32) {
+  constructor(protected readonly coordinate: Vector3, protected readonly size: number = 32) {
     this.blocks = [];
-    this.size = size;
 
     for (var x = 0; x < this.size; x++) {
       this.blocks[x] = [];

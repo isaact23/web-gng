@@ -6,7 +6,7 @@ import * as View from "./view/View";
 import * as World from "./world/World";
 
 function createChunk(coord: Vector3) : Chunk.IChunk {
-  const chunk = new Chunk.BasicChunk(coord);
+  const chunk = new Chunk.MeshGeneratorChunk(coord);
   for (let x = 0; x < 32; x++) {
     for (let y = 0; y < 32; y++) {
       for (let z = 0; z < 32; z++) {
