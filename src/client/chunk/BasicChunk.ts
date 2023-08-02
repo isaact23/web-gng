@@ -8,7 +8,7 @@ export class BasicChunk implements IChunk {
   private blocks : Block[][][];
 
   // Create an empty chunk
-  constructor(protected readonly coordinate: Vector3, protected readonly size: number = 32) {
+  constructor(protected readonly coordinate: Vector3 = new Vector3(0, 0, 0), protected readonly size: number = 32) {
     this.blocks = [];
 
     for (var x = 0; x < this.size; x++) {

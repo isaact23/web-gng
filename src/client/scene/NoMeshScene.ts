@@ -15,7 +15,7 @@ export class NoMeshScene implements IScene {
     const scene = new Babylon.Scene(engine);
     this.scene = scene;
 
-    //scene.debugLayer.show();
+    scene.debugLayer.show();
 
     const fpsElement = view.getFpsElement();
     engine.runRenderLoop(function () {

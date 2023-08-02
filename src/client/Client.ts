@@ -12,7 +12,7 @@ function createChunk(coord: Vector3) : Chunk.IChunk {
       for (let z = 0; z < 32; z++) {
         let layerRadius = 0.01 * (y ** 2) - 1;
         if (Math.sqrt(((x - 16) ** 2) + ((z - 16) ** 2)) > layerRadius) continue;
-        chunk.setBlock(x, y, z, Block.Stone);
+        chunk.setBlock(x, y, z, Block.Grass);
       }
     }
   }
@@ -41,4 +41,8 @@ scene.init(view);
   }
 }*/
 
-scene.loadChunk(createChunk(new Vector3(0, -1, 2)));
+//scene.loadChunk(createChunk(new Vector3(0, -1, 2)));
+
+const chunk = new Chunk.MeshGeneratorChunk(new Vector3(0, 0, 0));
+chunk.setBlock(0, 0, 5, Block.Grass);
+scene.loadChunk(chunk);

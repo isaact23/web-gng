@@ -7,9 +7,9 @@ export function getTextureUvs(block: Block, face: Face) : [number, number, numbe
   const coord = _getTextureCoordinateInTilemap(block, face);
   return [
     coord[0] / TILEMAP_SIZE,
-    (coord[1] + 1) / TILEMAP_SIZE,
+    (TILEMAP_SIZE - coord[1] - 1) / TILEMAP_SIZE,
     (coord[0] + 1) / TILEMAP_SIZE,
-    coord[1] / TILEMAP_SIZE
+    (TILEMAP_SIZE - coord[1]) / TILEMAP_SIZE
   ];
 }
 
