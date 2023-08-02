@@ -7,6 +7,9 @@ import { IScene } from "./IScene";
 import { IView } from "../view/IView";
 import * as TextureManager from "../TextureManager";
 
+/**
+ * @deprecated Generates mesh data instead of delegating the task. Use a newer IScene instead.
+ */
 export class MeshScene implements IScene {
   private scene : Babylon.Scene | undefined;
 

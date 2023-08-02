@@ -5,6 +5,9 @@ import { IChunk } from "../chunk/IChunk";
 import { IScene } from "./IScene";
 import { IView } from "../view/IView";
 
+/**
+ * @deprecated Uses naive method to render terrain. Use a newer IScene.
+ */
 export class BasicScene implements IScene {
   private scene : Babylon.Scene | undefined;
 

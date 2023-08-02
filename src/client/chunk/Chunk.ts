@@ -2,3 +2,4 @@
 
 export { IChunk } from "./IChunk";
 export { BasicChunk } from "./BasicChunk";
+export { MeshGeneratorChunk } from "./MeshGeneratorChunk";

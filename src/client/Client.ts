@@ -30,7 +30,7 @@ world.addChunk(chunk2);
 const view: View.IView = new View.BasicView();
 
 // Create Babylon 3D environment
-const scene: Scene.IScene = new Scene.MeshScene();
+const scene: Scene.IScene = new Scene.NoMeshScene();
 scene.init(view);
 
 /*for (let x = 0; x < 7; x++) {
