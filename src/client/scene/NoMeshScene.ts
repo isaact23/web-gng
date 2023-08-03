@@ -13,8 +13,9 @@ export class NoMeshScene implements IScene {
     const canvas = view.getCanvas();
     const engine = new Babylon.Engine(canvas, true);
 
+    // Set up scene
     const scene = new Babylon.Scene(engine);
-    scene.gravity = new Babylon.Vector3(0, -1, 0);
+    scene.gravity = new Babylon.Vector3(0, -0.5, 0);
     scene.collisionsEnabled = true;
     scene.enablePhysics();
     scene.debugLayer.show();
@@ -30,12 +31,21 @@ export class NoMeshScene implements IScene {
       engine.resize();
     });
 
+    // Set up camera
     const camera = new Babylon.UniversalCamera("camera1", new Babylon.Vector3(0, 0, 0), scene);
     camera.position = new Babylon.Vector3(16, 4, 16);
+    camera.ellipsoid = new Babylon.Vector3(.5, 1, .5);
     camera.applyGravity = true;
-    camera.ellipsoid = new Babylon.Vector3(1, 2, 1);
+    camera.needMoveForGravity = true;
     camera.checkCollisions = true;
+    camera.speed = 0.3;
     camera.attachControl(canvas, true);
+
+    // Add WASD
+    camera.keysUp.push(87);
+    camera.keysDown.push(83);
+    camera.keysLeft.push(65);
+    camera.keysRight.push(68);
   
     const light = new Babylon.HemisphericLight("light", new Babylon.Vector3(-1, 1, 0), scene);
     light.intensity = 0.7;
