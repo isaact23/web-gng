@@ -111,6 +111,8 @@ export class MeshGeneratorChunk extends BasicChunk {
     mat.diffuseTexture = tex;
     mesh.material = mat;
 
+    mesh.checkCollisions = true;
+
     return mesh;
   }
 }

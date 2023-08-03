@@ -46,7 +46,7 @@ scene.init(view);
   }
 }*/
 
-scene.loadChunk(createChunk(new Vector3(0, -1, 2)));
+scene.loadChunk(createChunk(new Vector3(0, -2, 0)));
 
 /*const chunk = new Chunk.MeshGeneratorChunk(new Vector3(0, 0, 0));
 chunk.setBlock(0, 0, 5, Block.Grass);
