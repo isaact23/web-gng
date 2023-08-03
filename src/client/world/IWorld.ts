@@ -3,11 +3,11 @@ import { IChunk } from "../chunk/IChunk";
 import { Mesh, Vector3 } from "babylonjs";
 
 export interface IWorld {
-  // Add a new chunk
+  // Add a new chunk. Replace any chunk in its spot.
   addChunk(chunk: IChunk) : void;
 
   // Get the chunk at a coordinate
-  getChunk(pos: Vector3) : IChunk;
+  getChunk(pos: Vector3) : IChunk | undefined;
 
   // Get the block at an xyz coordinate
   getBlock(pos: Vector3) : Block | undefined;
@@ -18,6 +18,6 @@ export interface IWorld {
   // Get iterator for all chunks in the world
   getIterator(): Generator<IChunk>;
 
-  // Convert block data for all chunks into a mesh
-  generateMesh(): Mesh;
+  // Convert block data for all chunks into meshes
+  generateMeshes(): Mesh[];
 }

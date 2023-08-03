@@ -1,28 +1,73 @@
 import { Mesh, Vector3 } from "babylonjs/index";
-import { IChunk } from "../chunk/IChunk";
+import { IChunk, MeshGeneratorChunk } from "../chunk/Chunk";
 import { IWorld } from "./IWorld";
 import { Block } from "../Block";
 
 export class BasicWorld implements IWorld {
-  
-  // Add a new chunk
+
+  private chunks: Map<number, Map<number, Map<number, IChunk>>>;
+
+  constructor(private chunkSize = 32) {
+    this.chunks = new Map<number, Map<number, Map<number, IChunk>>>();
+  }
+
+  // Add a new chunk. Replace any chunk in its spot.
   addChunk(chunk: IChunk): void {
-    throw new Error("Method not implemented.");
+    if (chunk.getSize() != this.chunkSize) {
+      throw "Chunk size is incompatible with world";
+    }
+
+    const coord = chunk.getCoordinate();
+
+    let sliceX = this.chunks.get(coord.x);
+    if (sliceX === undefined) {
+      sliceX = new Map<number, Map<number, IChunk>>()
+      this.chunks.set(coord.x, sliceX);
+    }
+
+    let sliceY = sliceX.get(coord.y);
+    if (sliceY === undefined) {
+      sliceY = new Map<number, IChunk>();
+      sliceX.set(coord.y, sliceY);
+    }
+
+    sliceY.set(coord.z, chunk);
   }
 
   // Get the chunk at a coordinate
-  getChunk(pos: Vector3): IChunk {
-    throw new Error("Method not implemented.");
+  getChunk(pos: Vector3): IChunk | undefined {
+    return this.chunks.get(pos.x)?.get(pos.y)?.get(pos.z);
   }
 
   // Get the block at an xyz coordinate
   getBlock(pos: Vector3): Block | undefined {
-    throw new Error("Method not implemented.");
+
+    // Get the chunk that the block is in
+    const chunkCoord = this._worldToChunkCoord(pos);
+    const chunk = this.getChunk(chunkCoord);
+    if (chunk === undefined) return undefined;
+
+    // Get the block from the chunk
+    const blockCoord = this._worldToBlockCoord(pos);
+    return chunk.getBlock(blockCoord);
   }
 
   // Set a block at an xyz coordinate
   setBlock(pos: Vector3, block: Block): void {
-    throw new Error("Method not implemented.");
+
+    // Get the chunk that the block is in
+    const chunkCoord = this._worldToChunkCoord(pos);
+    let chunk = this.getChunk(chunkCoord);
+    if (chunk === undefined) {
+
+      // Create a new chunk if it doesn't already exist
+      chunk = new MeshGeneratorChunk(chunkCoord);
+      this.addChunk(chunk);
+    }
+
+    // Set the block from the chunk
+    const blockCoord = this._worldToBlockCoord(pos);
+    chunk.setBlock(blockCoord, block);
   }
 
   // Get iterator for all chunks in the world
@@ -30,8 +75,26 @@ export class BasicWorld implements IWorld {
     throw new Error("Method not implemented.");
   }
 
-  // Convert block data for all chunks into a mesh
-  generateMesh(): Mesh {
+  // Convert block data for all chunks into meshes
+  generateMeshes(): Mesh[] {
     throw new Error("Method not implemented.");
+  }
+
+  // Convert world coordinates to chunk coordinates
+  _worldToChunkCoord(pos: Vector3): Vector3 {
+    return new Vector3(
+      Math.floor(pos.x / this.chunkSize),
+      Math.floor(pos.y / this.chunkSize),
+      Math.floor(pos.z / this.chunkSize)
+    );
+  }
+
+  // Convert world coordinates to block coordinates within a chunk
+  _worldToBlockCoord(pos: Vector3): Vector3 {
+    return new Vector3(
+      pos.x % this.chunkSize,
+      pos.y % this.chunkSize,
+      pos.z % this.chunkSize
+    );
   }
 }
