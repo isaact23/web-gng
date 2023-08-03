@@ -1,6 +1,5 @@
 import {Face, Block} from "../Block";
 import {Vector3} from "babylonjs";
-import {BasicChunk} from "./BasicChunk";
 
 import * as TextureManager from "../TextureManager";
 import * as Babylon from "babylonjs";
@@ -8,9 +7,65 @@ import * as Babylon from "babylonjs";
 // TODO: Implement greedy meshing
 
 // A MeshGeneratorChunk can generate a Babylon mesh with UV data from its block data.
-export class MeshGeneratorChunk extends BasicChunk {
+export class MeshGeneratorChunk {
 
-  generateMesh() : Babylon.Mesh {
+  private blocks : Block[][][];
+
+  // Create an empty chunk
+  constructor(private readonly coordinate: Vector3 = new Vector3(0, 0, 0), private readonly size: number = 32) {
+    this.blocks = [];
+
+    for (var x = 0; x < this.size; x++) {
+      this.blocks[x] = [];
+      for (var y = 0; y < this.size; y++) {
+        this.blocks[x][y] = [];
+        for (var z = 0; z < this.size; z++) {
+          this.blocks[x][y][z] = Block.Air;
+        }
+      }
+    }
+  }
+
+  // Get the size (width, length, height) of a chunk in blocks
+  getSize() {
+    return this.size;
+  }
+
+  // Get the block at an xyz coordinate
+  getBlock(pos: Vector3) : Block | undefined {
+    // Ensure the coordinates are within the bounds of the chunk
+    if (pos.x < 0 || pos.y < 0 || pos.z < 0) return undefined;
+    if (pos.x >= this.size || pos.y >= this.size || pos.z >= this.size) return undefined;
+
+    return this.blocks[pos.x][pos.y][pos.z];
+  }
+
+  // Set a block at an xyz coordinate
+  setBlock(pos: Vector3, block: Block) : void {
+    this.blocks[pos.x][pos.y][pos.z] = block;
+  }
+
+  // Get the coordinate of this chunk.
+  getCoordinate() : Vector3 {
+    return this.coordinate;
+  }
+
+  // Get iterator for local-space positions of all non-air blocks in the chunk
+  *getIterator() : Generator<[Vector3, Block], any, unknown> {
+    for (var x = 0; x < this.size; x++) {
+      for (var y = 0; y < this.size; y++) {
+        for (var z = 0; z < this.size; z++) {
+          const block = this.blocks[x][y][z];
+          if (block != Block.Air) {
+            yield [new Vector3(x, y, z), block];
+          }
+        }
+      }
+    }
+  }
+
+  // Convert block data into a mesh
+  generateMesh(): Babylon.Mesh {
 
     const blockIterator = this.getIterator();
     const chunkGlobalCoord = this.coordinate.multiplyByFloats(this.size, this.size, this.size);
@@ -61,7 +116,7 @@ export class MeshGeneratorChunk extends BasicChunk {
         const faceVector = faceVectors.get(face);
         if (faceVector === undefined) continue;
         const adjCoord = coord.add(faceVector);
-        const adjacentBlock = this.getBlock(adjCoord.x, adjCoord.y, adjCoord.z);
+        const adjacentBlock = this.getBlock(adjCoord);
 
         // If the adjacent block is empty,
         if (adjacentBlock == Block.Air || adjacentBlock === undefined) {

@@ -2,14 +2,15 @@ import * as Babylon from "babylonjs";
 
 import { MeshGeneratorChunk } from "../chunk/Chunk";
 import { IScene } from "./IScene";
-import { IView } from "../view/IView";
+import { IView } from "../view/View";
+import { IWorld } from "../world/World";
 
 // A NoMeshScene is NOT responsible for generating meshes.
 
 export class NoMeshScene implements IScene {
   private scene : Babylon.Scene | undefined;
 
-  init(view: IView) : void {
+  init(view: IView): void {
     const canvas = view.getCanvas();
     const engine = new Babylon.Engine(canvas, true);
 
@@ -51,9 +52,14 @@ export class NoMeshScene implements IScene {
     light.intensity = 0.7;
   }
 
-  loadChunk(chunk: MeshGeneratorChunk) : void {
-
+  // Load geometry for a chunk
+  loadChunk(chunk: MeshGeneratorChunk): void {
     const mesh = chunk.generateMesh();
     this.scene?.addMesh(mesh);
+  }
+
+  // Load geometry for a world
+  loadWorld(world: IWorld): void {
+    
   }
 }

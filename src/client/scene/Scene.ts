@@ -2,5 +2,4 @@
 // such as planes.
 
 export {IScene} from "./IScene";
-export {BasicScene} from "./BasicScene";
 export {NoMeshScene} from "./NoMeshScene";
