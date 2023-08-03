@@ -1,4 +1,5 @@
 import {Face, Block} from "../Block";
+import {Vector3} from "babylonjs";
 import {BasicChunk} from "./BasicChunk";
 
 import * as TextureManager from "../TextureManager";
@@ -20,134 +21,75 @@ export class MeshGeneratorChunk extends BasicChunk {
 
     let vIndex = 0;
 
+    // Vertices for each face in a cube
+    const cubeVerts = [
+      new Vector3(0,0,0),
+      new Vector3(0,0,1),
+      new Vector3(0,1,0),
+      new Vector3(0,1,1),
+      new Vector3(1,0,0),
+      new Vector3(1,0,1),
+      new Vector3(1,1,0),
+      new Vector3(1,1,1)
+    ];
+    const faceVerts = new Map<Face, number[]>();
+    faceVerts.set(Face.Front,  [1, 3, 7, 5]);
+    faceVerts.set(Face.Right,  [5, 7, 6, 4]);
+    faceVerts.set(Face.Back,   [4, 6, 2, 0]);
+    faceVerts.set(Face.Left,   [0, 2, 3, 1]);
+    faceVerts.set(Face.Top,    [3, 2, 6, 7]);
+    faceVerts.set(Face.Bottom, [1, 5, 4, 0]);
+
+    // Vectors for each face (to get adjacent block)
+    const faceVectors = new Map<Face, Vector3>();
+    faceVectors.set(Face.Front, Vector3.Forward());
+    faceVectors.set(Face.Right, Vector3.Right());
+    faceVectors.set(Face.Back, Vector3.Backward());
+    faceVectors.set(Face.Left, Vector3.Left());
+    faceVectors.set(Face.Top, Vector3.Up());
+    faceVectors.set(Face.Bottom, Vector3.Down());
+
     // Generate vertex and triangle data.
     // For each block in the chunk,
     for (let [coord, block] of blockIterator) {
 
-      const aboveBlock = this.getBlock(coord.x, coord.y + 1, coord.z);
-      if (aboveBlock == Block.Air || aboveBlock === undefined) {
+      // For each face in the block,
+      for (let face of Object.values(Face)) {
+        if (typeof(face) === "string") continue;
 
-        const uvBlock = TextureManager.getTextureUvs(block, Face.Top);
+        // Get adjacent block
+        const faceVector = faceVectors.get(face);
+        if (faceVector === undefined) continue;
+        const adjCoord = coord.add(faceVector);
+        const adjacentBlock = this.getBlock(adjCoord.x, adjCoord.y, adjCoord.z);
 
-        vertices.push(coord.x, coord.y + 1, coord.z);
-        vertices.push(coord.x + 1, coord.y + 1, coord.z);
-        vertices.push(coord.x + 1, coord.y + 1, coord.z + 1);
-        vertices.push(coord.x, coord.y + 1, coord.z + 1);
-        
-        triangles.push(vIndex, vIndex + 1, vIndex + 2);
-        triangles.push(vIndex + 2, vIndex + 3, vIndex);
+        // If the adjacent block is empty,
+        if (adjacentBlock == Block.Air || adjacentBlock === undefined) {
+          // Then render the face.
 
-        uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
-        uvs.push(uvBlock[2], uvBlock[1]); // Bottom right
-        uvs.push(uvBlock[2], uvBlock[3]); // Top right
-        uvs.push(uvBlock[0], uvBlock[3]); // Top left
+          // Get texture UVs
+          const uvBlock = TextureManager.getTextureUvs(block, face);
 
-        vIndex += 4;
-      }
+          // Add vertices
+          const vertIndices = faceVerts.get(face);
+          if (vertIndices === undefined) continue;
+          for (let i = 0; i < 4; i++) {
+            const offset = cubeVerts[vertIndices[i]];
+            const vertCoord = coord.add(offset);
+            vertices.push(vertCoord.x, vertCoord.y, vertCoord.z);
+          }
+          
+          // Add triangles
+          triangles.push(vIndex, vIndex + 1, vIndex + 2);
+          triangles.push(vIndex + 2, vIndex + 3, vIndex);
+          vIndex += 4;
 
-      const belowBlock = this.getBlock(coord.x, coord.y - 1, coord.z);
-      if (belowBlock == Block.Air || belowBlock === undefined) {
-
-        const uvBlock = TextureManager.getTextureUvs(block, Face.Bottom);
-
-        vertices.push(coord.x, coord.y, coord.z);
-        vertices.push(coord.x, coord.y, coord.z + 1);
-        vertices.push(coord.x + 1, coord.y, coord.z + 1);
-        vertices.push(coord.x + 1, coord.y, coord.z);
-        
-        triangles.push(vIndex, vIndex + 1, vIndex + 2);
-        triangles.push(vIndex + 2, vIndex + 3, vIndex);
-
-        uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
-        uvs.push(uvBlock[2], uvBlock[1]); // Bottom right
-        uvs.push(uvBlock[2], uvBlock[3]); // Top right
-        uvs.push(uvBlock[0], uvBlock[3]); // Top left
-
-        vIndex += 4;
-      }
-
-      const frontBlock = this.getBlock(coord.x + 1, coord.y, coord.z);
-      if (frontBlock == Block.Air || frontBlock === undefined) {
-
-        const uvBlock = TextureManager.getTextureUvs(block, Face.Front);
-
-        vertices.push(coord.x + 1, coord.y, coord.z);
-        vertices.push(coord.x + 1, coord.y, coord.z + 1);
-        vertices.push(coord.x + 1, coord.y + 1, coord.z + 1);
-        vertices.push(coord.x + 1, coord.y + 1, coord.z);
-        
-        triangles.push(vIndex, vIndex + 1, vIndex + 2);
-        triangles.push(vIndex + 2, vIndex + 3, vIndex);
-
-        uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
-        uvs.push(uvBlock[2], uvBlock[1]); // Bottom right
-        uvs.push(uvBlock[2], uvBlock[3]); // Top right
-        uvs.push(uvBlock[0], uvBlock[3]); // Top left
-
-        vIndex += 4;
-      }
-
-      const backBlock = this.getBlock(coord.x - 1, coord.y, coord.z);
-      if (backBlock == Block.Air || backBlock === undefined) {
-
-        const uvBlock = TextureManager.getTextureUvs(block, Face.Back);
-
-        vertices.push(coord.x, coord.y, coord.z);
-        vertices.push(coord.x, coord.y + 1, coord.z);
-        vertices.push(coord.x, coord.y + 1, coord.z + 1);
-        vertices.push(coord.x, coord.y, coord.z + 1);
-        
-        triangles.push(vIndex, vIndex + 1, vIndex + 2);
-        triangles.push(vIndex + 2, vIndex + 3, vIndex);
-
-        uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
-        uvs.push(uvBlock[2], uvBlock[1]); // Bottom right
-        uvs.push(uvBlock[2], uvBlock[3]); // Top right
-        uvs.push(uvBlock[0], uvBlock[3]); // Top left
-
-        vIndex += 4;
-      }
-
-      const leftBlock = this.getBlock(coord.x, coord.y, coord.z - 1);
-      if (leftBlock == Block.Air || leftBlock === undefined) {
-
-        const uvBlock = TextureManager.getTextureUvs(block, Face.Left);
-
-        vertices.push(coord.x, coord.y, coord.z); // Bottom left
-        vertices.push(coord.x + 1, coord.y, coord.z); // Bottom right
-        vertices.push(coord.x + 1, coord.y + 1, coord.z); // Top right
-        vertices.push(coord.x, coord.y + 1, coord.z); // Top left
-        
-        triangles.push(vIndex, vIndex + 1, vIndex + 2);
-        triangles.push(vIndex + 2, vIndex + 3, vIndex);
-
-        uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
-        uvs.push(uvBlock[2], uvBlock[1]); // Bottom right
-        uvs.push(uvBlock[2], uvBlock[3]); // Top right
-        uvs.push(uvBlock[0], uvBlock[3]); // Top left
-
-        vIndex += 4;
-      }
-
-      const rightBlock = this.getBlock(coord.x, coord.y, coord.z + 1);
-      if (rightBlock == Block.Air || rightBlock === undefined) {
-
-        const uvBlock = TextureManager.getTextureUvs(block, Face.Back);
-
-        vertices.push(coord.x, coord.y, coord.z + 1);
-        vertices.push(coord.x, coord.y + 1, coord.z + 1);
-        vertices.push(coord.x + 1, coord.y + 1, coord.z + 1);
-        vertices.push(coord.x + 1, coord.y, coord.z + 1);
-        
-        triangles.push(vIndex, vIndex + 1, vIndex + 2);
-        triangles.push(vIndex + 2, vIndex + 3, vIndex);
-
-        uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
-        uvs.push(uvBlock[2], uvBlock[1]); // Bottom right
-        uvs.push(uvBlock[2], uvBlock[3]); // Top right
-        uvs.push(uvBlock[0], uvBlock[3]); // Top left
-
-        vIndex += 4;
+          // Add UVs
+          uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
+          uvs.push(uvBlock[0], uvBlock[3]); // Top left
+          uvs.push(uvBlock[2], uvBlock[3]); // Top right
+          uvs.push(uvBlock[2], uvBlock[1]); // Bottom Right
+        }
       }
     }
 
