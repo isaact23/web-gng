@@ -25,6 +25,7 @@ function _getTextureCoordinateInTilemap(block: Block, face: Face): [number, numb
         default: return [1, 0];
       }
     }
+    case Block.Dirt: return [2, 0];
     default: return [4, 0];
   }
 }

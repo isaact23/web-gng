@@ -12,7 +12,12 @@ function createChunk(coord: Vector3) : Chunk.IChunk {
       for (let z = 0; z < 32; z++) {
         let layerRadius = 0.01 * (y ** 2) - 1;
         if (Math.sqrt(((x - 16) ** 2) + ((z - 16) ** 2)) > layerRadius) continue;
-        chunk.setBlock(x, y, z, Block.Grass);
+
+        let block = Block.Dirt;
+        if (y == 31) block = Block.Grass;
+        if (y < 24) block = Block.Stone;
+
+        chunk.setBlock(x, y, z, block);
       }
     }
   }

@@ -98,6 +98,7 @@ export class MeshGeneratorChunk extends BasicChunk {
 
     const vertexData = new Babylon.VertexData();
     vertexData.positions = vertices;
+
     vertexData.indices = triangles;
     vertexData.uvs = uvs;
     vertexData.applyToMesh(mesh);

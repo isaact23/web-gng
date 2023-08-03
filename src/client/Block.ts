@@ -3,7 +3,8 @@ import { Vector3 } from "babylonjs";
 export enum Block {
   Air,
   Stone,
-  Grass
+  Grass,
+  Dirt
 }
 
 export enum Face {
