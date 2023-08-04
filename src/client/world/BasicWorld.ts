@@ -1,4 +1,4 @@
-import { Mesh, Vector3 } from "babylonjs/index";
+import { Mesh, Vector3 } from "babylonjs";
 import { IChunk, MeshGeneratorChunk } from "../chunk/Chunk";
 import { IWorld } from "./IWorld";
 import { Block } from "../Block";
@@ -71,13 +71,24 @@ export class BasicWorld implements IWorld {
   }
 
   // Get iterator for all chunks in the world
-  *getIterator(): Generator<IChunk, any, unknown> {
-    throw new Error("Method not implemented.");
+  *getIterator(): Generator<IChunk> {
+    for (let [x, sliceX] of this.chunks) {
+      for (let [y, sliceY] of sliceX) {
+        for (let [z, chunk] of sliceY) {
+          yield chunk;
+        }
+      }
+    }
   }
 
   // Convert block data for all chunks into meshes
   generateMeshes(): Mesh[] {
-    throw new Error("Method not implemented.");
+    let meshes = new Array<Mesh>();
+    const chunkIterator = this.getIterator();
+    for (let chunk of chunkIterator) {
+      meshes.push(chunk.generateMesh());
+    }
+    return meshes;
   }
 
   // Convert world coordinates to chunk coordinates

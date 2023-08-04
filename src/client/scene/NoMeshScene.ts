@@ -7,6 +7,8 @@ import { IWorld } from "../world/World";
 
 // A NoMeshScene is NOT responsible for generating meshes.
 
+const FIRST_PERSON = false;
+
 export class NoMeshScene implements IScene {
   private scene : Babylon.Scene | undefined;
 
@@ -19,7 +21,7 @@ export class NoMeshScene implements IScene {
     scene.gravity = new Babylon.Vector3(0, -0.5, 0);
     scene.collisionsEnabled = true;
     scene.enablePhysics();
-    scene.debugLayer.show();
+    //scene.debugLayer.show();
     this.scene = scene;
 
     const fpsElement = view.getFpsElement();
@@ -34,12 +36,14 @@ export class NoMeshScene implements IScene {
 
     // Set up camera
     const camera = new Babylon.UniversalCamera("camera1", new Babylon.Vector3(0, 0, 0), scene);
-    camera.position = new Babylon.Vector3(16, 4, 16);
-    camera.ellipsoid = new Babylon.Vector3(.5, 1, .5);
-    camera.applyGravity = true;
-    camera.needMoveForGravity = true;
-    camera.checkCollisions = true;
-    camera.speed = 0.3;
+    camera.position = new Babylon.Vector3(16, 100, 16);
+    if (FIRST_PERSON) {
+      camera.ellipsoid = new Babylon.Vector3(.5, 1, .5);
+      camera.applyGravity = true;
+      camera.needMoveForGravity = true;
+      camera.checkCollisions = true;
+      camera.speed = 0.3;
+    }
     camera.attachControl(canvas, true);
 
     // Add WASD
@@ -60,6 +64,9 @@ export class NoMeshScene implements IScene {
 
   // Load geometry for a world
   loadWorld(world: IWorld): void {
-    
+    const meshes = world.generateMeshes();
+    for (let mesh of meshes) {
+      this.scene?.addMesh(mesh);
+    }
   }
 }
