@@ -161,8 +161,8 @@ export class MeshGeneratorChunk {
     mesh.position = chunkGlobalCoord;
 
     const mat = new Babylon.StandardMaterial("tilemap");
-    const tex = new Babylon.Texture("img/tilemap.png");
-    tex.updateSamplingMode(Babylon.Texture.NEAREST_NEAREST);
+    const tex = new Babylon.Texture("img/tilemap.png", undefined, undefined, undefined,
+      Babylon.Texture.NEAREST_NEAREST);
     mat.diffuseTexture = tex;
     mesh.material = mat;
 

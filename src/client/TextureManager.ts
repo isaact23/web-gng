@@ -1,15 +1,16 @@
 import { Face, Block } from "./Block";
 
 const TILEMAP_SIZE = 16;
+const OFFSET = 0.0005;
 
 // Get UV coordinates for a texture within the tilemap.
 export function getTextureUvs(block: Block, face: Face) : [number, number, number, number] {
   const coord = _getTextureCoordinateInTilemap(block, face);
   return [
-    coord[0] / TILEMAP_SIZE,
-    (TILEMAP_SIZE - coord[1] - 1) / TILEMAP_SIZE,
-    (coord[0] + 1) / TILEMAP_SIZE,
-    (TILEMAP_SIZE - coord[1]) / TILEMAP_SIZE
+    (coord[0] / TILEMAP_SIZE) + OFFSET,
+    ((TILEMAP_SIZE - coord[1] - 1) / TILEMAP_SIZE) + OFFSET,
+    ((coord[0] + 1) / TILEMAP_SIZE) - OFFSET,
+    ((TILEMAP_SIZE - coord[1]) / TILEMAP_SIZE) - OFFSET
   ];
 }
 
