@@ -93,7 +93,8 @@ export class NoMeshScene implements IScene {
 
   // Add a light to the scene.
   _addLight() {
-    const light = new Babylon.HemisphericLight("light", new Babylon.Vector3(-1, 1, 0), scene);
+    if (this.scene === undefined) throw "Cannot add light because this.scene is undefined";
+    const light = new Babylon.HemisphericLight("light", new Babylon.Vector3(-1, 1, 0), this.scene);
     light.intensity = 0.7;
   }
 
