@@ -24,9 +24,8 @@ export class NoMeshScene implements IScene {
     this.engine = new Babylon.Engine(this.canvas, true);
     
     // Set up the scene
-    this._initScene(debugMode);
-    if (this.scene === undefined) throw "Failed to initialize this.scene";
-    this._addCamera(firstPerson, startPosition);
+    this.scene = this._initScene(debugMode);
+    //this._addCamera(firstPerson, startPosition);
     this._addLight();
     this._addEventListeners();
 
@@ -55,7 +54,7 @@ export class NoMeshScene implements IScene {
   }
 
   // Initialize the Babylon scene before adding objects.
-  _initScene(debugMode: boolean = false) {
+  _initScene(debugMode: boolean = false): Babylon.Scene {
     if (this.engine === undefined) throw "Cannot initialize scene because this.engine is undefined";
     
     // Set up scene
@@ -66,10 +65,12 @@ export class NoMeshScene implements IScene {
     if (debugMode) {
       scene.debugLayer.show();
     }
-    this.scene = scene;
+
+    return scene;
   }
 
   // Add a camera to the scene.
+  /*
   _addCamera(firstPerson: boolean, startPosition: Babylon.Vector3) {
 
     // Set up camera
@@ -89,7 +90,10 @@ export class NoMeshScene implements IScene {
     camera.keysDown.push(83);
     camera.keysLeft.push(65);
     camera.keysRight.push(68);
+
+    this.camera = camera;
   }
+  */
 
   // Add a light to the scene.
   _addLight() {
@@ -98,13 +102,30 @@ export class NoMeshScene implements IScene {
     light.intensity = 0.7;
   }
 
-  // Add event listeners to the window.
+  // Add event listeners.
   _addEventListeners() {
     const engine = this.engine;
+    const canvas = this.canvas;
+    //const camera = this.camera;
     if (engine === undefined) throw "Cannot add event listeners before engine is initialized";
+    if (canvas === undefined) throw "Cannot add event listeners before canvas is initialized";
+    //if (camera === undefined) throw "Cannot add event listeners before camera is initialized";
 
-    window.addEventListener("resize", function () {
+    window.addEventListener("resize", () => {
       engine.resize();
     });
+
+    `document.addEventListener("pointerlockchange", () => {
+      if (document.pointerLockElement) {
+        camera.detachControl();
+      } else {
+        camera.attachControl(true);
+      }
+    }, false);
+
+    console.log(canvas);
+    canvas.addEventListener("pointerdown", () => {
+      canvas.requestPointerLock();
+    });`
   }
 }
