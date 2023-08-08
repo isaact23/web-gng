@@ -66,7 +66,7 @@ export class BasicController implements IController {
 
     // Set up scene
     const scene = new Babylon.Scene(this.engine);
-    scene.gravity = new Babylon.Vector3(0, -0.5, 0);
+    scene.gravity = new Babylon.Vector3(0, -0.05, 0);
     scene.collisionsEnabled = true;
     scene.enablePhysics();
     if (debugMode) {
@@ -94,18 +94,5 @@ export class BasicController implements IController {
     window.addEventListener("resize", () => {
       engine.resize();
     });
-
-    `document.addEventListener("pointerlockchange", () => {
-      if (document.pointerLockElement) {
-        camera.detachControl();
-      } else {
-        camera.attachControl(true);
-      }
-    }, false);
-
-    console.log(canvas);
-    canvas.addEventListener("pointerdown", () => {
-      canvas.requestPointerLock();
-    });`
   }
 }
