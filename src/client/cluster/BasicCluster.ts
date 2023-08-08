@@ -1,9 +1,9 @@
 import { Mesh, Vector3 } from "babylonjs";
 import { IChunk, MeshGeneratorChunk } from "../chunk/Chunk";
-import { IWorld } from "./IWorld";
+import { ICluster } from "./ICluster";
 import { Block } from "../Block";
 
-export class BasicWorld implements IWorld {
+export class BasicCluster implements ICluster {
 
   private chunks: Map<number, Map<number, Map<number, IChunk>>>;
 

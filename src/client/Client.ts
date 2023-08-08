@@ -1,15 +1,15 @@
-import * as WorldGenerator from "./WorldGenerator";
-import * as Scene from "./scene/Scene";
+import * as ClusterGenerator from "./ClusterGenerator";
+import * as Controller from "./controller/Controller";
 import * as View from "./view/View";
-import { Vector3 } from "babylonjs";
+import * as Babylon from "babylonjs";
 
 // Create view
 const view: View.IView = new View.BasicView();
 
-// Create Babylon 3D environment
-const scene: Scene.IScene = new Scene.NoMeshScene();
-scene.init(view, true, new Vector3(5, 17, 5), false);
+// Create controller
+const startPosition = new Babylon.Vector3(10, 20, 10);
+const controller: Controller.IController = new Controller.BasicController(view, startPosition);
 
-// Create world
-const world = WorldGenerator.createSineWorld();
-scene.loadWorld(world);
+// Create cluster
+const cluster = ClusterGenerator.createSineCluster();
+controller.loadCluster(cluster);
