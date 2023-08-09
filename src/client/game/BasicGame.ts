@@ -165,11 +165,17 @@ export class BasicGame implements IGame {
       // Calculate target velocity
       let targetVelX = 0;
       let targetVelZ = 0;
-      if (input.forward && !input.back) { targetVelZ = 1; }
-      if (input.back && !input.forward) { targetVelZ = -1; }
-      if (input.left && !input.right) { targetVelX = -1; }
-      if (input.right && !input.left) { targetVelX = 1; }
-      let targetVel = new Vector3(targetVelX, 0, targetVelZ).normalize().multiplyByFloats(WALK_SPEED, 0, WALK_SPEED);
+      let isMoving = false;
+      if (input.forward && !input.back) { targetVelZ = 1; isMoving = true; }
+      if (input.back && !input.forward) { targetVelZ = -1; isMoving = true; }
+      if (input.left && !input.right) { targetVelX = -1; isMoving = true; }
+      if (input.right && !input.left) { targetVelX = 1; isMoving = true; }
+      let targetVel;
+      if (isMoving) {
+        targetVel = new Vector3(targetVelX, 0, targetVelZ).normalize().multiplyByFloats(WALK_SPEED, 0, WALK_SPEED);
+      } else {
+        targetVel = Vector3.Zero();
+      }
 
       // Move player velocity toward target velocity
       const lateral = LATERAL_ACCELERATION / fps;
@@ -182,7 +188,7 @@ export class BasicGame implements IGame {
       else if (velX > targetVel.x) {
         velX -= lateral;
         if (velX < targetVel.x) {
-          velX += lateral;
+          velX = targetVel.x;
         }
       }
       if (velZ < targetVel.z) {
@@ -194,7 +200,7 @@ export class BasicGame implements IGame {
       else if (velZ > targetVel.z) {
         velZ -= lateral;
         if (velZ < targetVel.z) {
-          velZ += lateral;
+          velZ = targetVel.z;
         }
       }
 
