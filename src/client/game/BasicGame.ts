@@ -2,9 +2,10 @@ import * as Babylon from "babylonjs";
 
 import { BasicView } from "../view/BasicView";
 import { IChunk } from "../chunk/Chunk";
-import { IGame } from "./IGame";
+import { IGame } from "./Game";
 import { IView } from "../view/View";
 import { ICluster } from "../cluster/Cluster";
+import { IPlayer } from "../player/Player";
 
 // Run all game logic.
 export class BasicGame implements IGame {
@@ -13,8 +14,8 @@ export class BasicGame implements IGame {
   private scene: Babylon.Scene;
 
   constructor(
-    private view: IView = new BasicView(),
-    private startPosition: Babylon.Vector3 = Babylon.Vector3.Zero(),
+    private view: IView,
+    private localPlayer: IPlayer,
     debugMode = false
   )
   {
@@ -22,7 +23,7 @@ export class BasicGame implements IGame {
 
     // Set up the scene
     this.scene = this._initScene(debugMode);
-    this._addLocalPlayer(startPosition);
+    this._addLocalPlayer(localPlayer);
     this._addLight();
     this._addEventListeners();
 
@@ -33,6 +34,10 @@ export class BasicGame implements IGame {
     this.engine.runRenderLoop(function () {
       scene.render();
       fpsElement.innerHTML = engine.getFps().toFixed();
+    });
+
+    this.scene.registerBeforeRender(() => {
+
     });
   }
 
@@ -51,14 +56,17 @@ export class BasicGame implements IGame {
   }
 
   // Add a local player controller to the game.
-  _addLocalPlayer(startPosition: Babylon.Vector3): void {
+  _addLocalPlayer(player: IPlayer): void {
     const capsule = Babylon.MeshBuilder.CreateCapsule("playerCapsule", {
       radius: 0.5,
       height: 2
     }, this.scene);
-    capsule.position = startPosition;
+    capsule.position = player.getPosition();
 
-    const camera = new Babylon.UniversalCamera("playerCamera", startPosition.add(new Babylon.Vector3(0, 0, -20)), this.scene);
+    const camera = new Babylon.UniversalCamera(
+      "playerCamera",
+      player.getPosition().add(new Babylon.Vector3(0, 0, -20)),
+      this.scene);
   }
 
   // Initialize the Babylon scene before adding objects.
