@@ -13,7 +13,7 @@ import { IPlayer } from "../player/Player";
 const GRAVITY = -9.81;
 const MAX_FALL_SPEED = 20;
 const WALK_SPEED = 8;
-const LATERAL_ACCELERATION = 10;
+const LATERAL_ACCELERATION = 50;
 
 // Run all game logic.
 export class BasicGame implements IGame {
@@ -162,41 +162,43 @@ export class BasicGame implements IGame {
         newVelY = -MAX_FALL_SPEED;
       }
   
-      // Change velocity based on player inputs
-      const lateral = LATERAL_ACCELERATION / fps;
+      // Calculate target velocity
       let targetVelX = 0;
       let targetVelZ = 0;
-      if (input.forward && !input.back) { velZ += lateral; }
-      else if (input.back && !input.forward) { velZ -= lateral; }
-      else {
-        if (velZ < 0) {
-          velZ += lateral;
-          if (velZ > 0) { velZ = 0; }
-        }
-        else {
-          velZ -= lateral;
-          if (velZ < 0) { velZ = 0; }
+      if (input.forward && !input.back) { targetVelZ = 1; }
+      if (input.back && !input.forward) { targetVelZ = -1; }
+      if (input.left && !input.right) { targetVelX = -1; }
+      if (input.right && !input.left) { targetVelX = 1; }
+      let targetVel = new Vector3(targetVelX, 0, targetVelZ).normalize().multiplyByFloats(WALK_SPEED, 0, WALK_SPEED);
+
+      // Move player velocity toward target velocity
+      const lateral = LATERAL_ACCELERATION / fps;
+      if (velX < targetVel.x) {
+        velX += lateral;
+        if (velX > targetVel.x) {
+          velX = targetVel.x;
         }
       }
-      if (input.left && !input.right) { velX -= lateral; }
-      else if (input.right && !input.left) { velX += lateral; }
-      else {
-        if (velX < 0) {
+      else if (velX > targetVel.x) {
+        velX -= lateral;
+        if (velX < targetVel.x) {
           velX += lateral;
-          if (velX > 0) { velX = 0; }
         }
-        else {
-          velX -= lateral;
-          if (velX < 0) { velX = 0; }
+      }
+      if (velZ < targetVel.z) {
+        velZ += lateral;
+        if (velZ > targetVel.z) {
+          velZ = targetVel.z;
+        }
+      }
+      else if (velZ > targetVel.z) {
+        velZ -= lateral;
+        if (velZ < targetVel.z) {
+          velZ += lateral;
         }
       }
 
-      if (velX < -1) { velX = -1; }
-      if (velX > 1)  { velX =  1; }
-      if (velZ < -1) { velZ = -1; }
-      if (velZ > 1)  { velZ =  1; }
-
-      let newVel = new Vector3(velX, 0, velZ).multiplyByFloats(WALK_SPEED, 0, WALK_SPEED);
+      let newVel = new Vector3(velX, 0, velZ);
       newVel = new Vector3(newVel.x, newVelY, newVel.z);
 
       // Rotate velocity based on camera rotation
