@@ -10,10 +10,11 @@ import { IView } from "../view/View";
 import { ICluster } from "../cluster/Cluster";
 import { IPlayer } from "../player/Player";
 
-const GRAVITY = -9.81;
+const GRAVITY = -15;
 const MAX_FALL_SPEED = 20;
 const WALK_SPEED = 8;
 const LATERAL_ACCELERATION = 50;
+const JUMP_VELOCITY = 6;
 
 // Run all game logic.
 export class BasicGame implements IGame {
@@ -71,7 +72,7 @@ export class BasicGame implements IGame {
 
     const camera = new Babylon.UniversalCamera(
       "playerCamera",
-      player.getPosition(),
+      Vector3.Zero(),
       this.scene);
     camera.attachControl(canvas, false);
     camera.minZ = 0;
@@ -149,17 +150,36 @@ export class BasicGame implements IGame {
 
     let velX = 0;
     let velZ = 0;
+    let grounded = false;
 
     this.scene.registerBeforeRender(() => {
+
+      // Check if player is on the ground
+      const ray = new Babylon.Ray(
+        capsule.position.subtract(new Vector3(0, 1.01, 0)),
+        Vector3.Down(),
+        0.02);
+      const hit = this.scene.pickWithRay(ray);
+      if (hit == null) { grounded = false; }
+      else { grounded = hit.hit; }
 
       const fps = this.engine.getFps();
   
       // Calculate gravity
-      const oldVelY = player.getVelocity().y;
-      const gravityAccel = GRAVITY / fps;
-      let newVelY = oldVelY + gravityAccel;
-      if (newVelY < -MAX_FALL_SPEED) {
-        newVelY = -MAX_FALL_SPEED;
+      let newVelY = 0;
+      if (!grounded) {
+        const oldVelY = player.getVelocity().y;
+        const gravityAccel = GRAVITY / fps;
+        newVelY = oldVelY + gravityAccel;
+        if (newVelY < -MAX_FALL_SPEED) {
+          newVelY = -MAX_FALL_SPEED;
+        }
+      }
+
+      // Jump
+      if (input.jump && grounded) {
+        grounded = false;
+        newVelY = JUMP_VELOCITY;
       }
   
       // Calculate target velocity
@@ -216,7 +236,7 @@ export class BasicGame implements IGame {
   
       const movement = player.getVelocity().divide(new Vector3(fps, fps, fps));
       capsule.moveWithCollisions(movement);
-      camera.position = capsule.position;
+      camera.position = capsule.position.add(new Vector3(0, 0.5, 0));
     });
   }
 
