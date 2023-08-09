@@ -1,4 +1,5 @@
 import * as Babylon from "babylonjs";
+import { Vector3 } from "babylonjs";
 
 import { BasicView } from "../view/BasicView";
 import { IChunk } from "../chunk/Chunk";
@@ -6,6 +7,10 @@ import { IGame } from "./Game";
 import { IView } from "../view/View";
 import { ICluster } from "../cluster/Cluster";
 import { IPlayer } from "../player/Player";
+
+const GRAVITY = -9.81;
+const MAX_FALL_SPEED = 20;
+const WALK_SPEED = 3;
 
 // Run all game logic.
 export class BasicGame implements IGame {
@@ -31,13 +36,9 @@ export class BasicGame implements IGame {
     const fpsElement = view.getFpsElement();
     const scene = this.scene;
     const engine = this.engine;
-    this.engine.runRenderLoop(function () {
+    this.engine.runRenderLoop(() => {
       scene.render();
       fpsElement.innerHTML = engine.getFps().toFixed();
-    });
-
-    this.scene.registerBeforeRender(() => {
-
     });
   }
 
@@ -65,8 +66,25 @@ export class BasicGame implements IGame {
 
     const camera = new Babylon.UniversalCamera(
       "playerCamera",
-      player.getPosition().add(new Babylon.Vector3(0, 0, -20)),
+      player.getPosition().add(new Vector3(0, 0, -20)),
       this.scene);
+
+    this.scene.registerBeforeRender(() => {
+      const fps = this.engine.getFps();
+
+      const oldVel = player.getVelocity();
+      const velDelta = new Vector3(0, GRAVITY / fps, 0);
+      let newVel = oldVel.add(velDelta);
+      if (newVel.y < -MAX_FALL_SPEED) {
+        newVel = new Vector3(0, -MAX_FALL_SPEED, 0);
+      }
+      player.setVelocity(newVel);
+
+      const movement = player.getVelocity().divide(new Vector3(fps, fps, fps));
+      capsule.moveWithCollisions(movement);
+
+      console.log(player.getVelocity().y);
+    });
   }
 
   // Initialize the Babylon scene before adding objects.
@@ -74,7 +92,7 @@ export class BasicGame implements IGame {
 
     // Set up scene
     const scene = new Babylon.Scene(this.engine);
-    //scene.gravity = new Babylon.Vector3(0, -0.05, 0);
+    //scene.gravity = new Vector3(0, -0.05, 0);
     scene.collisionsEnabled = true;
     scene.enablePhysics();
     if (debugMode) {
@@ -86,7 +104,7 @@ export class BasicGame implements IGame {
 
   // Add a light to the scene.
   _addLight() {
-    const light = new Babylon.HemisphericLight("light", new Babylon.Vector3(-1, 1, 0), this.scene);
+    const light = new Babylon.HemisphericLight("light", new Vector3(-1, 1, 0), this.scene);
     light.intensity = 0.7;
   }
 
