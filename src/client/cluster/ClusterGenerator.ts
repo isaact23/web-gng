@@ -1,7 +1,7 @@
 import { Vector3 } from "babylonjs";
-import { Block } from "./Block";
-import * as Chunk from "./chunk/Chunk";
-import * as Cluster from "./cluster/Cluster";
+import { Block } from "../Block";
+import * as Chunk from "../chunk/Chunk";
+import * as Cluster from "./Cluster";
 
 export function createIsleChunk(coord: Vector3) : Chunk.IChunk {
   const chunk = new Chunk.MeshGeneratorChunk(coord);
@@ -44,7 +44,7 @@ export function createIsleCluster(): Cluster.ICluster {
 
 export function createSineCluster(): Cluster.ICluster {
   const cluster = new Cluster.BasicCluster();
-  const size = 40;
+  const size = 100;
 
   for (let x = 0; x < size; x++) {
     for (let z = 0; z < size; z++) {

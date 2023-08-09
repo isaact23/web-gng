@@ -1,4 +1,4 @@
-import * as ClusterGenerator from "./ClusterGenerator";
+import * as ClusterGenerator from "./cluster/ClusterGenerator";
 import * as Controller from "./controller/Controller";
 import * as View from "./view/View";
 import * as Babylon from "babylonjs";
