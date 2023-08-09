@@ -1,21 +1,20 @@
 import * as Babylon from "babylonjs";
 
 import { BasicView } from "../view/BasicView";
-import { MeshGeneratorChunk } from "../chunk/Chunk";
-import { IController } from "./IController";
+import { IChunk } from "../chunk/Chunk";
+import { IGame } from "./IGame";
 import { IView } from "../view/View";
 import { ICluster } from "../cluster/Cluster";
-import { BasicFirstPersonController } from "./first-person-controller/BasicFirstPersonController";
 
-// A Babylon controller uses data from the model to control the Babylon view.
-export class BasicController implements IController {
+// Run all game logic.
+export class BasicGame implements IGame {
 
   private engine: Babylon.Engine;
   private scene: Babylon.Scene;
 
   constructor(
     private view: IView = new BasicView(),
-    startPosition: Babylon.Vector3 = Babylon.Vector3.Zero(),
+    private startPosition: Babylon.Vector3 = Babylon.Vector3.Zero(),
     debugMode = false
   )
   {
@@ -23,7 +22,7 @@ export class BasicController implements IController {
 
     // Set up the scene
     this.scene = this._initScene(debugMode);
-    this._addFirstPersonController(startPosition);
+    this._addLocalPlayer(startPosition);
     this._addLight();
     this._addEventListeners();
 
@@ -37,18 +36,8 @@ export class BasicController implements IController {
     });
   }
 
-  // Get the Babylon engine
-  getEngine() {
-    return this.engine;
-  }
-
-  // Get the Babylon scene
-  getScene() {
-    return this.scene;
-  }
-
   // Load geometry for a chunk
-  loadChunk(chunk: MeshGeneratorChunk): void {
+  loadChunk(chunk: IChunk): void {
     const mesh = chunk.generateMesh();
     this.scene?.addMesh(mesh);
   }
@@ -59,6 +48,17 @@ export class BasicController implements IController {
     for (let mesh of meshes) {
       this.scene?.addMesh(mesh);
     }
+  }
+
+  // Add a local player controller to the game.
+  _addLocalPlayer(startPosition: Babylon.Vector3): void {
+    const capsule = Babylon.MeshBuilder.CreateCapsule("playerCapsule", {
+      radius: 0.5,
+      height: 2
+    }, this.scene);
+    capsule.position = startPosition;
+
+    const camera = new Babylon.UniversalCamera("playerCamera", startPosition.add(new Babylon.Vector3(0, 0, -20)), this.scene);
   }
 
   // Initialize the Babylon scene before adding objects.
@@ -74,11 +74,6 @@ export class BasicController implements IController {
     }
 
     return scene;
-  }
-
-  // Add a first person controller to the game.
-  _addFirstPersonController(startPosition: Babylon.Vector3) {
-    const fpc = new BasicFirstPersonController(this.view, this, startPosition);
   }
 
   // Add a light to the scene.

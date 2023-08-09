@@ -1,5 +1,5 @@
 import { Mesh, Vector3 } from "babylonjs";
-import { IChunk, MeshGeneratorChunk } from "../chunk/Chunk";
+import { IChunk, BasicChunk } from "../chunk/Chunk";
 import { ICluster } from "./ICluster";
 import { Block } from "../Block";
 
@@ -61,7 +61,7 @@ export class BasicCluster implements ICluster {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new MeshGeneratorChunk(chunkCoord);
+      chunk = new BasicChunk(chunkCoord);
       this.addChunk(chunk);
     }
 

@@ -1,15 +1,11 @@
 import * as ClusterGenerator from "./cluster/ClusterGenerator";
-import * as Controller from "./controller/Controller";
 import * as View from "./view/View";
 import * as Babylon from "babylonjs";
+import { BasicGame, IGame } from "./game/Game";
 
-// Create view
-const view: View.IView = new View.BasicView();
+// Create game
+const game: IGame = new BasicGame(new View.BasicView(), new Babylon.Vector3(10, 20, 10));
 
-// Create controller
-const startPosition = new Babylon.Vector3(10, 20, 10);
-const controller: Controller.IController = new Controller.BasicController(view, startPosition);
-
-// Create cluster
+// Create and load cluster
 const cluster = ClusterGenerator.createSineCluster();
-controller.loadCluster(cluster);
+game.loadCluster(cluster);

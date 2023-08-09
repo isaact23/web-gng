@@ -7,7 +7,7 @@ import * as Babylon from "babylonjs";
 // TODO: Implement greedy meshing
 
 // A MeshGeneratorChunk can generate a Babylon mesh with UV data from its block data.
-export class MeshGeneratorChunk {
+export class BasicChunk {
 
   private blocks : Block[][][];
 
