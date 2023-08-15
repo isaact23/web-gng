@@ -1,5 +1,6 @@
-import {Face, Block} from "../Block";
-import {Vector3} from "babylonjs";
+import { Face, Block } from "../Block";
+import { Vector3 } from "babylonjs";
+import { ICluster } from "../cluster/ICluster";
 import { getTilemapMaterial } from "../Materials";
 
 import * as TextureManager from "../TextureManager";
@@ -66,7 +67,7 @@ export class BasicChunk {
   }
 
   // Convert block data into a mesh
-  generateMesh(): Babylon.Mesh {
+  generateMesh(cluster?: ICluster): Babylon.Mesh {
 
     const blockIterator = this.getIterator();
     const chunkGlobalCoord = this.coordinate.multiplyByFloats(this.size, this.size, this.size);
@@ -117,7 +118,13 @@ export class BasicChunk {
         const faceVector = faceVectors.get(face);
         if (faceVector === undefined) continue;
         const adjCoord = coord.add(faceVector);
-        const adjacentBlock = this.getBlock(adjCoord);
+        let adjacentBlock = this.getBlock(adjCoord);
+
+        // If block was not found in this chunk, look in the cluster.
+        if (adjacentBlock === undefined && cluster !== undefined) {
+          const adjacentGlobalCoord = adjCoord.add(chunkGlobalCoord);
+          adjacentBlock = cluster.getBlock(adjacentGlobalCoord);
+        }
 
         // If the adjacent block is empty,
         if (adjacentBlock == Block.Air || adjacentBlock === undefined) {

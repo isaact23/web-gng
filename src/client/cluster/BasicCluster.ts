@@ -86,7 +86,7 @@ export class BasicCluster implements ICluster {
     let meshes = new Array<Mesh>();
     const chunkIterator = this.getIterator();
     for (let chunk of chunkIterator) {
-      meshes.push(chunk.generateMesh());
+      meshes.push(chunk.generateMesh(this));
     }
     return meshes;
   }

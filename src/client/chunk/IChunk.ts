@@ -1,5 +1,6 @@
-import {Block} from "../Block";
-import {Mesh, Vector3} from "babylonjs";
+import { Block } from "../Block";
+import { Mesh, Vector3 } from "babylonjs";
+import { ICluster } from "../cluster/ICluster";
 
 export interface IChunk {
   // Get the size (width, length, height) of a chunk in blocks
@@ -18,5 +19,5 @@ export interface IChunk {
   getIterator() : Generator<[Vector3, Block]>;
 
   // Convert block data into a mesh
-  generateMesh(): Mesh;
+  generateMesh(cluster?: ICluster): Mesh;
 }

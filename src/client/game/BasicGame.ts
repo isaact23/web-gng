@@ -30,12 +30,12 @@ export class BasicGame implements IGame {
 
   // Game elements
   private view: IView;
-  private localPlayer: IPlayer;
+  private localPlayer: IPlayer | null;
   private cluster: ICluster;
 
   constructor(
     view: IView,
-    localPlayer: IPlayer,
+    localPlayer: IPlayer | null = null,
     cluster: ICluster | null = null,
     doShadows = false,
     debugMode = false
@@ -95,8 +95,15 @@ export class BasicGame implements IGame {
   }
 
   // Add a local player controller to the game.
-  _addLocalPlayer(player: IPlayer): void {
+  // If player is null, just add a free camera.
+  _addLocalPlayer(player: IPlayer | null): void {
     const canvas = this.view.getCanvas();
+
+    if (player == null) {
+      const camera = new Babylon.UniversalCamera("freeCamera", new Vector3(20, 20, 20), this.scene);
+      camera.attachControl(canvas, false);
+      return;
+    }
 
     const capsule = Babylon.MeshBuilder.CreateCapsule("playerCapsule", {
       radius: 0.5,
