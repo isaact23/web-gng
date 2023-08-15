@@ -25,6 +25,7 @@ export class BasicGame implements IGame {
 
   // Lighting
   private sun: Babylon.DirectionalLight;
+  private hemisphericLight: Babylon.HemisphericLight;
   private shadowGenerator: Babylon.ShadowGenerator;
 
   // Game elements
@@ -56,8 +57,12 @@ export class BasicGame implements IGame {
     // Set up lighting
     this.sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), this.scene);
     this.sun.intensity = 1.2;
+    this.sun.position = new Vector3(100, 100, 100);
+    this.hemisphericLight = new Babylon.HemisphericLight("ambience", new Vector3(-1, 1, -1), this.scene);
+    this.hemisphericLight.intensity = 0.3;
 
-    this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
+    this.shadowGenerator = new Babylon.ShadowGenerator(8192, this.sun);
+    this.shadowGenerator.usePoissonSampling = true;
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();
