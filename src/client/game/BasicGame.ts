@@ -10,7 +10,7 @@ import { IView } from "../view/View";
 import { ICluster } from "../cluster/Cluster";
 import { IPlayer } from "../player/Player";
 
-const GRAVITY = -15;
+const GRAVITY = -25;
 const MAX_FALL_SPEED = 20;
 const WALK_SPEED = 8;
 const LATERAL_ACCELERATION = 50;
@@ -74,6 +74,8 @@ export class BasicGame implements IGame {
       "playerCamera",
       Vector3.Zero(),
       this.scene);
+    camera.angularSensibility = 500;
+    camera.inertia = 0;
     camera.attachControl(canvas, false);
     camera.minZ = 0;
     
@@ -252,13 +254,15 @@ export class BasicGame implements IGame {
       scene.debugLayer.show();
     }
 
+    scene.clearColor = new Babylon.Color4(0.5, 0.6, 0.7, 1);
+
     return scene;
   }
 
   // Add a light to the scene.
   _addLight() {
     const light = new Babylon.HemisphericLight("light", new Vector3(-1, 1, 0), this.scene);
-    light.intensity = 0.7;
+    light.intensity = 1.2;
   }
 
   // Add event listeners.
@@ -270,9 +274,8 @@ export class BasicGame implements IGame {
       engine.resize();
     });
 
-    // Add pointer lock
-    this.scene.onPointerDown = (event) => {
-      engine.enterPointerlock();
-    }
+    this.scene.onPointerDown = event => {
+      this.engine.enterPointerlock();
+    };
   }
 }
