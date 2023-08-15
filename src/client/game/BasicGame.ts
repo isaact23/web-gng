@@ -5,9 +5,9 @@ import { Vector3 } from "babylonjs";
 
 import { BasicView } from "../view/BasicView";
 import { IChunk } from "../chunk/Chunk";
+import { ICluster, BasicCluster } from "../cluster/Cluster";
 import { IGame } from "./Game";
 import { IView } from "../view/View";
-import { ICluster } from "../cluster/Cluster";
 import { IPlayer } from "../player/Player";
 
 const GRAVITY = -25;
@@ -19,22 +19,45 @@ const JUMP_VELOCITY = 6;
 // Run all game logic.
 export class BasicGame implements IGame {
 
+  // Overhead
   private engine: Babylon.Engine;
   private scene: Babylon.Scene;
 
+  // Lighting
+  private sun: Babylon.DirectionalLight;
+  private shadowGenerator: Babylon.ShadowGenerator;
+
+  // Game elements
+  private view: IView;
+  private localPlayer: IPlayer;
+  private cluster: ICluster;
+
   constructor(
-    private view: IView,
-    private localPlayer: IPlayer,
+    view: IView,
+    localPlayer: IPlayer,
+    cluster: ICluster | null,
     debugMode = false
   )
   {
+    this.view = view;
+    this.localPlayer = localPlayer;
     this.engine = new Babylon.Engine(view.getCanvas());
+    if (cluster == null) {
+      this.cluster = new BasicCluster();
+    } else {
+      this.cluster = cluster;
+    }
 
     // Set up the scene
     this.scene = this._initScene(debugMode);
     this._addLocalPlayer(localPlayer);
-    this._addLight();
     this._addEventListeners();
+
+    // Set up lighting
+    this.sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), this.scene);
+    this.sun.intensity = 1.2;
+
+    this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();
@@ -49,13 +72,16 @@ export class BasicGame implements IGame {
   // Load geometry for a chunk
   loadChunk(chunk: IChunk): void {
     const mesh = chunk.generateMesh();
+    this.shadowGenerator.getShadowMap()?.renderList?.push(mesh);
     this.scene?.addMesh(mesh);
   }
 
   // Load geometry for a cluster
   loadCluster(cluster: ICluster): void {
     const meshes = cluster.generateMeshes();
+    const shadowMap = this.shadowGenerator.getShadowMap();
     for (let mesh of meshes) {
+      shadowMap?.renderList?.push(mesh);
       this.scene?.addMesh(mesh);
     }
   }
@@ -257,12 +283,6 @@ export class BasicGame implements IGame {
     scene.clearColor = new Babylon.Color4(0.5, 0.6, 0.7, 1);
 
     return scene;
-  }
-
-  // Add a light to the scene.
-  _addLight() {
-    const light = new Babylon.HemisphericLight("light", new Vector3(-1, 1, 0), this.scene);
-    light.intensity = 1.2;
   }
 
   // Add event listeners.

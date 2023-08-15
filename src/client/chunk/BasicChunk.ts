@@ -1,5 +1,6 @@
 import {Face, Block} from "../Block";
 import {Vector3} from "babylonjs";
+import { getTilemapMaterial } from "../Materials";
 
 import * as TextureManager from "../TextureManager";
 import * as Babylon from "babylonjs";
@@ -148,7 +149,7 @@ export class BasicChunk {
       }
     }
 
-    // Generate the actual mesh object
+    // Generate the mesh object
     const mesh = new Babylon.Mesh("chunk");
 
     const vertexData = new Babylon.VertexData();
@@ -159,14 +160,10 @@ export class BasicChunk {
     vertexData.applyToMesh(mesh);
 
     mesh.position = chunkGlobalCoord;
-
-    const mat = new Babylon.StandardMaterial("tilemap");
-    const tex = new Babylon.Texture("img/tilemap.png", undefined, undefined, undefined,
-      Babylon.Texture.NEAREST_NEAREST);
-    mat.diffuseTexture = tex;
-    mesh.material = mat;
+    mesh.material = getTilemapMaterial();
 
     mesh.checkCollisions = true;
+    mesh.receiveShadows = true;
 
     return mesh;
   }
