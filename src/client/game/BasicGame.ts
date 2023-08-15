@@ -26,7 +26,7 @@ export class BasicGame implements IGame {
   // Lighting
   private sun: Babylon.DirectionalLight;
   private hemisphericLight: Babylon.HemisphericLight;
-  private shadowGenerator: Babylon.ShadowGenerator;
+  private shadowGenerator: Babylon.ShadowGenerator | null;
 
   // Game elements
   private view: IView;
@@ -37,6 +37,7 @@ export class BasicGame implements IGame {
     view: IView,
     localPlayer: IPlayer,
     cluster: ICluster | null,
+    doShadows = false,
     debugMode = false
   )
   {
@@ -61,8 +62,10 @@ export class BasicGame implements IGame {
     this.hemisphericLight = new Babylon.HemisphericLight("ambience", new Vector3(-1, 1, -1), this.scene);
     this.hemisphericLight.intensity = 0.3;
 
-    this.shadowGenerator = new Babylon.ShadowGenerator(8192, this.sun);
-    this.shadowGenerator.usePoissonSampling = true;
+    if (doShadows) {
+      this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
+      this.shadowGenerator.usePoissonSampling = true;
+    }
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();
@@ -77,14 +80,14 @@ export class BasicGame implements IGame {
   // Load geometry for a chunk
   loadChunk(chunk: IChunk): void {
     const mesh = chunk.generateMesh();
-    this.shadowGenerator.getShadowMap()?.renderList?.push(mesh);
+    this.shadowGenerator?.getShadowMap()?.renderList?.push(mesh);
     this.scene?.addMesh(mesh);
   }
 
   // Load geometry for a cluster
   loadCluster(cluster: ICluster): void {
     const meshes = cluster.generateMeshes();
-    const shadowMap = this.shadowGenerator.getShadowMap();
+    const shadowMap = this.shadowGenerator?.getShadowMap();
     for (let mesh of meshes) {
       shadowMap?.renderList?.push(mesh);
       this.scene?.addMesh(mesh);
