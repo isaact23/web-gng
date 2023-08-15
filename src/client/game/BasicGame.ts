@@ -26,7 +26,7 @@ export class BasicGame implements IGame {
   // Lighting
   private sun: Babylon.DirectionalLight;
   private hemisphericLight: Babylon.HemisphericLight;
-  private shadowGenerator: Babylon.ShadowGenerator | null;
+  private shadowGenerator: Babylon.ShadowGenerator | null = null;
 
   // Game elements
   private view: IView;
@@ -36,7 +36,7 @@ export class BasicGame implements IGame {
   constructor(
     view: IView,
     localPlayer: IPlayer,
-    cluster: ICluster | null,
+    cluster: ICluster | null = null,
     doShadows = false,
     debugMode = false
   )

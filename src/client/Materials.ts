@@ -5,7 +5,8 @@ let mat: Babylon.StandardMaterial | null = null;
 export function getTilemapMaterial(): Babylon.StandardMaterial {
   if (mat == null) {
     mat = new Babylon.StandardMaterial("tilemap");
-    mat.specularPower = 100;
+    //mat.specularPower = 100;
+    mat.specularColor = Babylon.Color3.Black();
     const tex = new Babylon.Texture("img/tilemap.png", undefined, undefined, undefined,
       Babylon.Texture.NEAREST_NEAREST);
     mat.diffuseTexture = tex;
