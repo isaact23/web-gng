@@ -3,6 +3,7 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
+import { BasicGUI } from "../gui/BasicGUI";
 import { BasicView } from "../view/BasicView";
 import { IChunk } from "../chunk/Chunk";
 import { ICluster, BasicCluster } from "../cluster/Cluster";
@@ -54,6 +55,8 @@ export class BasicGame implements IGame {
     this.scene = this._initScene(debugMode);
     this._addLocalPlayer(localPlayer);
     this._addEventListeners();
+
+    const ui = new BasicGUI();
 
     // Set up lighting
     this.sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), this.scene);
@@ -128,6 +131,7 @@ export class BasicGame implements IGame {
       jump: false
     };
 
+    // TODO: Separate player movement logic from BasicGame class
     this.scene.onKeyboardObservable.add((kbInfo) => {
       switch (kbInfo.type) {
         case Babylon.KeyboardEventTypes.KEYDOWN: {
