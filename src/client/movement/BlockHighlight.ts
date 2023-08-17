@@ -22,6 +22,9 @@ export function highlightBlock(camera: Babylon.UniversalCamera, scene: Babylon.S
 
   if (pickingInfo != null && pickingInfo.hit && pickingInfo.pickedPoint != null) {
     ball.position = pickingInfo.pickedPoint;
+    const normal = pickingInfo.getNormal();
+    console.log(normal);
+
   } else {
     ball.position = new Vector3(0, -100, 0);
   }

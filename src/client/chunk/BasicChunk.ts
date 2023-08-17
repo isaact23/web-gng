@@ -73,6 +73,7 @@ export class BasicChunk {
     const chunkGlobalCoord = this.coordinate.multiplyByFloats(this.size, this.size, this.size);
 
     const vertices = new Array<number>;
+    const normals = new Array<number>;
     const triangles = new Array<number>;
     const uvs = new Array<number>;
 
@@ -140,6 +141,7 @@ export class BasicChunk {
             const offset = cubeVerts[vertIndices[i]];
             const vertCoord = coord.add(offset);
             vertices.push(vertCoord.x, vertCoord.y, vertCoord.z);
+            normals.push(faceVector.x, faceVector.y, faceVector.z);
           }
           
           // Add triangles
@@ -161,7 +163,7 @@ export class BasicChunk {
 
     const vertexData = new Babylon.VertexData();
     vertexData.positions = vertices;
-
+    vertexData.normals = normals;
     vertexData.indices = triangles;
     vertexData.uvs = uvs;
     vertexData.applyToMesh(mesh);
