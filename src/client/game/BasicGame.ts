@@ -94,9 +94,6 @@ export class BasicGame implements IGame {
 
     // Set up scene
     const scene = new Babylon.Scene(this.engine);
-    //scene.gravity = new Vector3(0, -0.05, 0);
-    scene.collisionsEnabled = true;
-    scene.enablePhysics();
     if (debugMode) {
       scene.debugLayer.show();
     }

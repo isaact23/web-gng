@@ -1,5 +1,6 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
+import { highlightBlock } from "./BlockHighlight";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 20;
@@ -35,6 +36,7 @@ export function addLocalPlayer (
     height: 2
   }, scene);
   capsule.position = playerPos;
+  capsule.isPickable = false;
 
   const camera = new Babylon.UniversalCamera(
     "playerCamera",
@@ -202,5 +204,8 @@ export function addLocalPlayer (
 
     capsule.moveWithCollisions(movement);
     camera.position = capsule.position.add(new Vector3(0, 0.5, 0));
+
+    // Highlight the block the player is looking at
+    highlightBlock(camera, scene);
   });
 }
