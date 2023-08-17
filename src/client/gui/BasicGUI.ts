@@ -6,8 +6,8 @@ export class BasicGUI {
     const ui = BabylonGUI.AdvancedDynamicTexture.CreateFullscreenUI("ui");
 
     const crossfire = new BabylonGUI.Image("crossfire", "img/crossfire.png");
-    crossfire.width = "256px";
-    crossfire.height = "256px";
+    crossfire.width = "16px";
+    crossfire.height = "16px";
     ui.addControl(crossfire);
   }
 }
