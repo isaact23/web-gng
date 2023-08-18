@@ -1,5 +1,5 @@
 import * as Babylon from "babylonjs";
-import { Face, Block } from "./Block";
+import { Face, Block } from "../../../Block";
 
 const TILEMAP_SIZE = 16;
 const OFFSET = 0.0005;
