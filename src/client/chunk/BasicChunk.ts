@@ -1,10 +1,9 @@
 import { Face, Block } from "../Block";
 import { Vector3 } from "babylonjs";
 import { ICluster } from "../cluster/ICluster";
-import { getTilemapMaterial } from "../Materials";
 import { getVectorFromFace } from "../Block";
+import { TextureUvCalculator } from "../TextureUvCalculator";
 
-import * as TextureManager from "../TextureManager";
 import * as Babylon from "babylonjs";
 
 // TODO: Implement greedy meshing
