@@ -16,6 +16,7 @@ export class BasicChunk {
 
   // Create an empty chunk
   constructor(
+    private readonly assetManager: IAssetManager,
     private readonly coordinate: Vector3 = new Vector3(0, 0, 0),
     private readonly size: number = 32
   ) {

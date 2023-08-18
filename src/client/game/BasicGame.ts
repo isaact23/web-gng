@@ -30,6 +30,7 @@ export class BasicGame implements IGame {
   // Game elements
   private view: IView;
   private cluster: ICluster;
+  private gui: BasicGUI;
   private assetManager: IAssetManager | null = null;
 
   constructor(
@@ -42,7 +43,7 @@ export class BasicGame implements IGame {
     this.view = view;
     this.engine = new Babylon.Engine(view.getCanvas());
     if (cluster == null) {
-      this.cluster = new BasicCluster();
+      this.cluster = new BasicCluster(this.assetManager);
     } else {
       this.cluster = cluster;
     }
@@ -52,7 +53,7 @@ export class BasicGame implements IGame {
     this._addEventListeners();
     addLocalPlayer(view.getCanvas(), this.engine, this.scene, new Vector3(20, 20, 20), false);
 
-    const ui = new BasicGUI();
+    this.gui = new BasicGUI();
 
     // Set up lighting
     this.sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), this.scene);
@@ -92,14 +93,6 @@ export class BasicGame implements IGame {
     }
     
     return didSucceed;
-  }
-
-  // Get asset manager. Must call init() before calling.
-  getAssetManager(): IAssetManager {
-    if (!this.didInit || this.assetManager == null) {
-      throw "Cannot call getAssetManager() before calling init()";
-    }
-    return this.assetManager;
   }
 
   // Load geometry for a chunk

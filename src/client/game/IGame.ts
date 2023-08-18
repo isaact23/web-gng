@@ -7,9 +7,6 @@ export interface IGame {
   // Handle asynchronous initialization. Return boolean indicating success.
   init(): Promise<boolean>;
 
-  // Get asset manager. Must call init() before calling.
-  getAssetManager(): IAssetManager;
-
   // Load geometry for a chunk
   loadChunk(chunk: IChunk): void;
 

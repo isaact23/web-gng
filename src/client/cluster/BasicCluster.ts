@@ -2,12 +2,16 @@ import { Mesh, Vector3 } from "babylonjs";
 import { IChunk, BasicChunk } from "../chunk/Chunk";
 import { ICluster } from "./ICluster";
 import { Block } from "../Block";
+import { IAssetManager } from "../assets/IAssetManager";
 
 export class BasicCluster implements ICluster {
 
   private chunks: Map<number, Map<number, Map<number, IChunk>>>;
 
-  constructor(private chunkSize = 32) {
+  constructor(
+    private readonly assetManager: IAssetManager,
+    private readonly chunkSize = 32
+  ) {
     this.chunks = new Map<number, Map<number, Map<number, IChunk>>>();
   }
 
@@ -61,7 +65,7 @@ export class BasicCluster implements ICluster {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new BasicChunk(chunkCoord);
+      chunk = new BasicChunk(this.assetManager, chunkCoord);
       this.addChunk(chunk);
     }
 
