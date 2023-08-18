@@ -39,6 +39,7 @@ export function createIsleCluster(): Cluster.ICluster {
       }
     }
   }
+
   return cluster;
 }
 
@@ -59,5 +60,8 @@ export function createSineCluster(): Cluster.ICluster {
       cluster.setBlock(new Vector3(x, height, z), Block.Grass);
     }
   }
+
+  cluster.setBlock(new Vector3(25, 15, 25), Block.Stone);
+
   return cluster;
 }

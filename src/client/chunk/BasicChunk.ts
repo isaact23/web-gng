@@ -2,6 +2,7 @@ import { Face, Block } from "../Block";
 import { Vector3 } from "babylonjs";
 import { ICluster } from "../cluster/ICluster";
 import { getTilemapMaterial } from "../Materials";
+import { getVectorFromFace } from "../Block";
 
 import * as TextureManager from "../TextureManager";
 import * as Babylon from "babylonjs";
@@ -98,15 +99,6 @@ export class BasicChunk {
     faceVerts.set(Face.Top,    [3, 2, 6, 7]);
     faceVerts.set(Face.Bottom, [1, 5, 4, 0]);
 
-    // Vectors for each face (to get adjacent block)
-    const faceVectors = new Map<Face, Vector3>();
-    faceVectors.set(Face.Front, Vector3.Forward());
-    faceVectors.set(Face.Right, Vector3.Right());
-    faceVectors.set(Face.Back, Vector3.Backward());
-    faceVectors.set(Face.Left, Vector3.Left());
-    faceVectors.set(Face.Top, Vector3.Up());
-    faceVectors.set(Face.Bottom, Vector3.Down());
-
     // Generate vertex and triangle data.
     // For each block in the chunk,
     for (let [coord, block] of blockIterator) {
@@ -116,7 +108,7 @@ export class BasicChunk {
         if (typeof(face) === "string") continue;
 
         // Get adjacent block
-        const faceVector = faceVectors.get(face);
+        const faceVector = getVectorFromFace(face);
         if (faceVector === undefined) continue;
         const adjCoord = coord.add(faceVector);
         let adjacentBlock = this.getBlock(adjCoord);
