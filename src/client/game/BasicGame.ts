@@ -10,9 +10,13 @@ import { IGame } from "./Game";
 import { IView } from "../view/View";
 
 import { addLocalPlayer } from "../movement/BasicMovement";
+import { IAssetManager } from "../assets/IAssetManager";
+import { AssetManager } from "../assets/AssetManager";
 
 // Run all game logic.
 export class BasicGame implements IGame {
+
+  private didInit = false;
 
   // Overhead
   private engine: Babylon.Engine;
@@ -26,6 +30,7 @@ export class BasicGame implements IGame {
   // Game elements
   private view: IView;
   private cluster: ICluster;
+  private assetManager: IAssetManager | null = null;
 
   constructor(
     view: IView,
@@ -45,7 +50,6 @@ export class BasicGame implements IGame {
     // Set up the scene
     this.scene = this._initScene(debugMode);
     this._addEventListeners();
-
     addLocalPlayer(view.getCanvas(), this.engine, this.scene, new Vector3(20, 20, 20), false);
 
     const ui = new BasicGUI();
@@ -70,6 +74,32 @@ export class BasicGame implements IGame {
       scene.render();
       fpsElement.innerHTML = engine.getFps().toFixed();
     });
+  }
+
+  // Handle asynchronous initialization. Return boolean indicating success.
+  async init(): Promise<boolean> {
+    if (this.didInit) {
+      console.log("Cannot initialize BasicGame twice.");
+      return true;
+    }
+
+    // Init asset manager
+    this.assetManager = new AssetManager();
+    const didSucceed = await this.assetManager.init();
+
+    if (didSucceed) {
+      this.didInit = true;
+    }
+    
+    return didSucceed;
+  }
+
+  // Get asset manager. Must call init() before calling.
+  getAssetManager(): IAssetManager {
+    if (!this.didInit || this.assetManager == null) {
+      throw "Cannot call getAssetManager() before calling init()";
+    }
+    return this.assetManager;
   }
 
   // Load geometry for a chunk

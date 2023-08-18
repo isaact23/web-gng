@@ -13,9 +13,9 @@ export class AssetManager implements IAssetManager {
     this.meshManager = new MeshManager();
   }
 
-  // Load assets asynchronously. Return a boolean indicating the success of the operation.
-  async loadAssets(): Promise<boolean> {
-    const didSucceed = await this.meshManager.loadAssets();
+  // Initialize asynchronously. Return a boolean indicating the success of the operation.
+  async init(): Promise<boolean> {
+    const didSucceed = await this.meshManager.init();
     return didSucceed;
   }
 

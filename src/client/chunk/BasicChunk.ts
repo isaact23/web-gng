@@ -5,6 +5,7 @@ import { getVectorFromFace } from "../Block";
 import { TextureUvCalculator } from "../TextureUvCalculator";
 
 import * as Babylon from "babylonjs";
+import { IAssetManager } from "../assets/IAssetManager";
 
 // TODO: Implement greedy meshing
 
@@ -14,7 +15,10 @@ export class BasicChunk {
   private blocks : Block[][][];
 
   // Create an empty chunk
-  constructor(private readonly coordinate: Vector3 = new Vector3(0, 0, 0), private readonly size: number = 32) {
+  constructor(
+    private readonly coordinate: Vector3 = new Vector3(0, 0, 0),
+    private readonly size: number = 32
+  ) {
     this.blocks = [];
 
     for (var x = 0; x < this.size; x++) {
@@ -123,7 +127,7 @@ export class BasicChunk {
           // Then render the face.
 
           // Get texture UVs
-          const uvBlock = TextureManager.getTextureUvs(block, face);
+          const uvBlock = TextureUvCalculator.getTextureUvs(block, face);
 
           // Add vertices
           const vertIndices = faceVerts.get(face);
@@ -160,7 +164,7 @@ export class BasicChunk {
     vertexData.applyToMesh(mesh);
 
     mesh.position = chunkGlobalCoord;
-    mesh.material = getTilemapMaterial();
+    mesh.material = this.assetManager.getMaterialManager().getTilemapMaterial();
 
     mesh.checkCollisions = true;
     mesh.receiveShadows = true;

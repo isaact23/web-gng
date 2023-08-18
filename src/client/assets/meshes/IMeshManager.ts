@@ -1,5 +1,5 @@
 export interface IMeshManager {
 
-  // Load meshes asynchronously. Return a boolean indicating the success of the operation.
-  loadAssets(): Promise<boolean>;
+  // Initialize asynchronously. Return a boolean indicating the success of the operation.
+  init(): Promise<boolean>;
 }
