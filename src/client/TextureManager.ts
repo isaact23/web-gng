@@ -1,7 +1,20 @@
+import * as Babylon from "babylonjs";
 import { Face, Block } from "./Block";
 
 const TILEMAP_SIZE = 16;
 const OFFSET = 0.0005;
+
+// Initialize tilemap texture
+let tex: Babylon.Texture | null = null;
+
+// Get tilemap texture
+export function getTilemapTexture() {
+  if (tex == null) {
+    tex = new Babylon.Texture("img/tilemap.png", undefined, undefined, undefined,
+      Babylon.Texture.NEAREST_NEAREST);
+  }
+  return tex;
+}
 
 // Get UV coordinates for a texture within the tilemap.
 export function getTextureUvs(block: Block, face: Face) : [number, number, number, number] {

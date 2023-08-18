@@ -1,4 +1,5 @@
 import * as Babylon from "babylonjs";
+import { getTilemapTexture } from "./TextureManager";
 
 let mat: Babylon.StandardMaterial | null = null;
 
@@ -7,9 +8,7 @@ export function getTilemapMaterial(): Babylon.StandardMaterial {
     mat = new Babylon.StandardMaterial("tilemap");
     //mat.specularPower = 100;
     mat.specularColor = Babylon.Color3.Black();
-    const tex = new Babylon.Texture("img/tilemap.png", undefined, undefined, undefined,
-      Babylon.Texture.NEAREST_NEAREST);
-    mat.diffuseTexture = tex;
+    mat.diffuseTexture = getTilemapTexture();
   }
 
   return mat;
