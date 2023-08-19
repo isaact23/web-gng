@@ -5,10 +5,9 @@ import * as Cluster from "./Cluster";
 import { IAssetManager } from "../assets/IAssetManager";
 
 export class ClusterGenerator {
-  constructor(private assetManager: IAssetManager) {}
 
-  createIsleChunk(coord: Vector3) : Chunk.IChunk {
-    const chunk = new Chunk.BasicChunk(this.assetManager, coord);
+  createIsleChunk(coord: Vector3, assetManager: IAssetManager) : Chunk.IChunk {
+    const chunk = new Chunk.BasicChunk(assetManager, coord);
     for (let x = 0; x < 32; x++) {
       for (let y = 0; y < 32; y++) {
         for (let z = 0; z < 32; z++) {
@@ -26,7 +25,7 @@ export class ClusterGenerator {
     return chunk;
   }
   
-  createIsleCluster(): Cluster.ICluster {
+  createIsleCluster(assetManager: IAssetManager): Cluster.ICluster {
     const cluster = new Cluster.BasicCluster(assetManager);
   
     for (let x = 0; x < 128; x++) {
@@ -47,7 +46,7 @@ export class ClusterGenerator {
     return cluster;
   }
 
-  createSineCluster(): Cluster.ICluster {
+  static createSineCluster(assetManager: IAssetManager): Cluster.ICluster {
     const cluster = new Cluster.BasicCluster(assetManager);
     const size = 100;
   

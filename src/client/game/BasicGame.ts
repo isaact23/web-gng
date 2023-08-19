@@ -12,11 +12,10 @@ import { IView } from "../view/View";
 import { addLocalPlayer } from "../movement/BasicMovement";
 import { IAssetManager } from "../assets/IAssetManager";
 import { AssetManager } from "../assets/AssetManager";
+import { ClusterGenerator } from "../cluster/ClusterGenerator";
 
 // Run all game logic.
 export class BasicGame implements IGame {
-
-  private didInit = false;
 
   // Overhead
   private engine: Babylon.Engine;
@@ -35,23 +34,25 @@ export class BasicGame implements IGame {
 
   constructor(
     view: IView,
-    cluster: ICluster | null = null,
     doShadows = false,
     debugMode = false
   )
   {
+
     this.view = view;
     this.engine = new Babylon.Engine(view.getCanvas());
-    if (cluster == null) {
-      this.cluster = new BasicCluster(this.assetManager);
-    } else {
-      this.cluster = cluster;
-    }
 
     // Set up the scene
     this.scene = this._initScene(debugMode);
     this._addEventListeners();
     addLocalPlayer(view.getCanvas(), this.engine, this.scene, new Vector3(20, 20, 20), false);
+
+    // Init asset manager
+    this.assetManager = new AssetManager(this.scene);
+
+    // Create world cluster
+    this.cluster = ClusterGenerator.createSineCluster(this.assetManager);
+    this.loadCluster(this.cluster);
 
     this.gui = new BasicGUI();
 
@@ -77,33 +78,14 @@ export class BasicGame implements IGame {
     });
   }
 
-  // Handle asynchronous initialization. Return boolean indicating success.
-  async init(): Promise<boolean> {
-    if (this.didInit) {
-      console.log("Cannot initialize BasicGame twice.");
-      return true;
-    }
-
-    // Init asset manager
-    this.assetManager = new AssetManager();
-    const didSucceed = await this.assetManager.init();
-
-    if (didSucceed) {
-      this.didInit = true;
-    }
-    
-    return didSucceed;
-  }
-
   // Load geometry for a chunk
   loadChunk(chunk: IChunk): void {
-    const mesh = chunk.generateMesh();
-    this.shadowGenerator?.getShadowMap()?.renderList?.push(mesh);
-    this.scene?.addMesh(mesh);
+    throw "loadChunk() not implemented";
   }
 
   // Load geometry for a cluster
   loadCluster(cluster: ICluster): void {
+    this.cluster = cluster;
     const meshes = cluster.generateMeshes();
     const shadowMap = this.shadowGenerator?.getShadowMap();
     for (let mesh of meshes) {

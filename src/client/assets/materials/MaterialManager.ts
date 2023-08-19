@@ -9,10 +9,10 @@ export class MaterialManager implements IMaterialManager {
   private textureManager: ITextureManager;
   private mat: Babylon.StandardMaterial;
 
-  constructor() {
-    this.textureManager = new TextureManager();
+  constructor(private scene: Babylon.Scene) {
+    this.textureManager = new TextureManager(scene);
 
-    this.mat = new Babylon.StandardMaterial("tilemap");
+    this.mat = new Babylon.StandardMaterial("tilemap", scene);
     //this.mat.specularPower = 100;
     this.mat.specularColor = Babylon.Color3.Black();
     this.mat.diffuseTexture = this.textureManager.getTilemapTexture();

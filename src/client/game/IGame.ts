@@ -4,8 +4,6 @@ import { ICluster } from "../cluster/ICluster";
 import { IAssetManager } from "../assets/IAssetManager";
 
 export interface IGame {
-  // Handle asynchronous initialization. Return boolean indicating success.
-  init(): Promise<boolean>;
 
   // Load geometry for a chunk
   loadChunk(chunk: IChunk): void;

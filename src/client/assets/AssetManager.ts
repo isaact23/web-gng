@@ -1,3 +1,4 @@
+import * as Babylon from "babylonjs";
 import { IAssetManager } from "./IAssetManager"
 import { IMaterialManager } from "./materials/IMaterialManager";
 import { MaterialManager } from "./materials/MaterialManager";
@@ -8,15 +9,9 @@ export class AssetManager implements IAssetManager {
   private materialManager: IMaterialManager;
   private meshManager: IMeshManager;
 
-  constructor() {
-    this.materialManager = new MaterialManager();
-    this.meshManager = new MeshManager();
-  }
-
-  // Initialize asynchronously. Return a boolean indicating the success of the operation.
-  async init(): Promise<boolean> {
-    const didSucceed = await this.meshManager.init();
-    return didSucceed;
+  constructor(scene: Babylon.Scene) {
+    this.materialManager = new MaterialManager(scene);
+    this.meshManager = new MeshManager(scene);
   }
 
   // Get material manager.

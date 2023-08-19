@@ -9,7 +9,3 @@ const view: IView = new BasicView();
 
 // Create game
 const game: IGame = new BasicGame(view);
-
-// Create and load cluster
-const cluster = ClusterGenerator.createSineCluster();
-game.loadCluster(cluster);
