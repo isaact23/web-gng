@@ -9,10 +9,10 @@ import { ICluster, BasicCluster } from "../cluster/Cluster";
 import { IGame } from "./Game";
 import { IView } from "../view/View";
 
-import { addLocalPlayer } from "../movement/BasicMovement";
 import { IAssetManager } from "../assets/IAssetManager";
 import { AssetManager } from "../assets/AssetManager";
 import { ClusterGenerator } from "../cluster/ClusterGenerator";
+import { LocalPlayerMotor } from "../movement/LocalPlayerMotor";
 
 // Run all game logic.
 export class BasicGame implements IGame {
@@ -29,6 +29,7 @@ export class BasicGame implements IGame {
   // Game elements
   private view: IView;
   private cluster: ICluster;
+  private motor: LocalPlayerMotor;
   private gui: BasicGUI;
   private assetManager: IAssetManager | null = null;
 
@@ -45,10 +46,13 @@ export class BasicGame implements IGame {
     // Set up the scene
     this.scene = this._initScene(debugMode);
     this._addEventListeners();
-    addLocalPlayer(view.getCanvas(), this.engine, this.scene, new Vector3(20, 20, 20), false);
 
     // Init asset manager
     this.assetManager = new AssetManager(this.scene);
+
+    // Create local player motor
+    this.motor = new LocalPlayerMotor(
+      view.getCanvas(), this.engine, this.scene, this.assetManager, new Vector3(20, 20, 20), false);
 
     // Create world cluster
     this.cluster = ClusterGenerator.createSineCluster(this.assetManager);
