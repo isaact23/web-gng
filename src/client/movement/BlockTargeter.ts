@@ -5,26 +5,23 @@ import { IAssetManager } from "../assets/IAssetManager";
 
 const VIEW_DISTANCE = 5;
 
-export class BlockHighlighter {
-  private indicator: Babylon.AbstractMesh | null = null;
+export class BlockTargeter {
+  private indicator: Babylon.AbstractMesh;
 
-  constructor(private assetManager: IAssetManager) {
-    // Load face indicator mesh
-    assetManager.getMeshManager().getFaceIndicatorMesh().then((res) => {
-      this.indicator = res;
-      this.indicator.isPickable = false;
-
+  constructor(
+    private assetManager: IAssetManager,
+    private camera: Babylon.UniversalCamera,
+    private scene: Babylon.Scene
+  ) {
+    this.indicator = Babylon.MeshBuilder.CreateSphere("block-indicator", {
+      diameter: 0.2
     });
   }
 
   // Highlight a block based on the player view ray. Return true on success.
-  public highlightBlock(camera: Babylon.UniversalCamera, scene: Babylon.Scene): boolean {
+  public highlightBlock(): boolean {
 
-    if (this.indicator == null) {
-      return false;
-    }
-
-    const target = this._getTargetBlockAndFace(camera, scene);
+    const target = this.getTargetBlockAndFace();
     if (target == null) {
       this.indicator.visibility = 0;
     } else {
@@ -37,12 +34,12 @@ export class BlockHighlighter {
   }
 
   // Determine the block and face the player is currently targeting.
-  private _getTargetBlockAndFace(camera: Babylon.UniversalCamera, scene: Babylon.Scene) : [Vector3, Face] | null {
+  public getTargetBlockAndFace() : [Vector3, Face] | null {
 
     // Raycast
-    const direction = camera.getDirection(Babylon.Axis.Z);
-    const ray = new Babylon.Ray(camera.position, direction, VIEW_DISTANCE);
-    const pickingInfo = scene.pickWithRay(ray);
+    const direction = this.camera.getDirection(Babylon.Axis.Z);
+    const ray = new Babylon.Ray(this.camera.position, direction, VIEW_DISTANCE);
+    const pickingInfo = this.scene.pickWithRay(ray);
 
     if (pickingInfo == null || !pickingInfo.hit || pickingInfo.pickedPoint == null) {
       return null;

@@ -50,13 +50,13 @@ export class BasicGame implements IGame {
     // Init asset manager
     this.assetManager = new AssetManager(this.scene);
 
-    // Create local player motor
-    this.motor = new LocalPlayerMotor(
-      view.getCanvas(), this.engine, this.scene, this.assetManager, new Vector3(20, 20, 20), false);
-
     // Create world cluster
     this.cluster = ClusterGenerator.createSineCluster(this.assetManager);
     this.loadCluster(this.cluster);
+
+    // Create local player motor
+    this.motor = new LocalPlayerMotor(
+      view.getCanvas(), this.engine, this.scene, this.cluster, this.assetManager, new Vector3(20, 20, 20));
 
     this.gui = new BasicGUI();
 

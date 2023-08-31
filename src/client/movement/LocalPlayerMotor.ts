@@ -1,17 +1,18 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
-import { BlockHighlighter } from "./BlockHighlighter";
+import { BlockTargeter } from "./BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
+import { ICluster } from "../cluster/ICluster";
 
 const GRAVITY = -25;
-const MAX_FALL_SPEED = 20;
+const MAX_FALL_SPEED = 50;
 const WALK_SPEED = 8;
 const LATERAL_ACCELERATION = 50;
 const JUMP_VELOCITY = 6;
 
 export class LocalPlayerMotor {
 
-  private highlighter: BlockHighlighter | null = null;
+  private blockTargeter: BlockTargeter;
 
   // Add a local player controller to the game.
   constructor(
@@ -19,9 +20,9 @@ export class LocalPlayerMotor {
     canvas: HTMLCanvasElement,
     engine: Babylon.Engine,
     scene: Babylon.Scene,
+    cluster: ICluster,
     private assetManager: IAssetManager,
-    position: Vector3 | null = null,
-    doFreeCamera: boolean = false
+    position: Vector3 | null = null
 
   ) {
 
@@ -29,12 +30,6 @@ export class LocalPlayerMotor {
     let playerVel = Vector3.Zero();
     if (position != null) {
       playerPos = position;
-    }
-
-    if (doFreeCamera) {
-      const camera = new Babylon.UniversalCamera("freeCamera", playerPos, scene);
-      camera.attachControl(canvas, false);
-      return;
     }
 
     const capsule = Babylon.MeshBuilder.CreateCapsule("playerCapsule", {
@@ -53,7 +48,7 @@ export class LocalPlayerMotor {
     camera.attachControl(canvas, false);
     camera.minZ = 0;
 
-    this.highlighter = new BlockHighlighter(assetManager);
+    this.blockTargeter = new BlockTargeter(assetManager, camera, scene);
     
     const input = {
       forward: false,
@@ -62,6 +57,11 @@ export class LocalPlayerMotor {
       right: false,
       jump: false
     };
+
+    scene.onLeftClick.add(() => {
+      console.log("Left click detected!");
+      this.blockTargeter.getTargetBlockAndFace();
+    });
 
     scene.onKeyboardObservable.add((kbInfo) => {
       switch (kbInfo.type) {
@@ -214,7 +214,7 @@ export class LocalPlayerMotor {
       camera.position = capsule.position.add(new Vector3(0, 0.5, 0));
 
       // Highlight the block the player is looking at
-      this.highlighter?.highlightBlock(camera, scene);
+      this.blockTargeter.highlightBlock();
     });
   }
 }
