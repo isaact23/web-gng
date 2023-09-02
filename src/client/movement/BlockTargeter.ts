@@ -27,7 +27,6 @@ export class BlockTargeter {
     } else {
       this.indicator.visibility = 1;
       this.indicator.position = target[0];
-      console.log(target[1]);
     }
 
     return true;

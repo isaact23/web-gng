@@ -3,6 +3,7 @@ import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
 import { ICluster } from "../cluster/ICluster";
+import { Block } from "../Block";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;
@@ -58,12 +59,22 @@ export class LocalPlayerMotor {
       jump: false
     };
 
-    scene.onLeftClick.add(() => {
-      console.log("Left click detected!");
-      this.blockTargeter.getTargetBlockAndFace();
+    let grounded = false;
+
+    // Handle mouse clicks
+    scene.onPointerObservable.add(pointerInfo => {
+      if (pointerInfo.type == Babylon.PointerEventTypes.POINTERDOWN &&
+        pointerInfo.event.inputIndex == 2)
+      {
+        let target = this.blockTargeter.getTargetBlockAndFace();
+        if (target != null) {
+          cluster.setBlock(target[0], Block.Air);
+        }
+      }
     });
 
-    scene.onKeyboardObservable.add((kbInfo) => {
+    // Handle keyboard input
+    scene.onKeyboardObservable.add(kbInfo => {
       switch (kbInfo.type) {
         case Babylon.KeyboardEventTypes.KEYDOWN: {
           switch (kbInfo.event.key) {
@@ -126,8 +137,7 @@ export class LocalPlayerMotor {
       }
     });
 
-    let grounded = false;
-
+    // Main loop
     scene.registerBeforeRender(() => {
 
       // Check if player is on the ground
