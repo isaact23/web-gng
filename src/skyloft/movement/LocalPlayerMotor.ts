@@ -69,6 +69,8 @@ export class LocalPlayerMotor {
         let target = this.blockTargeter.getTargetBlockAndFace();
         if (target != null) {
           cluster.setBlock(target[0], Block.Air);
+          cluster.remesh();
+          console.log("Destroyed block at " + target[0].toString());
         }
       }
     });

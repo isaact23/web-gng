@@ -19,5 +19,5 @@ export interface ICluster {
   getIterator(): Generator<IChunk>;
 
   // Load or reload chunk meshes in the world.
-  load(): void;
+  remesh(): void;
 }

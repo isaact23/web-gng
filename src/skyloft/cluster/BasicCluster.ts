@@ -93,7 +93,7 @@ export class BasicCluster implements ICluster {
   }
 
   // Load or reload chunk meshes in the world.
-  load(): void {
+  remesh(): void {
     const meshes = this._generateMeshes();
     const shadowMap = this.shadowGenerator.getShadowMap();
     for (let mesh of meshes) {
