@@ -3,7 +3,7 @@ import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
 import { ICluster } from "../cluster/ICluster";
-import { Block } from "../Block";
+import { Block } from "../utility/Block";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;

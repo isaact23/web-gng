@@ -1,14 +1,21 @@
 import { Mesh, Vector3 } from "babylonjs";
-import { IChunk, BasicChunk } from "../chunk/Chunk";
+import { IChunk, BasicChunk } from "./chunk/Chunk";
 import { ICluster } from "./ICluster";
-import { Block } from "../Block";
+import { Block } from "../utility/Block";
 import { IAssetManager } from "../assets/IAssetManager";
+import * as Babylon from "babylonjs";
 
+/**
+ * Manage multiple chunks, generating their meshes and loading them
+ * into the Babylon scene.
+ */
 export class BasicCluster implements ICluster {
 
   private chunks: Map<number, Map<number, Map<number, IChunk>>>;
 
   constructor(
+    private readonly scene: Babylon.Scene,
+    private readonly shadowGenerator: Babylon.ShadowGenerator,
     private readonly assetManager: IAssetManager,
     private readonly chunkSize = 32
   ) {
@@ -85,8 +92,18 @@ export class BasicCluster implements ICluster {
     }
   }
 
+  // Load or reload chunk meshes in the world.
+  load(): void {
+    const meshes = cluster.generateMeshes();
+    const shadowMap = this.shadowGenerator?.getShadowMap();
+    for (let mesh of meshes) {
+      shadowMap?.renderList?.push(mesh);
+      this.scene?.addMesh(mesh);
+    }
+  }
+
   // Convert block data for all chunks into meshes
-  generateMeshes(): Mesh[] {
+  _generateMeshes(): Mesh[] {
     let meshes = new Array<Mesh>();
     const chunkIterator = this.getIterator();
     for (let chunk of chunkIterator) {

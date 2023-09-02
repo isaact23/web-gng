@@ -1,6 +1,6 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
-import { Face, getFaceFromVector } from "../Block";
+import { Face, getFaceFromVector } from "../utility/Block";
 import { IAssetManager } from "../assets/IAssetManager";
 
 const VIEW_DISTANCE = 5;

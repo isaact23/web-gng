@@ -4,7 +4,6 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
 import { BasicGUI } from "../gui/BasicGUI";
-import { IChunk } from "../chunk/Chunk";
 import { ICluster, BasicCluster } from "../cluster/Cluster";
 import { IGame } from "./Game";
 import { IView } from "../view/View";
@@ -14,7 +13,9 @@ import { AssetManager } from "../assets/AssetManager";
 import { ClusterGenerator } from "../cluster/ClusterGenerator";
 import { LocalPlayerMotor } from "../movement/LocalPlayerMotor";
 
-// Run all game logic.
+/**
+ * The runner class for all game logic.
+ */
 export class BasicGame implements IGame {
 
   // Overhead
@@ -33,32 +34,22 @@ export class BasicGame implements IGame {
   private gui: BasicGUI;
   private assetManager: IAssetManager | null = null;
 
+  /**
+   * Create a new BasicGame.
+   * @param view The view to use for the game.
+   * @param debugMode Show Babylon debug GUI.
+   */
   constructor(
     view: IView,
-    doShadows = false,
     debugMode = false
   )
   {
-
     this.view = view;
     this.engine = new Babylon.Engine(view.getCanvas());
 
     // Set up the scene
     this.scene = this._initScene(debugMode);
     this._addEventListeners();
-
-    // Init asset manager
-    this.assetManager = new AssetManager(this.scene);
-
-    // Create world cluster
-    this.cluster = ClusterGenerator.createSineCluster(this.assetManager);
-    this.loadCluster(this.cluster);
-
-    // Create local player motor
-    this.motor = new LocalPlayerMotor(
-      view.getCanvas(), this.engine, this.scene, this.cluster, this.assetManager, new Vector3(20, 20, 20));
-
-    this.gui = new BasicGUI();
 
     // Set up lighting
     this.sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), this.scene);
@@ -67,10 +58,22 @@ export class BasicGame implements IGame {
     this.hemisphericLight = new Babylon.HemisphericLight("ambience", new Vector3(-1, 1, -1), this.scene);
     this.hemisphericLight.intensity = 0.3;
 
-    if (doShadows) {
-      this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
-      this.shadowGenerator.usePoissonSampling = true;
-    }
+    // Init asset manager
+    this.assetManager = new AssetManager(this.scene);
+
+    // Init shadow generator
+    this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
+    this.shadowGenerator.usePoissonSampling = true;
+
+    // Create world cluster
+    this.cluster = ClusterGenerator.createSineCluster(this.assetManager, this.shadowGenerator);
+    this.cluster.load();
+
+    // Create local player motor
+    this.motor = new LocalPlayerMotor(
+      view.getCanvas(), this.engine, this.scene, this.cluster, this.assetManager, new Vector3(20, 20, 20));
+
+    this.gui = new BasicGUI();
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();
@@ -82,23 +85,9 @@ export class BasicGame implements IGame {
     });
   }
 
-  // Load geometry for a chunk
-  loadChunk(chunk: IChunk): void {
-    throw "loadChunk() not implemented";
-  }
-
-  // Load geometry for a cluster
-  loadCluster(cluster: ICluster): void {
-    this.cluster = cluster;
-    const meshes = cluster.generateMeshes();
-    const shadowMap = this.shadowGenerator?.getShadowMap();
-    for (let mesh of meshes) {
-      shadowMap?.renderList?.push(mesh);
-      this.scene?.addMesh(mesh);
-    }
-  }
-
-  // Initialize the Babylon scene before adding objects.
+  /**
+   * Initialize the Babylon scene before adding objects.
+   */
   _initScene(debugMode: boolean = false): Babylon.Scene {
 
     // Set up scene
@@ -112,7 +101,9 @@ export class BasicGame implements IGame {
     return scene;
   }
 
-  // Add event listeners.
+  /**
+   * Add event listeners.
+   */ 
   _addEventListeners() {
     const engine = this.engine;
 

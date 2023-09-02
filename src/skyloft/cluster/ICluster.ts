@@ -1,4 +1,4 @@
-import { Block } from "../Block";
+import { Block } from "../utility/Block";
 import { IChunk } from "../chunk/IChunk";
 import { Mesh, Vector3 } from "babylonjs";
 
@@ -18,6 +18,6 @@ export interface ICluster {
   // Get iterator for all chunks in the world
   getIterator(): Generator<IChunk>;
 
-  // Convert block data for all chunks into meshes
-  generateMeshes(): Mesh[];
+  // Load or reload chunk meshes in the world.
+  load(): void;
 }

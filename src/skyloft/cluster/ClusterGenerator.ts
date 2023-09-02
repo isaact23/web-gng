@@ -1,32 +1,17 @@
 import { Vector3 } from "babylonjs";
-import { Block } from "../Block";
-import * as Chunk from "../chunk/Chunk";
-import * as Cluster from "./Cluster";
+import { Block } from "../utility/Block";
 import { IAssetManager } from "../assets/IAssetManager";
+import * as Chunk from "./chunk/Chunk";
+import * as Cluster from "./Cluster";
+import * as Babylon from "babylonjs";
 
 export class ClusterGenerator {
-
-  createIsleChunk(coord: Vector3, assetManager: IAssetManager) : Chunk.IChunk {
-    const chunk = new Chunk.BasicChunk(assetManager, coord);
-    for (let x = 0; x < 32; x++) {
-      for (let y = 0; y < 32; y++) {
-        for (let z = 0; z < 32; z++) {
-          let layerRadius = 0.01 * (y ** 2) - 1;
-          if (Math.sqrt(((x - 16) ** 2) + ((z - 16) ** 2)) > layerRadius) continue;
   
-          let block = Block.Dirt;
-          if (y == 31) block = Block.Grass;
-          if (y < 24) block = Block.Stone;
-  
-          chunk.setBlock(new Vector3(x, y, z), block);
-        }
-      }
-    }
-    return chunk;
-  }
-  
-  createIsleCluster(assetManager: IAssetManager): Cluster.ICluster {
-    const cluster = new Cluster.BasicCluster(assetManager);
+  createIsleCluster(
+    assetManager: IAssetManager,
+    shadowGenerator: Babylon.ShadowGenerator
+  ): Cluster.ICluster {
+    const cluster = new Cluster.BasicCluster(assetManager, shadowGenerator);
   
     for (let x = 0; x < 128; x++) {
       for (let y = 0; y < 128; y++) {
@@ -46,8 +31,11 @@ export class ClusterGenerator {
     return cluster;
   }
 
-  static createSineCluster(assetManager: IAssetManager): Cluster.ICluster {
-    const cluster = new Cluster.BasicCluster(assetManager);
+  static createSineCluster(
+    assetManager: IAssetManager,
+    shadowGenerator: Babylon.ShadowGenerator
+  ): Cluster.ICluster {
+    const cluster = new Cluster.BasicCluster(assetManager, shadowGenerator);
     const size = 100;
   
     for (let x = 0; x < size; x++) {

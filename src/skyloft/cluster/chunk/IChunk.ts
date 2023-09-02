@@ -1,6 +1,6 @@
-import { Block } from "../Block";
+import { Block } from "../../utility/Block";
 import { Mesh, Vector3 } from "babylonjs";
-import { ICluster } from "../cluster/ICluster";
+import { ICluster } from "./cluster/ICluster";
 
 export interface IChunk {
   // Get the size (width, length, height) of a chunk in blocks
