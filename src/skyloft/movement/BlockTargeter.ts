@@ -1,6 +1,6 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
-import { Face, getFaceFromVector } from "../utility/Block";
+import { Face, FaceVectorConverter } from "@utility";
 import { IAssetManager } from "../assets/IAssetManager";
 
 const VIEW_DISTANCE = 5;
@@ -49,7 +49,7 @@ export class BlockTargeter {
     if (normal == null) return null;
 
     // Determine which face was hit
-    const face = getFaceFromVector(normal);
+    const face = FaceVectorConverter.getFaceFromVector(normal);
     if (face === undefined) return null;
 
     // Determine which block was hit
