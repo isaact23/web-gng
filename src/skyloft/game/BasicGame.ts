@@ -66,7 +66,7 @@ export class BasicGame implements IGame {
     this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
-    this.cluster = ClusterGenerator.createSineCluster(this.assetManager, this.shadowGenerator);
+    this.cluster = ClusterGenerator.createSineCluster(this.scene, this.shadowGenerator, this.assetManager);
     this.cluster.load();
 
     // Create local player motor

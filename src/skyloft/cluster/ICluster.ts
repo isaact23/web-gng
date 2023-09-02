@@ -1,6 +1,6 @@
 import { Block } from "../utility/Block";
-import { IChunk } from "../chunk/IChunk";
-import { Mesh, Vector3 } from "babylonjs";
+import { IChunk } from "./chunk/IChunk";
+import { Vector3 } from "babylonjs";
 
 export interface ICluster {
   // Add a new chunk. Replace any chunk in its spot.

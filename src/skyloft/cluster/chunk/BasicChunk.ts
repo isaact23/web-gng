@@ -1,11 +1,11 @@
-import { Face, Block } from "../Block";
+import * as Utility from "@utility";
+import { Face, Block } from "@utility";
+
 import { Vector3 } from "babylonjs";
-import { ICluster } from "../cluster/ICluster";
-import { getVectorFromFace } from "../Block";
-import { TextureUvCalculator } from "../TextureUvCalculator";
+import { ICluster } from "../ICluster";
 
 import * as Babylon from "babylonjs";
-import { IAssetManager } from "../assets/IAssetManager";
+import { IAssetManager } from "@assets";
 
 // TODO: Implement greedy meshing
 
@@ -112,7 +112,8 @@ export class BasicChunk {
         if (typeof(face) === "string") continue;
 
         // Get adjacent block
-        const faceVector = getVectorFromFace(face);
+        const faceVector = Utility.FaceVectorConverter.getVectorFromFace(face);
+
         if (faceVector === undefined) continue;
         const adjCoord = coord.add(faceVector);
         let adjacentBlock = this.getBlock(adjCoord);
@@ -128,7 +129,7 @@ export class BasicChunk {
           // Then render the face.
 
           // Get texture UVs
-          const uvBlock = TextureUvCalculator.getTextureUvs(block, face);
+          const uvBlock = Utility.TextureUvCalculator.getTextureUvs(block, face);
 
           // Add vertices
           const vertIndices = faceVerts.get(face);

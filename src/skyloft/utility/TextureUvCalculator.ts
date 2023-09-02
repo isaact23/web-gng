@@ -1,4 +1,5 @@
-import { Block, Face } from "./Block";
+import { Block } from "./Block";
+import { Face } from "./Face";
 
 const TILEMAP_SIZE = 16;
 const OFFSET = 0.0005;
