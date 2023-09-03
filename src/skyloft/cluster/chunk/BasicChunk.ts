@@ -12,11 +12,15 @@ import { IAssetManager } from "@assets";
 // A MeshGeneratorChunk can generate a Babylon mesh with UV data from its block data.
 export class BasicChunk {
 
-  private blocks : Block[][][];
+  private blocks: Block[][][];
+  private mesh: Babylon.Mesh | null = null;
+  private isDirty: boolean = true;
 
   // Create an empty chunk
   constructor(
     private readonly assetManager: IAssetManager,
+    private readonly parentCluster: ICluster,
+    private readonly shadowGenerator: Babylon.ShadowGenerator,
     private readonly coordinate: Vector3 = new Vector3(0, 0, 0),
     private readonly size: number = 32
   ) {
@@ -50,6 +54,9 @@ export class BasicChunk {
   // Set a block at an xyz coordinate
   setBlock(pos: Vector3, block: Block) : void {
     this.blocks[pos.x][pos.y][pos.z] = block;
+
+    // Set dirty flag - remesh necessary
+    this.isDirty = true;
   }
 
   // Get the coordinate of this chunk.
@@ -71,8 +78,26 @@ export class BasicChunk {
     }
   }
 
+  // Load or reload chunk mesh in the world.
+  remesh(): void {
+    if (!this.isDirty) return;
+
+    const oldMesh = this.mesh;
+    const shadowMap = this.shadowGenerator.getShadowMap();
+
+    // Replace old mesh
+    const newMesh = this._generateMesh();
+    if (oldMesh != null) {
+      oldMesh.dispose();
+    }
+    this.mesh = newMesh;
+
+    // Clear dirty flag - no remesh needed until next block change
+    this.isDirty = false;
+  }
+
   // Convert block data into a mesh
-  generateMesh(cluster?: ICluster): Babylon.Mesh {
+  _generateMesh(): Babylon.Mesh {
 
     const blockIterator = this.getIterator();
     const chunkGlobalCoord = this.coordinate.multiplyByFloats(this.size, this.size, this.size);
@@ -119,9 +144,9 @@ export class BasicChunk {
         let adjacentBlock = this.getBlock(adjCoord);
 
         // If block was not found in this chunk, look in the cluster.
-        if (adjacentBlock === undefined && cluster !== undefined) {
+        if (adjacentBlock === undefined) {
           const adjacentGlobalCoord = adjCoord.add(chunkGlobalCoord);
-          adjacentBlock = cluster.getBlock(adjacentGlobalCoord);
+          adjacentBlock = this.parentCluster.getBlock(adjacentGlobalCoord);
         }
 
         // If the adjacent block is empty,

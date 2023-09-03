@@ -72,7 +72,7 @@ export class BasicCluster implements ICluster {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new BasicChunk(this.assetManager, chunkCoord);
+      chunk = new BasicChunk(this.assetManager, this, this.shadowGenerator, chunkCoord);
       this.addChunk(chunk);
     }
 
@@ -94,22 +94,10 @@ export class BasicCluster implements ICluster {
 
   // Load or reload chunk meshes in the world.
   remesh(): void {
-    const meshes = this._generateMeshes();
-    const shadowMap = this.shadowGenerator.getShadowMap();
-    for (let mesh of meshes) {
-      shadowMap?.renderList?.push(mesh);
-      this.scene.addMesh(mesh);
-    }
-  }
-
-  // Convert block data for all chunks into meshes
-  _generateMeshes(): Mesh[] {
-    let meshes = new Array<Mesh>();
-    const chunkIterator = this.getIterator();
+    let chunkIterator = this.getIterator();
     for (let chunk of chunkIterator) {
-      meshes.push(chunk.generateMesh(this));
+      chunk.remesh();
     }
-    return meshes;
   }
 
   // Convert world coordinates to chunk coordinates

@@ -67,7 +67,7 @@ export class BasicGame implements IGame {
 
     // Create world cluster
     this.cluster = ClusterGenerator.createSineCluster(this.scene, this.shadowGenerator, this.assetManager);
-    this.cluster.load();
+    this.cluster.remesh();
 
     // Create local player motor
     this.motor = new LocalPlayerMotor(

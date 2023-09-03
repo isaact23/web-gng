@@ -18,6 +18,6 @@ export interface IChunk {
   // Get iterator for local-space positions of all non-air blocks in the chunk
   getIterator() : Generator<[Vector3, Block]>;
 
-  // Convert block data into a mesh
-  generateMesh(cluster?: ICluster): Mesh;
+  // Load or reload chunk mesh in the world.
+  remesh(): void;
 }
