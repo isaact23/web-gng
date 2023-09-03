@@ -20,4 +20,7 @@ export interface IChunk {
 
   // Load or reload chunk mesh in the world.
   remesh(): void;
+
+  // Flag a chunk for mesh regeneration
+  flagDirty(): void;
 }

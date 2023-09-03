@@ -6,11 +6,12 @@ import { ICluster } from "../ICluster";
 
 import * as Babylon from "babylonjs";
 import { IAssetManager } from "@assets";
+import { IChunk } from "./Chunk";
 
 // TODO: Implement greedy meshing
 
 // A MeshGeneratorChunk can generate a Babylon mesh with UV data from its block data.
-export class BasicChunk {
+export class BasicChunk implements IChunk {
 
   private blocks: Block[][][];
   private mesh: Babylon.Mesh | null = null;
@@ -53,10 +54,25 @@ export class BasicChunk {
 
   // Set a block at an xyz coordinate
   setBlock(pos: Vector3, block: Block) : void {
+    // Ensure set block is within the bounds of this chunk
+    if (pos.x < 0 || pos.y < 0 || pos.z < 0 || pos.x >= this.size || pos.y >= this.size || pos.z >= this.size) {
+      throw "Cannot set a block outside this chunk";
+    }
+
     this.blocks[pos.x][pos.y][pos.z] = block;
 
-    // Set dirty flag - remesh necessary
+    // Set dirty flag - remesh
     this.isDirty = true;
+
+    // Set dirty flags for affected chunks
+    if (block == Block.Air) {
+      if (pos.x == 0) this.parentCluster.getChunk(this.coordinate.add(Vector3.Left()))?.flagDirty();
+      if (pos.y == 0) this.parentCluster.getChunk(this.coordinate.add(Vector3.Down()))?.flagDirty();
+      if (pos.z == 0) this.parentCluster.getChunk(this.coordinate.add(Vector3.Backward()))?.flagDirty();
+      if (pos.x >= this.size - 1) this.parentCluster.getChunk(this.coordinate.add(Vector3.Right()))?.flagDirty();
+      if (pos.y >= this.size - 1) this.parentCluster.getChunk(this.coordinate.add(Vector3.Up()))?.flagDirty();
+      if (pos.z >= this.size - 1) this.parentCluster.getChunk(this.coordinate.add(Vector3.Forward()))?.flagDirty();
+    }
   }
 
   // Get the coordinate of this chunk.
@@ -87,6 +103,7 @@ export class BasicChunk {
 
     // Replace old mesh
     const newMesh = this._generateMesh();
+    shadowMap?.renderList?.push(newMesh);
     if (oldMesh != null) {
       oldMesh.dispose();
     }
@@ -94,6 +111,11 @@ export class BasicChunk {
 
     // Clear dirty flag - no remesh needed until next block change
     this.isDirty = false;
+  }
+
+  // Flag a chunk for mesh regeneration
+  flagDirty(): void {
+    this.isDirty = true;
   }
 
   // Convert block data into a mesh
