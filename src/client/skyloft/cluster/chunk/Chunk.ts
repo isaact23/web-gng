@@ -1,11 +1,11 @@
-import * as Utility from "src/skyloft/utility";
-import { Face, Block } from "src/skyloft/utility";
+import * as Utility from "src/client/skyloft/utility";
+import { Face, Block } from "src/client/skyloft/utility";
 
 import { Vector3 } from "babylonjs";
 import { ICluster } from "../ICluster";
 
 import * as Babylon from "babylonjs";
-import { IAssetManager } from "src/skyloft/assets";
+import { IAssetManager } from "src/client/skyloft/assets";
 import { IChunk } from ".";
 
 // TODO: Implement greedy meshing
