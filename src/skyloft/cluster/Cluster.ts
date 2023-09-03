@@ -14,7 +14,6 @@ export class Cluster implements ICluster {
   private chunks: Map<number, Map<number, Map<number, IChunk>>>;
 
   constructor(
-    private readonly scene: Babylon.Scene,
     private readonly shadowGenerator: Babylon.ShadowGenerator,
     private readonly assetManager: IAssetManager,
     private readonly chunkSize = 32

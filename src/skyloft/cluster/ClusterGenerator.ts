@@ -7,11 +7,10 @@ import * as Babylon from "babylonjs";
 export class ClusterGenerator {
   
   createIsleCluster(
-    scene: Babylon.Scene,
     shadowGenerator: Babylon.ShadowGenerator,
     assetManager: IAssetManager
   ): ICluster {
-    const cluster = new Cluster(scene, shadowGenerator, assetManager);
+    const cluster = new Cluster(shadowGenerator, assetManager);
   
     for (let x = 0; x < 128; x++) {
       for (let y = 0; y < 128; y++) {
@@ -32,11 +31,10 @@ export class ClusterGenerator {
   }
 
   static createSineCluster(
-    scene: Babylon.Scene,
     shadowGenerator: Babylon.ShadowGenerator,
     assetManager: IAssetManager
   ): ICluster {
-    const cluster = new Cluster(scene, shadowGenerator, assetManager);
+    const cluster = new Cluster(shadowGenerator, assetManager);
     const size = 100;
   
     for (let x = 0; x < size; x++) {
