@@ -1,2 +1,2 @@
-export * as Game from "./game/Game";
-export * as View from "./view/View";
+export { Game } from "./game";
+export { View } from "./view";

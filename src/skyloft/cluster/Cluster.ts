@@ -1,7 +1,7 @@
 import { Vector3 } from "babylonjs";
 import { IChunk, BasicChunk } from "./chunk";
 import { ICluster } from "./ICluster";
-import { Block } from "../utility/Block";
+import { Block } from "@utility";
 import { IAssetManager } from "../assets/IAssetManager";
 import * as Babylon from "babylonjs";
 

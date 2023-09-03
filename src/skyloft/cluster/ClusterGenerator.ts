@@ -2,7 +2,6 @@ import { Vector3 } from "babylonjs";
 import { Block } from "../utility/Block";
 import { IAssetManager } from "../assets/IAssetManager";
 import { Cluster, ICluster } from ".";
-import * as Chunk from "./chunk";
 import * as Babylon from "babylonjs";
 
 export class ClusterGenerator {
