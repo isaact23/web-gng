@@ -4,7 +4,7 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
 import { BasicGUI } from "../gui/BasicGUI";
-import { ICluster, BasicCluster } from "../cluster/Cluster";
+import { ICluster } from "../cluster";
 import { IGame } from "./Game";
 import { IView } from "../view/View";
 

@@ -1,8 +1,8 @@
 import { Vector3 } from "babylonjs";
 import { Block } from "../utility/Block";
 import { IAssetManager } from "../assets/IAssetManager";
-import * as Chunk from "./chunk/Chunk";
-import * as Cluster from "./Cluster";
+import { Cluster, ICluster } from ".";
+import * as Chunk from "./chunk";
 import * as Babylon from "babylonjs";
 
 export class ClusterGenerator {
@@ -11,8 +11,8 @@ export class ClusterGenerator {
     scene: Babylon.Scene,
     shadowGenerator: Babylon.ShadowGenerator,
     assetManager: IAssetManager
-  ): Cluster.ICluster {
-    const cluster = new Cluster.BasicCluster(scene, shadowGenerator, assetManager);
+  ): ICluster {
+    const cluster = new Cluster(scene, shadowGenerator, assetManager);
   
     for (let x = 0; x < 128; x++) {
       for (let y = 0; y < 128; y++) {
@@ -36,8 +36,8 @@ export class ClusterGenerator {
     scene: Babylon.Scene,
     shadowGenerator: Babylon.ShadowGenerator,
     assetManager: IAssetManager
-  ): Cluster.ICluster {
-    const cluster = new Cluster.BasicCluster(scene, shadowGenerator, assetManager);
+  ): ICluster {
+    const cluster = new Cluster(scene, shadowGenerator, assetManager);
     const size = 100;
   
     for (let x = 0; x < size; x++) {
