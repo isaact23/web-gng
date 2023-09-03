@@ -1,4 +1,4 @@
-import * as Skyloft from "./skyloft/index";
+import * as Skyloft from "@skyloft";
 
 // Create view
 const view = new Skyloft.View();

@@ -1,8 +1,8 @@
 import { Vector3 } from "babylonjs";
 import { IChunk, Chunk } from "./chunk";
 import { ICluster } from "./ICluster";
-import { Block } from "src/client/skyloft/utility";
-import { IAssetManager } from "../assets/IAssetManager";
+import { Block } from "@utility";
+import { IAssetManager } from "@assets";
 import * as Babylon from "babylonjs";
 
 /**
