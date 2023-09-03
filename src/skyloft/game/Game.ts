@@ -3,7 +3,7 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
-import { BasicGUI } from "../gui/BasicGUI";
+import { GUI } from "../gui/GUI";
 import { ICluster } from "../cluster";
 import { IGame } from ".";
 import { IView } from "../view";
@@ -31,11 +31,11 @@ export class Game implements IGame {
   private view: IView;
   private cluster: ICluster;
   private motor: LocalPlayerMotor;
-  private gui: BasicGUI;
+  private gui: GUI;
   private assetManager: IAssetManager | null = null;
 
   /**
-   * Create a new BasicGame.
+   * Create a new Game.
    * @param view The view to use for the game.
    * @param debugMode Show Babylon debug GUI.
    */
@@ -73,7 +73,7 @@ export class Game implements IGame {
     this.motor = new LocalPlayerMotor(
       view.getCanvas(), this.engine, this.scene, this.cluster, this.assetManager, new Vector3(20, 20, 20));
 
-    this.gui = new BasicGUI();
+    this.gui = new GUI();
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();

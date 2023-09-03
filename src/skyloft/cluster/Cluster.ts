@@ -1,5 +1,5 @@
 import { Vector3 } from "babylonjs";
-import { IChunk, BasicChunk } from "./chunk";
+import { IChunk, Chunk } from "./chunk";
 import { ICluster } from "./ICluster";
 import { Block } from "@utility";
 import { IAssetManager } from "../assets/IAssetManager";
@@ -71,7 +71,7 @@ export class Cluster implements ICluster {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new BasicChunk(this.assetManager, this, this.shadowGenerator, chunkCoord);
+      chunk = new Chunk(this.assetManager, this, this.shadowGenerator, chunkCoord);
       this.addChunk(chunk);
     }
 

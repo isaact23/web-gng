@@ -1,7 +1,7 @@
 import * as Babylon from "babylonjs";
 import * as BabylonGUI from "babylonjs-gui";
 
-export class BasicGUI {
+export class GUI {
   constructor() {
     const ui = BabylonGUI.AdvancedDynamicTexture.CreateFullscreenUI("ui");
 
