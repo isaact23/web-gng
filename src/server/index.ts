@@ -1,16 +1,33 @@
-import express, { Request, Response, Application } from 'express';
+import express, { Request, Response } from 'express';
 import path from 'path';
+import http from 'http';
+import { Server } from 'socket.io';
+import {ServerToClientEvents, ClientToServerEvents, InterServerEvents, SocketData} from './socket-types';
+
+const PORT = 3000;
 
 const app = express();
-const port = 3000;
-
 app.use(express.static("dist"));
 app.use(express.static("public"));
+
+const server = http.createServer(app);
+
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>
+  (server, {
+    cors: {
+      origin: "localhost:3000",
+      methods: ["GET", "POST"]
+    }
+  });
 
 app.get("/", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
-app.listen(port, () => {
-  console.log(`Skyloft server listening on port ${port}`);
+io.on("connection", (socket) => {
+  console.log("socket.io detected user connection");
+});
+
+server.listen(PORT, () => {
+  console.log(`Skyloft server listening on port ${PORT}`);
 });
