@@ -1,18 +1,28 @@
 import { IClusterManager } from "./IClusterManager";
 import { IAssetManager } from "@client/assets";
 import { IClusterData } from "@share/cluster/data";
+import { IChunkData } from "@share/cluster/data/chunk";
 import { IGrid, Grid } from "@share/data/grid";
 import { Face, Block } from "@share/utility";
+import * as Utility from "@share/utility";
 
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
+/**
+ * Manage ClusterData on the client side.
+ */
 export class ClusterManager implements IClusterManager {
 
   /**
    * Keep track of which chunks need to be re-meshed.
    */
   private dirtyChunks: IGrid<boolean> = new Grid<boolean>;
+
+  /**
+   * Keep track of chunk meshes.
+   */
+  private chunkMeshes: IGrid<Babylon.Mesh> = new Grid<Babylon.Mesh>;
     
   constructor(
     private clusterData: IClusterData,
@@ -23,81 +33,96 @@ export class ClusterManager implements IClusterManager {
     // Initialize all chunks as needing update
     const chunkIt = clusterData.getIterator();
     for (let chunk of chunkIt) {
-      let c = chunk.getCoordinate();
-      this.dirtyChunks.set(c.x, c.y, c.z, true);
+      const c = chunk.getCoordinate();
+      this._flagDirty(c);
     }
+  }
+
+  // Get the chunk at a coordinate
+  getChunk(coord: Vector3) : IChunkData | undefined {
+    return this.clusterData.getChunk(coord);
+  }
+
+  // Get the block at an xyz coordinate
+  getBlock(coord: Vector3) : Block | undefined {
+    return this.clusterData.getBlock(coord);
   }
 
   // Add a new chunk. Replace any chunk in its spot.
   addChunk(chunk: IChunkData) : void {
+    this.clusterData.addChunk(chunk);
 
-  }
-
-  // Get the chunk at a coordinate
-  getChunk(pos: Vector3) : IChunkData | undefined {
-
-  }
-
-  // Get the block at an xyz coordinate
-  getBlock(pos: Vector3) : Block | undefined {
-
+    // Flag chunk for update
+    const c = chunk.getCoordinate();
+    this._flagDirty(c);
   }
 
   // Set a block at an xyz coordinate
   setBlock(pos: Vector3, block: Block) : void {
+    this.clusterData.setBlock(pos, block);
 
+    // Flag this chunk for update
+    this.dirtyChunks.set(pos.x, pos.y, pos.z, true);
 
-    // Set dirty flags for affected chunks
-    /*if (block == Block.Air) {
-      if (pos.x == 0) this.parentCluster.getChunk(this.coordinate.add(Vector3.Left()))?.flagDirty();
-      if (pos.y == 0) this.parentCluster.getChunk(this.coordinate.add(Vector3.Down()))?.flagDirty();
-      if (pos.z == 0) this.parentCluster.getChunk(this.coordinate.add(Vector3.Backward()))?.flagDirty();
-      if (pos.x >= this.size - 1) this.parentCluster.getChunk(this.coordinate.add(Vector3.Right()))?.flagDirty();
-      if (pos.y >= this.size - 1) this.parentCluster.getChunk(this.coordinate.add(Vector3.Up()))?.flagDirty();
-      if (pos.z >= this.size - 1) this.parentCluster.getChunk(this.coordinate.add(Vector3.Forward()))?.flagDirty();
-    }*/
+    // Flag adjacent chunks for update
+    const chunkSize = this.clusterData.getChunkSize();
+    const flagAdj = (vec: Vector3) => {
+      this._flagDirty(pos.add(vec));
+    }
+    if (block == Block.Air) {
+      if (pos.x == 0)               flagAdj(Vector3.Left());
+      if (pos.y == 0)               flagAdj(Vector3.Down());
+      if (pos.z == 0)               flagAdj(Vector3.Backward());
+      if (pos.x >= chunkSize - 1)   flagAdj(Vector3.Right());
+      if (pos.y >= chunkSize - 1)   flagAdj(Vector3.Up());
+      if (pos.z >= chunkSize - 1)   flagAdj(Vector3.Forward());
+    }
   }
 
   // Get iterator for all chunks in the world
   getIterator(): Generator<IChunkData> {
-
+    return this.clusterData.getIterator();
+  }
+  
+  // Get chunk size
+  getChunkSize(): number {
+    return this.clusterData.getChunkSize();
   }
 
   // Load or reload chunk meshes in the world.
   remesh(): void {
-    let chunkIterator = this.clusterData.getIterator();
-    for (let chunk of chunkIterator) {
-      chunk.remesh();
-    }
-  }
-
-
-
-  // Load or reload chunk meshes in the world.
-  remesh(): void {
-    if (!this.isDirty) return;
-
-    const oldMesh = this.mesh;
     const shadowMap = this.shadowGenerator.getShadowMap();
+    
+    // Iterate through each chunk
+    const chunkIt = this.getIterator();
+    for (let chunk of chunkIt) {
 
-    // Replace old mesh
-    const newMesh = this._generateMesh();
-    shadowMap?.renderList?.push(newMesh);
-    if (oldMesh != null) {
-      oldMesh.dispose();
+      // Check if each chunk needs to be updated
+      const c = chunk.getCoordinate();
+      if (this.dirtyChunks.get(c.x, c.y, c.z)) {
+        
+        // Replace mesh
+        const oldMesh = this.chunkMeshes.get(c.x, c.y, c.z);
+        const newMesh = this._generateChunkMesh(chunk);
+
+        shadowMap?.renderList?.push(newMesh);
+        if (oldMesh != undefined) {
+          oldMesh.dispose();
+        }
+        this.chunkMeshes.set(c.x, c.y, c.z, newMesh);
+        this.dirtyChunks.set(c.x, c.y, c.z, false);
+      }
     }
-    this.mesh = newMesh;
-
-    // Clear dirty flag - no remesh needed until next block change
-    this.isDirty = false;
   }
 
-  // Convert block data into a mesh
-  _generateMesh(): Babylon.Mesh {
+  // Convert block data for a chunk into a mesh
+  _generateChunkMesh(chunk: IChunkData): Babylon.Mesh {
 
-    const blockIterator = this.getIterator();
-    const chunkGlobalCoord = this.coordinate.multiplyByFloats(this.size, this.size, this.size);
+    const blockIterator = chunk.getIterator();
+    const size = chunk.getSize();
+    const chunkGlobalCoord = chunk.getCoordinate().multiplyByFloats(size, size, size);
 
+    // Initialize arrays for mesh data
     const vertices = new Array<number>;
     const normals = new Array<number>;
     const triangles = new Array<number>;
@@ -136,14 +161,8 @@ export class ClusterManager implements IClusterManager {
         const faceVector = Utility.FaceVectorConverter.getVectorFromFace(face);
 
         if (faceVector === undefined) continue;
-        const adjCoord = coord.add(faceVector);
+        const adjCoord = coord.add(faceVector).add(chunkGlobalCoord);
         let adjacentBlock = this.getBlock(adjCoord);
-
-        // If block was not found in this chunk, look in the cluster.
-        if (adjacentBlock === undefined) {
-          const adjacentGlobalCoord = adjCoord.add(chunkGlobalCoord);
-          adjacentBlock = this.parentCluster.getBlock(adjacentGlobalCoord);
-        }
 
         // If the adjacent block is empty,
         if (adjacentBlock == Block.Air || adjacentBlock === undefined) {
@@ -193,5 +212,10 @@ export class ClusterManager implements IClusterManager {
     mesh.receiveShadows = true;
 
     return mesh;
+  }
+
+  // Flag a chunk for re-meshing.
+  _flagDirty(coord: Vector3) {
+    this.dirtyChunks.set(coord.x, coord.y, coord.z, true);
   }
 }

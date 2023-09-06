@@ -89,6 +89,11 @@ export class ClusterData implements IClusterData {
     }
   }
 
+  // Get chunk size
+  getChunkSize(): number {
+    return this.chunkSize;
+  }
+
   // Convert world coordinates to chunk coordinates
   _worldToChunkCoord(pos: Vector3): Vector3 {
     return new Vector3(

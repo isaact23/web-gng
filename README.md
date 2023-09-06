@@ -9,3 +9,4 @@ To run server:
 `npm run start`  
 
 Write test for @share/data
+Check style / TSdocs

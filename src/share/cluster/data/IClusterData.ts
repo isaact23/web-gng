@@ -17,4 +17,7 @@ export interface IClusterData {
 
   // Get iterator for all chunks in the world
   getIterator(): Generator<IChunkData>;
+  
+  // Get chunk size
+  getChunkSize(): number;
 }
