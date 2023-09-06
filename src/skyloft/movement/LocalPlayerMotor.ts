@@ -1,8 +1,8 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./BlockTargeter";
-import { IAssetManager } from "../assets/IAssetManager";
-import { ICluster } from "../cluster/ICluster";
+import { IAssetManager } from "../../client/assets/IAssetManager";
+import { ICluster } from "../cluster-data/IClusterData";
 import { Block } from "../utility/Block";
 
 const GRAVITY = -25;

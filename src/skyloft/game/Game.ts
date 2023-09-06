@@ -4,13 +4,13 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
 import { GUI } from "../gui/GUI";
-import { ICluster } from "../cluster";
+import { IClusterData } from "@server/cluster/cluster-data";
 import { IGame } from ".";
 import { IView } from "../view";
 
-import { IAssetManager } from "../assets/IAssetManager";
-import { AssetManager } from "../assets/AssetManager";
-import { ClusterGenerator } from "../cluster/ClusterGenerator";
+import { IAssetManager } from "../../client/assets/IAssetManager";
+import { AssetManager } from "../../client/assets/AssetManager";
+import { ClusterGenerator } from "@server/cluster/cluster-gen";
 import { LocalPlayerMotor } from "../movement/LocalPlayerMotor";
 
 /**

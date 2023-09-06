@@ -1,7 +1,7 @@
 import { Vector3 } from "babylonjs";
-import { Block } from "../utility/Block";
-import { IAssetManager } from "../assets/IAssetManager";
-import { Cluster, ICluster } from ".";
+import { Block } from "@skyloft/utility";
+import { IAssetManager } from "@client/assets";
+import { ClusterData, IClusterData } from "../cluster-data";
 import * as Babylon from "babylonjs";
 
 export class ClusterGenerator {
@@ -9,8 +9,8 @@ export class ClusterGenerator {
   createIsleCluster(
     shadowGenerator: Babylon.ShadowGenerator,
     assetManager: IAssetManager
-  ): ICluster {
-    const cluster = new Cluster(shadowGenerator, assetManager);
+  ): IClusterData {
+    const cluster = new ClusterData(shadowGenerator, assetManager);
   
     for (let x = 0; x < 128; x++) {
       for (let y = 0; y < 128; y++) {
@@ -33,8 +33,8 @@ export class ClusterGenerator {
   static createSineCluster(
     shadowGenerator: Babylon.ShadowGenerator,
     assetManager: IAssetManager
-  ): ICluster {
-    const cluster = new Cluster(shadowGenerator, assetManager);
+  ): IClusterData {
+    const cluster = new ClusterData(shadowGenerator, assetManager);
     const size = 100;
   
     for (let x = 0; x < size; x++) {

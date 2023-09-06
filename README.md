@@ -7,3 +7,12 @@ Servers work like Minecraft servers, except that you connect via a web browser i
 To run server:  
 `npx webpack`  
 `npm run start`  
+
+Cluster
+    Chunk
+
+
+Cluster Data
+    Chunk Data
+
+ClusterLocal

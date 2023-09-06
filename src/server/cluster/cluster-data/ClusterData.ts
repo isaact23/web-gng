@@ -1,6 +1,6 @@
 import { Vector3 } from "babylonjs";
-import { IChunk, Chunk } from "./chunk";
-import { ICluster } from "./ICluster";
+import { IChunkData, ChunkData } from "./chunk";
+import { IClusterData } from "./IClusterData";
 import { Block } from "@utility";
 import { IAssetManager } from "@assets";
 import * as Babylon from "babylonjs";
@@ -9,20 +9,20 @@ import * as Babylon from "babylonjs";
  * Manage multiple chunks, generating their meshes and loading them
  * into the Babylon scene.
  */
-export class Cluster implements ICluster {
+export class ClusterData implements IClusterData {
 
-  private chunks: Map<number, Map<number, Map<number, IChunk>>>;
+  private chunks: Map<number, Map<number, Map<number, IChunkData>>>;
 
   constructor(
     private readonly shadowGenerator: Babylon.ShadowGenerator,
     private readonly assetManager: IAssetManager,
     private readonly chunkSize = 32
   ) {
-    this.chunks = new Map<number, Map<number, Map<number, IChunk>>>();
+    this.chunks = new Map<number, Map<number, Map<number, IChunkData>>>();
   }
 
   // Add a new chunk. Replace any chunk in its spot.
-  addChunk(chunk: IChunk): void {
+  addChunk(chunk: IChunkData): void {
     if (chunk.getSize() != this.chunkSize) {
       throw "Chunk size is incompatible with world";
     }
@@ -31,13 +31,13 @@ export class Cluster implements ICluster {
 
     let sliceX = this.chunks.get(coord.x);
     if (sliceX === undefined) {
-      sliceX = new Map<number, Map<number, IChunk>>()
+      sliceX = new Map<number, Map<number, IChunkData>>()
       this.chunks.set(coord.x, sliceX);
     }
 
     let sliceY = sliceX.get(coord.y);
     if (sliceY === undefined) {
-      sliceY = new Map<number, IChunk>();
+      sliceY = new Map<number, IChunkData>();
       sliceX.set(coord.y, sliceY);
     }
 
@@ -45,7 +45,7 @@ export class Cluster implements ICluster {
   }
 
   // Get the chunk at a coordinate
-  getChunk(pos: Vector3): IChunk | undefined {
+  getChunk(pos: Vector3): IChunkData | undefined {
     return this.chunks.get(pos.x)?.get(pos.y)?.get(pos.z);
   }
 
@@ -71,7 +71,7 @@ export class Cluster implements ICluster {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new Chunk(this.assetManager, this, this.shadowGenerator, chunkCoord);
+      chunk = new ChunkData(this.assetManager, this, this.shadowGenerator, chunkCoord);
       this.addChunk(chunk);
     }
 
@@ -81,7 +81,7 @@ export class Cluster implements ICluster {
   }
 
   // Get iterator for all chunks in the world
-  *getIterator(): Generator<IChunk> {
+  *getIterator(): Generator<IChunkData> {
     for (let [x, sliceX] of this.chunks) {
       for (let [y, sliceY] of sliceX) {
         for (let [z, chunk] of sliceY) {

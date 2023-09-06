@@ -2,16 +2,16 @@ import * as Utility from "@utility";
 import { Face, Block } from "@utility";
 
 import { Vector3 } from "babylonjs";
-import { ICluster } from "../ICluster";
+import { IClusterData } from "../IClusterData";
 
 import * as Babylon from "babylonjs";
 import { IAssetManager } from "@assets";
-import { IChunk } from ".";
+import { IChunkData } from ".";
 
 // TODO: Implement greedy meshing
 
 // A MeshGeneratorChunk can generate a Babylon mesh with UV data from its block data.
-export class Chunk implements IChunk {
+export class ChunkData implements IChunkData {
 
   private blocks: Block[][][];
   private mesh: Babylon.Mesh | null = null;
@@ -20,7 +20,7 @@ export class Chunk implements IChunk {
   // Create an empty chunk
   constructor(
     private readonly assetManager: IAssetManager,
-    private readonly parentCluster: ICluster,
+    private readonly parentCluster: IClusterData,
     private readonly shadowGenerator: Babylon.ShadowGenerator,
     private readonly coordinate: Vector3 = new Vector3(0, 0, 0),
     private readonly size: number = 32

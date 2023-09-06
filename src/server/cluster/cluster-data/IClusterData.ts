@@ -1,13 +1,13 @@
-import { Block } from "../utility/Block";
-import { IChunk } from "./chunk/IChunk";
+import { Block } from "@utility";
+import { IChunkData } from "./chunk/IChunkData";
 import { Vector3 } from "babylonjs";
 
-export interface ICluster {
+export interface IClusterData {
   // Add a new chunk. Replace any chunk in its spot.
-  addChunk(chunk: IChunk) : void;
+  addChunk(chunk: IChunkData) : void;
 
   // Get the chunk at a coordinate
-  getChunk(pos: Vector3) : IChunk | undefined;
+  getChunk(pos: Vector3) : IChunkData | undefined;
 
   // Get the block at an xyz coordinate
   getBlock(pos: Vector3) : Block | undefined;
@@ -16,7 +16,7 @@ export interface ICluster {
   setBlock(pos: Vector3, block: Block) : void;
 
   // Get iterator for all chunks in the world
-  getIterator(): Generator<IChunk>;
+  getIterator(): Generator<IChunkData>;
 
   // Load or reload chunk meshes in the world.
   remesh(): void;
