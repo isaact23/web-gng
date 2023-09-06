@@ -1,7 +1,7 @@
 import { Vector3 } from "babylonjs";
 import { Block } from "@skyloft/utility";
 import { IAssetManager } from "@client/assets";
-import { ClusterData, IClusterData } from "../cluster-data";
+import { ClusterData, IClusterData } from "../data";
 import * as Babylon from "babylonjs";
 
 export class ClusterGenerator {

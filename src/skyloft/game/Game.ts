@@ -4,14 +4,14 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
 import { GUI } from "../gui/GUI";
-import { IClusterData } from "@server/cluster/cluster-data";
+import { IClusterData } from "@server/cluster/data";
 import { IGame } from ".";
 import { IView } from "../view";
 
 import { IAssetManager } from "../../client/assets/IAssetManager";
 import { AssetManager } from "../../client/assets/AssetManager";
 import { ClusterGenerator } from "@server/cluster/cluster-gen";
-import { LocalPlayerMotor } from "../movement/LocalPlayerMotor";
+import { LocalPlayerMotor } from "../../client/movement/LocalPlayerMotor";
 
 /**
  * The runner class for all game logic.

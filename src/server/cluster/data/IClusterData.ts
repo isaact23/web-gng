@@ -1,4 +1,4 @@
-import { Block } from "@utility";
+import { Block } from "@skyloft/utility";
 import { IChunkData } from "./chunk/IChunkData";
 import { Vector3 } from "babylonjs";
 

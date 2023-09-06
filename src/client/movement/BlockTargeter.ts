@@ -1,7 +1,7 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
-import { Face, FaceVectorConverter } from "@utility";
-import { IAssetManager } from "../../client/assets/IAssetManager";
+import { Face, FaceVectorConverter } from "@skyloft/utility";
+import { IAssetManager } from "../assets/IAssetManager";
 
 const VIEW_DISTANCE = 5;
 

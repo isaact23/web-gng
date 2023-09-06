@@ -1,8 +1,8 @@
 import { Vector3 } from "babylonjs";
 import { IChunkData, ChunkData } from "./chunk";
 import { IClusterData } from "./IClusterData";
-import { Block } from "@utility";
-import { IAssetManager } from "@assets";
+import { Block } from "@skyloft/utility";
+import { IAssetManager } from "@client/assets";
 import * as Babylon from "babylonjs";
 
 /**
@@ -14,8 +14,6 @@ export class ClusterData implements IClusterData {
   private chunks: Map<number, Map<number, Map<number, IChunkData>>>;
 
   constructor(
-    private readonly shadowGenerator: Babylon.ShadowGenerator,
-    private readonly assetManager: IAssetManager,
     private readonly chunkSize = 32
   ) {
     this.chunks = new Map<number, Map<number, Map<number, IChunkData>>>();
@@ -71,7 +69,7 @@ export class ClusterData implements IClusterData {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new ChunkData(this.assetManager, this, this.shadowGenerator, chunkCoord);
+      chunk = new ChunkData(chunkCoord);
       this.addChunk(chunk);
     }
 

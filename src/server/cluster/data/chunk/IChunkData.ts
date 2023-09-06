@@ -1,4 +1,4 @@
-import { Block } from "@utility";
+import { Block } from "@skyloft/utility";
 import { Mesh, Vector3 } from "babylonjs";
 import { IClusterData } from "../IClusterData";
 

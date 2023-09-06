@@ -1,11 +1,11 @@
-import * as Utility from "@utility";
-import { Face, Block } from "@utility";
+import * as Utility from "@skyloft/utility";
+import { Face, Block } from "@skyloft/utility";
 
 import { Vector3 } from "babylonjs";
 import { IClusterData } from "../IClusterData";
 
 import * as Babylon from "babylonjs";
-import { IAssetManager } from "@assets";
+import { IAssetManager } from "@client/assets";
 import { IChunkData } from ".";
 
 // TODO: Implement greedy meshing
@@ -19,9 +19,7 @@ export class ChunkData implements IChunkData {
 
   // Create an empty chunk
   constructor(
-    private readonly assetManager: IAssetManager,
     private readonly parentCluster: IClusterData,
-    private readonly shadowGenerator: Babylon.ShadowGenerator,
     private readonly coordinate: Vector3 = new Vector3(0, 0, 0),
     private readonly size: number = 32
   ) {
