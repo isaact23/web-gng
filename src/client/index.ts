@@ -1,10 +1,11 @@
-import * as Skyloft from "@skyloft";
+import {Game} from "@client/game";
+import {View} from "@client/view";
 import io from "socket.io-client";
 
 const socket = io();
 
 // Create view
-const view = new Skyloft.View();
+const view = new View();
 
 // Create game
-const game = new Skyloft.Game(view);
+const game = new Game(view);
