@@ -2,8 +2,8 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
-import { IClusterData } from "@server/cluster/data";
-import { Block } from "../../skyloft/utility/Block";
+import { IClusterData } from "share/cluster/data";
+import { Block } from "../utility/Block";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;

@@ -1,4 +1,4 @@
-import { Block } from "@skyloft/utility";
+import { Block } from "share/utility";
 import { IChunkData } from "./chunk/IChunkData";
 import { Vector3 } from "babylonjs";
 
@@ -17,7 +17,4 @@ export interface IClusterData {
 
   // Get iterator for all chunks in the world
   getIterator(): Generator<IChunkData>;
-
-  // Load or reload chunk meshes in the world.
-  remesh(): void;
 }

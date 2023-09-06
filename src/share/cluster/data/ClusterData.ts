@@ -1,7 +1,7 @@
 import { Vector3 } from "babylonjs";
 import { IChunkData, ChunkData } from "./chunk";
 import { IClusterData } from "./IClusterData";
-import { Block } from "@skyloft/utility";
+import { Block } from "share/utility";
 import { IAssetManager } from "@client/assets";
 import * as Babylon from "babylonjs";
 
@@ -69,7 +69,7 @@ export class ClusterData implements IClusterData {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new ChunkData(chunkCoord);
+      chunk = new ChunkData(this, chunkCoord);
       this.addChunk(chunk);
     }
 
@@ -86,14 +86,6 @@ export class ClusterData implements IClusterData {
           yield chunk;
         }
       }
-    }
-  }
-
-  // Load or reload chunk meshes in the world.
-  remesh(): void {
-    let chunkIterator = this.getIterator();
-    for (let chunk of chunkIterator) {
-      chunk.remesh();
     }
   }
 

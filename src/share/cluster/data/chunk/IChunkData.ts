@@ -1,4 +1,4 @@
-import { Block } from "@skyloft/utility";
+import { Block } from "share/utility";
 import { Mesh, Vector3 } from "babylonjs";
 import { IClusterData } from "../IClusterData";
 
@@ -17,10 +17,4 @@ export interface IChunkData {
 
   // Get iterator for local-space positions of all non-air blocks in the chunk
   getIterator() : Generator<[Vector3, Block]>;
-
-  // Load or reload chunk mesh in the world.
-  remesh(): void;
-
-  // Flag a chunk for mesh regeneration
-  flagDirty(): void;
 }

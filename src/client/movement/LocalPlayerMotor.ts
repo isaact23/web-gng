@@ -2,8 +2,8 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
-import { IClusterData } from "@server/cluster/data";
-import { Block } from "../../skyloft/utility/Block";
+import { IClusterManager } from "@client/cluster-manager";
+import { Block } from "../../share/utility/Block";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;
@@ -21,7 +21,7 @@ export class LocalPlayerMotor {
     canvas: HTMLCanvasElement,
     engine: Babylon.Engine,
     scene: Babylon.Scene,
-    cluster: ICluster,
+    cluster: IClusterManager,
     private assetManager: IAssetManager,
     position: Vector3 | null = null
 
