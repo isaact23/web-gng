@@ -8,11 +8,4 @@ To run server:
 `npx webpack`  
 `npm run start`  
 
-Cluster
-    Chunk
-
-
-Cluster Data
-    Chunk Data
-
-ClusterLocal
+Write test for @share/data

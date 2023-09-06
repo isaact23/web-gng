@@ -1,6 +1,7 @@
 import { IClusterManager } from "./IClusterManager";
 import { IAssetManager } from "@client/assets";
 import { IClusterData } from "@share/cluster/data";
+import { IGrid, Grid } from "@share/data/grid";
 import { Face, Block } from "@share/utility";
 
 import * as Babylon from "babylonjs";
@@ -11,27 +12,19 @@ export class ClusterManager implements IClusterManager {
   /**
    * Keep track of which chunks need to be re-meshed.
    */
-  private dirtyChunks: Map<number, Map<number, Map<number, boolean>>>;
+  private dirtyChunks: IGrid<boolean> = new Grid<boolean>;
     
   constructor(
     private clusterData: IClusterData,
     private readonly shadowGenerator: Babylon.ShadowGenerator,
     private readonly assetManager: IAssetManager,
   ) {
-    this.dirtyChunks = new Map<number, Map<number, Map<number, boolean>>>;
 
     // Initialize all chunks as needing update
     const chunkIt = clusterData.getIterator();
     for (let chunk of chunkIt) {
-      let coord = chunk.getCoordinate();
-
-      if (this.dirtyChunks.get(coord.x) == undefined) {
-        this.dirtyChunks.set(coord.x, new Map<number, Map<number, boolean>>);
-      }
-      if (this.dirtyChunks.get(coord.x)!.get(coord.y) == undefined) {
-        this.dirtyChunks.get(coord.x)!.set(coord.y, new Map<number, boolean>);
-      }
-      this.dirtyChunks.get(coord.x)!.get(coord.y)!.set(coord.z, true);
+      let c = chunk.getCoordinate();
+      this.dirtyChunks.set(c.x, c.y, c.z, true);
     }
   }
 
