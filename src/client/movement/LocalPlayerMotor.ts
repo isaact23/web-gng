@@ -2,7 +2,7 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
-import { IClusterManager } from "@client/cluster-manager";
+import { IClusterClient } from "@client/cluster-client";
 import { Block } from "../../share/utility/Block";
 
 const GRAVITY = -25;
@@ -21,7 +21,7 @@ export class LocalPlayerMotor {
     canvas: HTMLCanvasElement,
     engine: Babylon.Engine,
     scene: Babylon.Scene,
-    cluster: IClusterManager,
+    cluster: IClusterClient,
     private assetManager: IAssetManager,
     position: Vector3 | null = null
 

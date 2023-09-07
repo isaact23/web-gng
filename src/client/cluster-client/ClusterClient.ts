@@ -1,7 +1,7 @@
-import { IClusterManager } from "./IClusterManager";
+import { IClusterClient } from ".";
 import { IAssetManager } from "@client/assets";
-import { IClusterData } from "@share/cluster/data";
-import { IChunkData } from "@share/cluster/data/chunk";
+import { IClusterData } from "@share/cluster-data";
+import { IChunkData } from "@share/cluster-data/chunk";
 import { IGrid, Grid } from "@share/data/grid";
 import { Face, Block } from "@share/utility";
 import * as Utility from "@share/utility";
@@ -12,7 +12,7 @@ import { Vector3 } from "babylonjs";
 /**
  * Manage ClusterData on the client side.
  */
-export class ClusterManager implements IClusterManager {
+export class ClusterClient implements IClusterClient {
 
   /**
    * Keep track of which chunks need to be re-meshed.
