@@ -16,7 +16,7 @@ export class Connection implements IConnection {
   /**
    * Initialize the connection.
    */
-  init(): void {
+  constructor() {
 
     const app = express();
     app.use(express.static("dist"));

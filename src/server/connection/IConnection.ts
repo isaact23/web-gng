@@ -4,8 +4,5 @@
  * i.e. express, socket.io, http, etc.
  */
 export interface IConnection {
-  /**
-   * Initialize the connection.
-   */
-  init(): void;
+
 }

@@ -1,7 +1,8 @@
-import {Game} from "@client/game";
-import {View} from "@client/view";
+import { Game } from "@client/game";
+import { View } from "@client/view";
 import io from "socket.io-client";
 
+// Create socket.io connection to server
 const socket = io();
 
 // Create view

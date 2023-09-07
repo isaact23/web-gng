@@ -1,13 +1,17 @@
+import { IClusterData } from "@share/cluster-data";
 import { IGameServer } from ".";
+import { ClusterGenerator } from "@server/cluster-gen";
 
 /**
  * Handler for server-side game logic.
  */
 export class GameServer implements IGameServer {
+  private cluster: IClusterData;
+
   /**
-   * Initialize this game server.
+   * Initialize the game server.
    */
-  init(): void {
-    
+  constructor() {
+    this.cluster = ClusterGenerator.createSineCluster();
   }
 }

@@ -1,16 +1,15 @@
 import { Vector3 } from "babylonjs";
 import { Block } from "share/utility";
-import { IAssetManager } from "@client/assets";
-import { ClusterData, IClusterData } from "../data";
-import * as Babylon from "babylonjs";
+import { ClusterData, IClusterData } from "@share/cluster-data";
 
+/**
+ * Generator for cluster data.
+ */
 export class ClusterGenerator {
   
-  createIsleCluster(
-    shadowGenerator: Babylon.ShadowGenerator,
-    assetManager: IAssetManager
-  ): IClusterData {
-    const cluster = new ClusterData(shadowGenerator, assetManager);
+  createIsleCluster(): IClusterData {
+
+    const cluster = new ClusterData();
   
     for (let x = 0; x < 128; x++) {
       for (let y = 0; y < 128; y++) {
@@ -30,11 +29,9 @@ export class ClusterGenerator {
     return cluster;
   }
 
-  static createSineCluster(
-    shadowGenerator: Babylon.ShadowGenerator,
-    assetManager: IAssetManager
-  ): IClusterData {
-    const cluster = new ClusterData(shadowGenerator, assetManager);
+  static createSineCluster(): IClusterData {
+
+    const cluster = new ClusterData();
     const size = 100;
   
     for (let x = 0; x < size; x++) {
