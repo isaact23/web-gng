@@ -1,10 +1,4 @@
-import { SignalManager, ISignalManager } from "./signal-manager";
-import { GameServer, IGameServer } from "./game-server";
+import { ServerManager, IServerManager } from "./server-manager";
 
 // Initialize services
-const gameServer: IGameServer = new GameServer();
-const signalManager: ISignalManager = new SignalManager();
-
-// Add bidirectional relationship between game server and signal manager
-gameServer.addSignalManager(signalManager);
-signalManager.addGameServer(gameServer);
+const server: IServerManager = new ServerManager();

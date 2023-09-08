@@ -1,6 +1,8 @@
+import { IClusterData } from "@share/cluster-data";
+
 export interface ServerToClientEvents {
-    noArg: () => void;
-    basicEmit: (a: number, b: string, c: Buffer) => void;
+    cluster: (c: IClusterData) => void;
+    basicEmit: (a: number) => void;
     withAck: (d: string, callback: (e: number) => void) => void;
 }
 

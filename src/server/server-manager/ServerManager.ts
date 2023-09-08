@@ -4,8 +4,8 @@ import http from 'http';
 import { Server } from 'socket.io';
 import { ServerToClientEvents, ClientToServerEvents, InterServerEvents, SocketData } from './socket-types';
 
-import { ISignalManager } from ".";
-import { IGameServer } from "@server/game-server";
+import { IServerManager } from ".";
+import { GameServer, IGameServer } from "./game-server";
 
 const PORT = 3000;
 
@@ -13,14 +13,18 @@ const PORT = 3000;
  * Handler for basic services connecting the server to the client,
  * i.e. express, socket.io, http, etc.
  */
-export class SignalManager implements ISignalManager {
+export class ServerManager implements IServerManager {
 
-  private gameServer: IGameServer | undefined;
+  private gameServer: IGameServer;
 
   /**
    * Initialize the connection.
    */
   constructor() {
+
+    console.log("Initializing game server");
+    this.gameServer = new GameServer(this);
+    console.log("Game server ready");
 
     const app = express();
     app.use(express.static("dist"));
@@ -28,7 +32,8 @@ export class SignalManager implements ISignalManager {
 
     const server = http.createServer(app);
 
-    const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>
+    //const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>
+    const io = new Server
       (server, {
         cors: {
           origin: "localhost:3000",
@@ -40,25 +45,15 @@ export class SignalManager implements ISignalManager {
       res.sendFile(path.join(__dirname, "../dist/index.html"));
     });
 
-    io.on("connection", (socket) => {
-      console.log("socket.io detected user connection");
-
-      socket.send();
-    });
-
     server.listen(PORT, () => {
       console.log(`Skyloft server listening on port ${PORT}`);
     });
-  }
 
-  /**
-   * Add a reference to the game server.
-   * @throws if this SignalManager already has an IGameServer added.
-   */
-  addGameServer(gameServer: IGameServer): void {
-    if (this.gameServer != undefined) {
-      throw "Cannot add an IGameServer to a SignalManager that already has an IGameServer";
-    }
-    this.gameServer = gameServer;
+    io.on("connection", (socket) => {
+      console.log("socket.io detected user connection");
+
+      const c = this.gameServer.getCluster();
+      socket.send("world", c);
+    });
   }
 }
