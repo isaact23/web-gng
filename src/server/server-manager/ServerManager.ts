@@ -46,7 +46,7 @@ export class ServerManager implements IServerManager {
     });
 
     server.listen(PORT, () => {
-      console.log(`Skyloft server listening on port ${PORT}`);
+      console.log(`Sky Quest server listening on port ${PORT}`);
     });
 
     io.on("connection", (socket) => {

@@ -1,4 +1,4 @@
-# Skyloft
+# Sky Quest
 
 Voxels in the sky
 
