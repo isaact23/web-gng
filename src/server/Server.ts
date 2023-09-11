@@ -1,10 +1,9 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import http from 'http';
-import { Server } from 'socket.io';
-import { ServerToClientEvents, ClientToServerEvents, InterServerEvents, SocketData } from './socket-types';
+import { Server as IOServer } from 'socket.io';
 
-import { IServerManager } from ".";
+import { IServer } from ".";
 import { GameServer, IGameServer } from "./game-server";
 
 const PORT = 3000;
@@ -13,7 +12,7 @@ const PORT = 3000;
  * Handler for basic services connecting the server to the client,
  * i.e. express, socket.io, http, etc.
  */
-export class ServerManager implements IServerManager {
+export class Server implements IServer {
 
   private gameServer: IGameServer;
 
@@ -32,8 +31,7 @@ export class ServerManager implements IServerManager {
 
     const server = http.createServer(app);
 
-    //const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>
-    const io = new Server
+    const io = new IOServer
       (server, {
         cors: {
           origin: "localhost:3000",

@@ -1,4 +1,6 @@
-import { ServerManager, IServerManager } from "./server-manager";
+import { Server } from "./Server";
+import { IServer } from "./IServer";
+export { Server, IServer };
 
 // Initialize services
-const server: IServerManager = new ServerManager();
+const server: IServer = new Server();

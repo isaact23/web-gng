@@ -4,13 +4,16 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
 import { GUI } from "../gui/GUI";
-import { IClusterClient } from "@client/cluster-client";
+import { ClusterClient, IClusterClient } from "@client/cluster-client";
 import { IGame } from ".";
 import { IView } from "../view";
 
 import { IAssetManager } from "../../client/assets/IAssetManager";
 import { AssetManager } from "../../client/assets/AssetManager";
 import { LocalPlayerMotor } from "../../client/movement/LocalPlayerMotor";
+
+// TODO: REMOVE THIS IMPORT
+import { ClusterGenerator } from "@server/cluster-gen";
 
 /**
  * The runner class for all game logic.
@@ -65,7 +68,8 @@ export class Game implements IGame {
     this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
-    throw "Need to load cluster from server";
+    const clusterData = ClusterGenerator.createSineCluster();
+    this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
     this.cluster.remesh();
 
     // Create local player motor
