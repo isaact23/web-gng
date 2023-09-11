@@ -9,7 +9,7 @@ import { IGame } from ".";
 import { IView } from "@client/view";
 
 import { AssetManager, IAssetManager } from "@client/assets";
-import { LocalPlayerMotor } from "@client/movement/LocalPlayerMotor";
+import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
 // TODO: REMOVE THIS IMPORT
 import { ClusterGenerator } from "@server/game-server/cluster-gen";
@@ -31,7 +31,7 @@ export class Game implements IGame {
   // Game elements
   private view: IView;
   private cluster: IClusterClient;
-  private motor: LocalPlayerMotor;
+  private motor: IPlayerMotor;
   private gui: GUI;
   private assetManager: IAssetManager | null = null;
 
@@ -72,7 +72,7 @@ export class Game implements IGame {
     this.cluster.remesh();
 
     // Create local player motor
-    this.motor = new LocalPlayerMotor(
+    this.motor = new PlayerMotor(
       view.getCanvas(), this.engine, this.scene, this.cluster, this.assetManager, new Vector3(20, 20, 20));
 
     this.gui = new GUI();

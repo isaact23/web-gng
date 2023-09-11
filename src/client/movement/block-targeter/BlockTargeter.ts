@@ -1,13 +1,17 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
-import { Face, FaceVectorConverter } from "share/utility";
-import { IAssetManager } from "../assets/IAssetManager";
+import { Face, FaceVectorConverter } from "@share/utility";
+import { IAssetManager } from "@client/assets";
+import { IBlockTargeter } from "./IBlockTargeter";
 
 const VIEW_DISTANCE = 5;
 
-export class BlockTargeter {
+export class BlockTargeter implements IBlockTargeter {
   private indicator: Babylon.AbstractMesh;
 
+  /**
+   * Create a new BlockTargeter instance for an IPlayerMotor.
+   */
   constructor(
     private assetManager: IAssetManager,
     private camera: Babylon.UniversalCamera,
@@ -18,7 +22,10 @@ export class BlockTargeter {
     });
   }
 
-  // Highlight a block based on the player view ray. Return true on success.
+  /**
+   * Highlight a block based on the player view ray.
+   * @returns True on success.
+   */
   public highlightBlock(): boolean {
 
     const target = this.getTargetBlockAndFace();
@@ -32,7 +39,10 @@ export class BlockTargeter {
     return true;
   }
 
-  // Determine the block and face the player is currently targeting.
+  /**
+   * Determine the block and face the player is currently targeting.
+   * @returns The position and face of the targeted block, or null if no block is targeted.
+   */
   public getTargetBlockAndFace() : [Vector3, Face] | null {
 
     // Raycast

@@ -1,9 +1,11 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
-import { BlockTargeter } from "./BlockTargeter";
+import { BlockTargeter } from "./block-targeter/BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
 import { IClusterClient } from "@client/cluster-client";
 import { Block } from "../../share/utility/Block";
+import { IPlayerMotor } from "./IPlayerMotor";
+import { IBlockTargeter } from "./block-targeter/IBlockTargeter";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;
@@ -11,9 +13,12 @@ const WALK_SPEED = 8;
 const LATERAL_ACCELERATION = 50;
 const JUMP_VELOCITY = 6;
 
-export class LocalPlayerMotor {
+/**
+ * Control the local player movement.
+ */
+export class PlayerMotor implements IPlayerMotor {
 
-  private blockTargeter: BlockTargeter;
+  private blockTargeter: IBlockTargeter;
 
   // Add a local player controller to the game.
   constructor(
