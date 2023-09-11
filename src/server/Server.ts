@@ -5,6 +5,8 @@ import { Server as IOServer } from 'socket.io';
 
 import { IServer } from ".";
 import { GameServer, IGameServer } from "./game-server";
+import { ISocketIncoming, SocketIncoming } from './socket/socket-incoming';
+import { ISocketOutgoing, SocketOutgoing } from './socket/socket-outgoing';
 
 const PORT = 3000;
 
@@ -20,10 +22,10 @@ export class Server implements IServer {
    * Initialize the connection.
    */
   constructor() {
-
-    console.log("Initializing game server");
-    this.gameServer = new GameServer(this);
-    console.log("Game server ready");
+    
+    const socketOutgoing = new SocketOutgoing();
+    this.gameServer = new GameServer(socketOutgoing);
+    const socketIncoming = new SocketIncoming(this.gameServer);
 
     const app = express();
     app.use(express.static("dist"));

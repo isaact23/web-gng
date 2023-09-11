@@ -1,6 +1,7 @@
 import { IClusterData } from "@share/cluster-data";
 import { IGameServer } from ".";
 import { ClusterGenerator } from "@server/cluster-gen";
+import { ISocketOutgoing } from "@server/socket/socket-outgoing";
 
 /**
  * Handler for server-side game logic.
@@ -11,7 +12,7 @@ export class GameServer implements IGameServer {
   /**
    * Initialize the game server.
    */
-  constructor() {
+  constructor(private readonly socketOutgoing: ISocketOutgoing) {
     this.cluster = ClusterGenerator.createSineCluster();
   }
 
