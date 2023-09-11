@@ -22,10 +22,6 @@ export class Server implements IServer {
    * Initialize the connection.
    */
   constructor() {
-    
-    const socketOutgoing = new SocketOutgoing();
-    this.gameServer = new GameServer(socketOutgoing);
-    const socketIncoming = new SocketIncoming(this.gameServer);
 
     const app = express();
     app.use(express.static("dist"));
@@ -40,6 +36,11 @@ export class Server implements IServer {
           methods: ["GET", "POST"]
         }
       });
+    
+    // Initialize the game server and socket.io message handlers
+    const socketOutgoing: ISocketOutgoing = new SocketOutgoing();
+    this.gameServer = new GameServer(socketOutgoing);
+    const socketIncoming: ISocketIncoming = new SocketIncoming(this.gameServer, io);
 
     app.get("/", (req: Request, res: Response) => {
       res.sendFile(path.join(__dirname, "../dist/index.html"));
@@ -47,13 +48,6 @@ export class Server implements IServer {
 
     server.listen(PORT, () => {
       console.log(`Sky Quest server listening on port ${PORT}`);
-    });
-
-    io.on("connection", (socket) => {
-      console.log("socket.io detected user connection");
-
-      const c = this.gameServer.getCluster();
-      socket.send("world", c);
     });
   }
 }
