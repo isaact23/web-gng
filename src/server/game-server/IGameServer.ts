@@ -1,4 +1,3 @@
-import { IServerManager } from "@server/server-manager";
 import { IClusterData } from "@share/cluster-data";
 
 /**

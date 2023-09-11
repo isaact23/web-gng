@@ -1,12 +1,16 @@
 import { Vector3 } from "babylonjs";
 import { Block } from "share/utility";
 import { ClusterData, IClusterData } from "@share/cluster-data";
+import { IClusterGenerator } from "./IClusterGenerator";
 
 /**
  * Generator for cluster data.
  */
-export class ClusterGenerator {
+export class ClusterGenerator implements IClusterGenerator {
   
+  /**
+   * Create an island cluster.
+   */
   createIsleCluster(): IClusterData {
 
     const cluster = new ClusterData();
@@ -29,7 +33,10 @@ export class ClusterGenerator {
     return cluster;
   }
 
-  static createSineCluster(): IClusterData {
+  /**
+   * Create a cluster with sine waves.
+   */
+  createSineCluster(): IClusterData {
 
     const cluster = new ClusterData();
     const size = 100;

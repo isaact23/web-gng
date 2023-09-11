@@ -3,17 +3,16 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
-import { GUI } from "../gui/GUI";
+import { GUI } from "@client/gui";
 import { ClusterClient, IClusterClient } from "@client/cluster-client";
 import { IGame } from ".";
-import { IView } from "../view";
+import { IView } from "@client/view";
 
-import { IAssetManager } from "../../client/assets/IAssetManager";
-import { AssetManager } from "../../client/assets/AssetManager";
-import { LocalPlayerMotor } from "../../client/movement/LocalPlayerMotor";
+import { AssetManager, IAssetManager } from "@client/assets";
+import { LocalPlayerMotor } from "@client/movement/LocalPlayerMotor";
 
 // TODO: REMOVE THIS IMPORT
-import { ClusterGenerator } from "@server/cluster-gen";
+import { ClusterGenerator } from "@server/game-server/cluster-gen";
 
 /**
  * The runner class for all game logic.
@@ -68,7 +67,7 @@ export class Game implements IGame {
     this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
-    const clusterData = ClusterGenerator.createSineCluster();
+    const clusterData = new ClusterGenerator().createSineCluster();
     this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
     this.cluster.remesh();
 
@@ -77,6 +76,8 @@ export class Game implements IGame {
       view.getCanvas(), this.engine, this.scene, this.cluster, this.assetManager, new Vector3(20, 20, 20));
 
     this.gui = new GUI();
+    //this.gui.mainMenuGui();
+    this.gui.gameGui();
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();

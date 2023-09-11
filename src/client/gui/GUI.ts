@@ -3,10 +3,21 @@ import * as BabylonGUI from "babylonjs-gui";
 import { IGUI } from "./IGUI";
 
 export class GUI implements IGUI {
+
   private readonly ui: BabylonGUI.AdvancedDynamicTexture;
 
+  // Gameplay UI elements
+  private readonly crossfire: BabylonGUI.Image;
+
+  /**
+   * Initialize gameplay elements
+   */
   constructor() {
     this.ui = BabylonGUI.AdvancedDynamicTexture.CreateFullscreenUI("ui");
+
+    this.crossfire = new BabylonGUI.Image("crossfire", "img/crossfire.png");
+    this.crossfire.width = "16px";
+    this.crossfire.height = "16px";
   }
 
   /**
@@ -15,7 +26,7 @@ export class GUI implements IGUI {
   mainMenuGui(): void {
     this._resetUi();
 
-    
+
   }
 
   /**
@@ -23,17 +34,14 @@ export class GUI implements IGUI {
    */
   gameGui(): void {
     this._resetUi();
-
-    const crossfire = new BabylonGUI.Image("crossfire", "img/crossfire.png");
-    crossfire.width = "16px";
-    crossfire.height = "16px";
-    this.ui.addControl(crossfire);
+    
+    this.ui.addControl(this.crossfire);
   }
 
   /**
    * Disable all GUI.
    */
   _resetUi(): void {
-
+    this.ui.clear();
   }
 }
