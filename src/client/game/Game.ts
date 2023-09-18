@@ -71,6 +71,7 @@ export class Game implements IGame {
     const clusterData = clusterGenerator.createSineCluster();
     this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
     this.cluster.remesh();
+    console.log("Re-meshed");
 
     // Create local player motor
     this.motor = new PlayerMotor(

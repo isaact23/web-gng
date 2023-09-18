@@ -9,4 +9,4 @@ const socket = io();
 const view = new View();
 
 // Create game
-const game = new Game(view);
+const game = new Game(view, true);

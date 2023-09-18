@@ -12,6 +12,7 @@ export class Grid<T> implements IGrid<T> {
    * @returns The value at the coordinate, or undefined if none found.
    */
   get(x: number, y: number, z: number): T | undefined {
+
     const row = this.data.get(x);
     if (row == undefined) return undefined;
 
@@ -25,11 +26,18 @@ export class Grid<T> implements IGrid<T> {
    * Set a value at a coordinate in this grid.
    */
   set(x: number, y: number, z: number, value: T): void {
+
     let row = this.data.get(x);
-    if (row == undefined) row = new Map<number, Map<number, T>>;
+    if (row == undefined) {
+      row = new Map<number, Map<number, T>>;
+      this.data.set(x, row);
+    }
 
     let col = row.get(y);
-    if (col == undefined) col = new Map<number, T>;
+    if (col == undefined) {
+      col = new Map<number, T>;
+      row.set(y, col);
+    }
 
     col.set(z, value);
   }
