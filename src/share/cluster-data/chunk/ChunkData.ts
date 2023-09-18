@@ -10,7 +10,9 @@ import { IChunkData } from ".";
 
 // TODO: Implement greedy meshing
 
-// A MeshGeneratorChunk can generate a Babylon mesh with UV data from its block data.
+/**
+ * Store data for a single chunk, a cubic region of blocks.
+ */
 export class ChunkData implements IChunkData {
 
   private blocks: Block[][][];

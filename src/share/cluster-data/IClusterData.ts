@@ -2,6 +2,10 @@ import { Block } from "share/utility";
 import { IChunkData } from "./chunk/IChunkData";
 import { Vector3 } from "babylonjs";
 
+/**
+ * Manage multiple chunks, generating their meshes and loading them
+ * into the Babylon scene.
+ */
 export interface IClusterData {
   /**
    * Add a new chunk. Replace any chunk in its spot.
