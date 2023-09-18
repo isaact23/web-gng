@@ -1,5 +1,5 @@
-import * as Utility from "share/utility";
-import { Face, Block } from "share/utility";
+import * as Utility from "@share/utility";
+import { Face, Block } from "@share/utility";
 
 import { Vector3 } from "babylonjs";
 import { IClusterData } from "../IClusterData";

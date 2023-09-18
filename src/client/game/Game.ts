@@ -67,7 +67,8 @@ export class Game implements IGame {
     this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
-    const clusterData = new ClusterGenerator().createSineCluster();
+    const clusterGenerator = new ClusterGenerator();
+    const clusterData = clusterGenerator.createSineCluster();
     this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
     this.cluster.remesh();
 
