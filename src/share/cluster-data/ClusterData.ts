@@ -55,7 +55,7 @@ export class ClusterData implements IClusterData {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new ChunkData(this, chunkCoord);
+      chunk = new ChunkData(chunkCoord);
       this.addChunk(chunk);
     }
 

@@ -18,7 +18,6 @@ export class ChunkData implements IChunkData {
 
   // Create an empty chunk
   constructor(
-    private readonly parentCluster: IClusterData,
     private readonly coordinate: Vector3 = new Vector3(0, 0, 0),
     private readonly size: number = 32
   ) {
