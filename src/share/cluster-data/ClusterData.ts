@@ -1,9 +1,8 @@
 import { Vector3 } from "babylonjs";
 import { IChunkData, ChunkData } from "./chunk";
 import { IClusterData } from "./IClusterData";
-import { Block } from "share/utility";
-import { IAssetManager } from "@client/assets";
-import * as Babylon from "babylonjs";
+import { Block } from "@share/utility";
+import { Grid, IGrid } from "@share/data/grid";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them
@@ -11,12 +10,12 @@ import * as Babylon from "babylonjs";
  */
 export class ClusterData implements IClusterData {
 
-  private chunks: Map<number, Map<number, Map<number, IChunkData>>>;
+  private chunks: IGrid<IChunkData>;
 
   constructor(
     private readonly chunkSize = 32
   ) {
-    this.chunks = new Map<number, Map<number, Map<number, IChunkData>>>();
+    this.chunks = new Grid<IChunkData>();
   }
 
   // Add a new chunk. Replace any chunk in its spot.
@@ -26,25 +25,12 @@ export class ClusterData implements IClusterData {
     }
 
     const coord = chunk.getCoordinate();
-
-    let sliceX = this.chunks.get(coord.x);
-    if (sliceX === undefined) {
-      sliceX = new Map<number, Map<number, IChunkData>>()
-      this.chunks.set(coord.x, sliceX);
-    }
-
-    let sliceY = sliceX.get(coord.y);
-    if (sliceY === undefined) {
-      sliceY = new Map<number, IChunkData>();
-      sliceX.set(coord.y, sliceY);
-    }
-
-    sliceY.set(coord.z, chunk);
+    this.chunks.set(coord, chunk);
   }
 
   // Get the chunk at a coordinate
   getChunk(pos: Vector3): IChunkData | undefined {
-    return this.chunks.get(pos.x)?.get(pos.y)?.get(pos.z);
+    return this.chunks.get(pos);
   }
 
   // Get the block at an xyz coordinate
@@ -80,13 +66,7 @@ export class ClusterData implements IClusterData {
 
   // Get iterator for all chunks in the world
   *getIterator(): Generator<IChunkData> {
-    for (let [x, sliceX] of this.chunks) {
-      for (let [y, sliceY] of sliceX) {
-        for (let [z, chunk] of sliceY) {
-          yield chunk;
-        }
-      }
-    }
+    return this.chunks.getIterator();
   }
 
   // Get chunk size

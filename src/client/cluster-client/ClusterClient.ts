@@ -35,7 +35,6 @@ export class ClusterClient implements IClusterClient {
     for (let chunk of chunkIt) {
       const c = chunk.getCoordinate();
       this._flagDirty(c);
-      console.log(this.dirtyChunks.get(c.x, c.y, c.z));
     }
   }
 
@@ -63,7 +62,7 @@ export class ClusterClient implements IClusterClient {
     this.clusterData.setBlock(pos, block);
 
     // Flag this chunk for update
-    this.dirtyChunks.set(pos.x, pos.y, pos.z, true);
+    this.dirtyChunks.set(pos, true);
 
     // Flag adjacent chunks for update
     const chunkSize = this.clusterData.getChunkSize();
@@ -99,19 +98,19 @@ export class ClusterClient implements IClusterClient {
     for (let chunk of chunkIt) {
 
       // Check if each chunk needs to be updated
-      const c = chunk.getCoordinate();
-      if (this.dirtyChunks.get(c.x, c.y, c.z)) {
+      const coord = chunk.getCoordinate();
+      if (this.dirtyChunks.get(coord)) {
         
         // Replace mesh
-        const oldMesh = this.chunkMeshes.get(c.x, c.y, c.z);
+        const oldMesh = this.chunkMeshes.get(coord);
         const newMesh = this._generateChunkMesh(chunk);
 
         shadowMap?.renderList?.push(newMesh);
         if (oldMesh != undefined) {
           oldMesh.dispose();
         }
-        this.chunkMeshes.set(c.x, c.y, c.z, newMesh);
-        this.dirtyChunks.set(c.x, c.y, c.z, false);
+        this.chunkMeshes.set(coord, newMesh);
+        this.dirtyChunks.set(coord, false);
       }
     }
   }
@@ -217,6 +216,6 @@ export class ClusterClient implements IClusterClient {
 
   // Flag a chunk for re-meshing.
   _flagDirty(coord: Vector3) {
-    this.dirtyChunks.set(coord.x, coord.y, coord.z, true);
+    this.dirtyChunks.set(coord, true);
   }
 }
