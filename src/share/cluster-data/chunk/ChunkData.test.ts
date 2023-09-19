@@ -16,9 +16,9 @@ describe('Testing ChunkData', () => {
   });
 
   test("Ensure no out-of-bounds block setting", () => {
-    expect(chunkData1.setBlock(v(-1, 0, 0), Block.Stone)).toThrowError();
-  });
 
-  //expect(chunkData1.getBlock(v(0, 0, 0))).toBe(undefined);
+    const errFunc = () => { chunkData1.setBlock(v(-1, 0, 0), Block.Stone) };
+    expect(errFunc).toThrow(RangeError);
+  });
 
 });

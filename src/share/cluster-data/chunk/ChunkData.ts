@@ -54,7 +54,7 @@ export class ChunkData implements IChunkData {
   setBlock(pos: Vector3, block: Block) : void {
     // Ensure set block is within the bounds of this chunk
     if (pos.x < 0 || pos.y < 0 || pos.z < 0 || pos.x >= this.size || pos.y >= this.size || pos.z >= this.size) {
-      throw "Cannot set a block outside this chunk";
+      throw new RangeError("Cannot set a block outside this chunk");
     }
 
     this.blocks[pos.x][pos.y][pos.z] = block;

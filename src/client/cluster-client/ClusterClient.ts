@@ -34,6 +34,7 @@ export class ClusterClient implements IClusterClient {
     const chunkIt = clusterData.getIterator();
     for (let chunk of chunkIt) {
       const c = chunk.getCoordinate();
+      console.log(c);
       this._flagDirty(c);
     }
   }
