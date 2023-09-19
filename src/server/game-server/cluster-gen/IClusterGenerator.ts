@@ -10,5 +10,5 @@ export interface IClusterGenerator {
   /**
    * Create a cluster with sine waves.
    */
-  createSineCluster(): IClusterData;
+  createSineCluster(size: number): IClusterData;
 }

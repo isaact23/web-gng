@@ -12,7 +12,7 @@ import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
 // TODO: REMOVE THIS IMPORT
-import { ClusterGenerator } from "@server/game-server/cluster-gen";
+import { ClusterGenerator, IClusterGenerator } from "@server/game-server/cluster-gen";
 
 /**
  * The runner class for all game logic.
@@ -67,8 +67,8 @@ export class Game implements IGame {
     this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
-    const clusterGenerator = new ClusterGenerator();
-    const clusterData = clusterGenerator.createSineCluster();
+    const clusterGenerator: IClusterGenerator = new ClusterGenerator();
+    const clusterData = clusterGenerator.createSineCluster(100);
     this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
     this.cluster.remesh();
 

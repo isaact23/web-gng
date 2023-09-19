@@ -1,5 +1,5 @@
-import { Grid } from "./Grid";
-import { IGrid } from "./IGrid";
+import { Grid } from ".";
+import { IGrid } from ".";
 import { Vector3 } from "babylonjs";
 
 // Test an implementing class of IGrid

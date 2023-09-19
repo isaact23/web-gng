@@ -36,10 +36,9 @@ export class ClusterGenerator implements IClusterGenerator {
   /**
    * Create a cluster with sine waves.
    */
-  createSineCluster(): IClusterData {
+  createSineCluster(size: number = 100): IClusterData {
 
     const cluster = new ClusterData();
-    const size = 100;
 
     // Lambda to create Vector3
     const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
