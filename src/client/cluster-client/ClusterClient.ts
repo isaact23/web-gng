@@ -92,6 +92,8 @@ export class ClusterClient implements IClusterClient {
 
   // Load or reload chunk meshes in the world.
   remesh(): void {
+    console.log("Re-meshing");
+
     const shadowMap = this.shadowGenerator.getShadowMap();
     
     // Iterate through each chunk

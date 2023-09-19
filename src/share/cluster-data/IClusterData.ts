@@ -16,7 +16,7 @@ export interface IClusterData {
   /**
    * Get the chunk at a coordinate.
    * @param pos The coordinate of the chunk to access.
-   * @returns The chunk at the specified coordinate.
+   * @returns The chunk at the specified coordinate, or undefined if there is no chunk.
    */
   getChunk(pos: Vector3) : IChunkData | undefined;
 

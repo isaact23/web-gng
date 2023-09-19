@@ -34,7 +34,7 @@ export class ClusterData implements IClusterData {
   /**
    * Get the chunk at a coordinate.
    * @param pos The coordinate of the chunk to access.
-   * @returns The chunk at the specified coordinate.
+   * @returns The chunk at the specified coordinate, or undefined if there is no chunk.
    */
   getChunk(pos: Vector3): IChunkData | undefined {
     return this.chunks.get(pos);
@@ -48,12 +48,11 @@ export class ClusterData implements IClusterData {
   getBlock(pos: Vector3): Block | undefined {
 
     // Get the chunk that the block is in
-    const chunkCoord = this._worldToChunkCoord(pos);
-    const chunk = this.getChunk(chunkCoord);
+    const chunk = this.getChunk(pos);
     if (chunk === undefined) return undefined;
 
     // Get the block from the chunk
-    const blockCoord = this._worldToBlockCoord(pos);
+    const blockCoord = this._chunkToBlockCoord(pos);
     return chunk.getBlock(blockCoord);
   }
 
@@ -65,7 +64,7 @@ export class ClusterData implements IClusterData {
   setBlock(pos: Vector3, block: Block): void {
 
     // Get the chunk that the block is in
-    const chunkCoord = this._worldToChunkCoord(pos);
+    const chunkCoord = this._blockToChunkCoord(pos);
     let chunk = this.getChunk(chunkCoord);
     if (chunk === undefined) {
 
@@ -98,8 +97,8 @@ export class ClusterData implements IClusterData {
   // 
   /**
    * Convert world coordinates to chunk coordinates
-   * @param pos The position to convert, in world coordinates.
-   * @returns The chunk coordinate.
+   * @param pos The position to convert, in block coordinates.
+   * @returns The world coordinate.
    */
   _worldToChunkCoord(pos: Vector3): Vector3 {
     return new Vector3(
@@ -111,11 +110,11 @@ export class ClusterData implements IClusterData {
 
   // 
   /**
-   * Convert world coordinates to block coordinates within a chunk.
+   * Convert chunk coordinates to block coordinates in the world.
    * @param pos The position to convert, in chunk coordinates.
-   * @returns The block coordinate.
+   * @returns The world coordinate.
    */
-  _worldToBlockCoord(pos: Vector3): Vector3 {
+  _chunkToWorldCoord(pos: Vector3): Vector3 {
     return new Vector3(
       pos.x % this.chunkSize,
       pos.y % this.chunkSize,

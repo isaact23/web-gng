@@ -65,8 +65,13 @@ describe('Testing ChunkData', () => {
 
   test("ChunkData iterator", () => {
 
-    const it = chunkData2.getIterator();
-    const r1 = it.next();
-    expect(r1.value).toEqual([v(0, 0, 0), Block.Stone]);
+    const it1 = chunkData2.getIterator();
+    expect(it1.next().value).toEqual([v(0, 0, 0), Block.Stone]);
+    expect(it1.next().value).toEqual([v(31, 0, 0), Block.Grass]);
+    expect(it1.next().value).toEqual([v(0, 12, 0), Block.Stone]);
+    expect(it1.next().value).toEqual([v(5, 4, 3), Block.Stone]);
+    expect(it1.next().value).toEqual([v(5, 5, 3), Block.Stone]);
+    expect(it1.next().value).toEqual([v(5, 5, 6), Block.Stone]);
+    expect(it1.next().value).toEqual([v(0, 0, 15), Block.Dirt]);
   });
 });
