@@ -40,22 +40,25 @@ export class ClusterGenerator implements IClusterGenerator {
 
     const cluster = new ClusterData();
     const size = 100;
+
+    // Lambda to create Vector3
+    const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
   
     for (let x = 0; x < size; x++) {
       for (let z = 0; z < size; z++) {
         let height = Math.round(10 + 1.3 * Math.sin(x / 8) + 1.5 * Math.sin(z / 5) + (x / 20) + (z / 10));
         for (let i = 0; i < height - 5; i++) {
-          cluster.setBlock(new Vector3(x, i, z), Block.Stone);
+          cluster.setBlock(v(x, i, z), Block.Stone);
         }
         for (let i = height - 5; i < height; i++) {
           if (i < 0) continue;
-          cluster.setBlock(new Vector3(x, i, z), Block.Dirt);
+          cluster.setBlock(v(x, i, z), Block.Dirt);
         }
-        cluster.setBlock(new Vector3(x, height, z), Block.Grass);
+        cluster.setBlock(v(x, height, z), Block.Grass);
       }
     }
   
-    cluster.setBlock(new Vector3(25, 15, 25), Block.Stone);
+    cluster.setBlock(v(25, 15, 25), Block.Stone);
   
     return cluster;
   }

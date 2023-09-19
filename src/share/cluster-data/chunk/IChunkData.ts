@@ -1,6 +1,5 @@
-import { Block } from "share/utility";
-import { Mesh, Vector3 } from "babylonjs";
-import { IClusterData } from "../IClusterData";
+import { Block } from "@share/utility";
+import { Vector3 } from "babylonjs";
 
 /**
  * Store data for a single chunk, a cubic region of blocks.
