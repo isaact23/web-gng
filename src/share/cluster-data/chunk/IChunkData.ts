@@ -14,9 +14,9 @@ export interface IChunkData {
   /**
    * Get the block at an xyz coordinate
    * @param pos The position of the block to access.
-   * @returns The block, or undefined if there is no block.
+   * @returns The block.
    */
-  getBlock(pos: Vector3) : Block | undefined;
+  getBlock(pos: Vector3) : Block;
 
   /**
    * Set a block at an xyz coordinate.

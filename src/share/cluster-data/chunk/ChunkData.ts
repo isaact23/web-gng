@@ -42,10 +42,14 @@ export class ChunkData implements IChunkData {
   }
 
   // Get the block at an xyz coordinate
-  getBlock(pos: Vector3) : Block | undefined {
+  getBlock(pos: Vector3) : Block {
     // Ensure the coordinates are within the bounds of the chunk
-    if (pos.x < 0 || pos.y < 0 || pos.z < 0) return undefined;
-    if (pos.x >= this.size || pos.y >= this.size || pos.z >= this.size) return undefined;
+    if (pos.x < 0 || pos.y < 0 || pos.z < 0) {
+      throw new RangeError("Cannot get a block outside this chunk");
+    }
+    if (pos.x >= this.size || pos.y >= this.size || pos.z >= this.size) {
+      throw new RangeError("Cannot get a block outside this chunk");
+    }
 
     return this.blocks[pos.x][pos.y][pos.z];
   }
@@ -67,9 +71,9 @@ export class ChunkData implements IChunkData {
 
   // Get iterator for local-space positions of all non-air blocks in the chunk
   *getIterator() : Generator<[Vector3, Block], any, unknown> {
-    for (var x = 0; x < this.size; x++) {
+    for (var z = 0; z < this.size; z++) {
       for (var y = 0; y < this.size; y++) {
-        for (var z = 0; z < this.size; z++) {
+        for (var x = 0; x < this.size; x++) {
           const block = this.blocks[x][y][z];
           if (block != Block.Air) {
             yield [new Vector3(x, y, z), block];
