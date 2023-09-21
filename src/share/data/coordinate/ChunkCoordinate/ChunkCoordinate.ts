@@ -1,6 +1,6 @@
+import { ChunkData } from "@share/cluster-data/chunk";
 import { IChunkCoordinate } from ".";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../AbsoluteCoordinate";
-import { IRelativeCoordinate } from "../RelativeCoordinate";
 
 /**
  * Chunk coordinates. An increment of 1 shifts
@@ -27,18 +27,5 @@ export class ChunkCoordinate implements IChunkCoordinate {
     const z = this.z * chunkSize;
 
     return new AbsoluteCoordinate(x, y, z);
-  }
-
-  /**
-   * Get the relative coordinate of an absolute coordinate with
-   * respect to this chunk.
-   * 
-   * @param absoluteCoordinate The absolute coordinate to convert.
-   * @returns The relative coordinate of the absolute coordinate with
-   * respect to this chunk, or undefined if the absolute coordinate is
-   * not within this chunk.
-   */
-  getRelativeCoordinate(absoluteCoordinate: IAbsoluteCoordinate): IRelativeCoordinate | undefined {
-    throw "Not implemented";
   }
 }
