@@ -1,12 +1,8 @@
-import * as Utility from "@share/utility";
-import { Face, Block } from "@share/utility";
+import { Block } from "@share/utility";
+import { IChunkData } from ".";
 
 import { Vector3 } from "babylonjs";
-import { IClusterData } from "../IClusterData";
-
 import * as Babylon from "babylonjs";
-import { IAssetManager } from "@client/assets";
-import { IChunkData } from ".";
 
 // TODO: Implement greedy meshing
 
@@ -15,21 +11,25 @@ import { IChunkData } from ".";
  */
 export class ChunkData implements IChunkData {
 
+  /**
+   * The chunk size in blocks, universal across the entire program.
+   */
+  public static readonly CHUNK_SIZE = 32;
+
   private blocks: Block[][][];
   private mesh: Babylon.Mesh | null = null;
 
   // Create an empty chunk
   constructor(
-    private readonly coordinate: Vector3 = new Vector3(0, 0, 0),
-    private readonly size: number = 32
+    private readonly coordinate: Vector3 = new Vector3(0, 0, 0)
   ) {
     this.blocks = [];
 
-    for (var x = 0; x < this.size; x++) {
+    for (var x = 0; x < ChunkData.CHUNK_SIZE; x++) {
       this.blocks[x] = [];
-      for (var y = 0; y < this.size; y++) {
+      for (var y = 0; y < ChunkData.CHUNK_SIZE; y++) {
         this.blocks[x][y] = [];
-        for (var z = 0; z < this.size; z++) {
+        for (var z = 0; z < ChunkData.CHUNK_SIZE; z++) {
           this.blocks[x][y][z] = Block.Air;
         }
       }
@@ -38,7 +38,7 @@ export class ChunkData implements IChunkData {
 
   // Get the size (width, length, height) of a chunk in blocks
   getSize() {
-    return this.size;
+    return ChunkData.CHUNK_SIZE;
   }
 
   // Get the block at an xyz coordinate
@@ -47,7 +47,7 @@ export class ChunkData implements IChunkData {
     if (pos.x < 0 || pos.y < 0 || pos.z < 0) {
       throw new RangeError("Cannot get a block outside this chunk");
     }
-    if (pos.x >= this.size || pos.y >= this.size || pos.z >= this.size) {
+    if (pos.x >= ChunkData.CHUNK_SIZE || pos.y >= ChunkData.CHUNK_SIZE || pos.z >= ChunkData.CHUNK_SIZE) {
       throw new RangeError("Cannot get a block outside this chunk");
     }
 
@@ -57,7 +57,9 @@ export class ChunkData implements IChunkData {
   // Set a block at an xyz coordinate
   setBlock(pos: Vector3, block: Block) : void {
     // Ensure set block is within the bounds of this chunk
-    if (pos.x < 0 || pos.y < 0 || pos.z < 0 || pos.x >= this.size || pos.y >= this.size || pos.z >= this.size) {
+    if (pos.x < 0 || pos.y < 0 || pos.z < 0 || 
+      pos.x >= ChunkData.CHUNK_SIZE || pos.y >= ChunkData.CHUNK_SIZE || pos.z >= ChunkData.CHUNK_SIZE)
+    {
       throw new RangeError("Cannot set a block outside this chunk");
     }
 
@@ -71,9 +73,9 @@ export class ChunkData implements IChunkData {
 
   // Get iterator for local-space positions of all non-air blocks in the chunk
   *getIterator() : Generator<[Vector3, Block], any, unknown> {
-    for (var z = 0; z < this.size; z++) {
-      for (var y = 0; y < this.size; y++) {
-        for (var x = 0; x < this.size; x++) {
+    for (var z = 0; z < ChunkData.CHUNK_SIZE; z++) {
+      for (var y = 0; y < ChunkData.CHUNK_SIZE; y++) {
+        for (var x = 0; x < ChunkData.CHUNK_SIZE; x++) {
           const block = this.blocks[x][y][z];
           if (block != Block.Air) {
             yield [new Vector3(x, y, z), block];

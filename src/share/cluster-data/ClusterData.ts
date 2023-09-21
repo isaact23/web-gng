@@ -13,7 +13,7 @@ export class ClusterData implements IClusterData {
   private chunks: IGrid<IChunkData>;
 
   constructor(
-    private readonly chunkSize = 32
+
   ) {
     this.chunks = new Grid<IChunkData>();
   }
@@ -23,10 +23,6 @@ export class ClusterData implements IClusterData {
    * @param chunk The chunk to add.
    */
   addChunk(chunk: IChunkData): void {
-    if (chunk.getSize() != this.chunkSize) {
-      throw "Chunk size is incompatible with world";
-    }
-
     const coord = chunk.getCoordinate();
     this.chunks.set(coord, chunk);
   }
