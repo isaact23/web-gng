@@ -1,6 +1,8 @@
 import { Block } from "share/utility";
 import { IChunkData } from "./chunk/IChunkData";
 import { Vector3 } from "babylonjs";
+import { IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
+import { IAbsoluteCoordinate } from "@share/data/coordinate/AbsoluteCoordinate";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them
@@ -15,34 +17,28 @@ export interface IClusterData {
 
   /**
    * Get the chunk at a coordinate.
-   * @param pos The coordinate of the chunk to access.
+   * @param coord The coordinate of the chunk to access.
    * @returns The chunk at the specified coordinate, or undefined if there is no chunk.
    */
-  getChunk(pos: Vector3) : IChunkData | undefined;
+  getChunk(coord: IChunkCoordinate) : IChunkData | undefined;
 
   /**
-   * Get the block at an xyz coordinate.
-   * @param pos The coordinate to access.
+   * Get the block at an absolute coordinate.
+   * @param coord The coordinate to access.
    * @returns The block at the coordinate, or undefined if there is no block.
    */
-  getBlock(pos: Vector3) : Block | undefined;
+  getBlock(coord: IAbsoluteCoordinate) : Block | undefined;
 
   /**
-   * Set a block at an xyz coordinate.
-   * @param pos The coordinate to update.
+   * Set a block at an absolute coordinate.
+   * @param coord The coordinate to update.
    * @param block The block to set at the specified coordinate.
    */
-  setBlock(pos: Vector3, block: Block) : void;
+  setBlock(coord: IAbsoluteCoordinate, block: Block) : void;
 
   /**
    * Get iterator for all chunks in the cluster.
    * @returns An iterator for all chunks in this cluster.
    */
   getIterator(): Generator<IChunkData>;
-  
-  /**
-   * Get chunk size.
-   * @returns The chunk width in blocks.
-   */
-  getChunkSize(): number;
 }
