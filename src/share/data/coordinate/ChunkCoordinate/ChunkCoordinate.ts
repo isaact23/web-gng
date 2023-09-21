@@ -1,5 +1,5 @@
 import { IChunkCoordinate } from ".";
-import { IAbsoluteCoordinate } from "../AbsoluteCoordinate";
+import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../AbsoluteCoordinate";
 import { IRelativeCoordinate } from "../RelativeCoordinate";
 
 /**
@@ -20,7 +20,13 @@ export class ChunkCoordinate implements IChunkCoordinate {
    * @returns The absolute coordinate of the block at the origin of this chunk.
    */
   getAbsoluteCoordinate(): IAbsoluteCoordinate {
-    throw "Not implemented";
+    const chunkSize = ChunkData.CHUNK_SIZE;
+
+    const x = this.x * chunkSize;
+    const y = this.y * chunkSize;
+    const z = this.z * chunkSize;
+
+    return new AbsoluteCoordinate(x, y, z);
   }
 
   /**

@@ -87,34 +87,6 @@ export class ClusterData implements IClusterData {
    * @returns The chunk width in blocks.
    */
   getChunkSize(): number {
-    return this.chunkSize;
-  }
-
-  // 
-  /**
-   * Convert world coordinates to chunk coordinates
-   * @param pos The position to convert, in block coordinates.
-   * @returns The world coordinate.
-   */
-  _worldToChunkCoord(pos: Vector3): Vector3 {
-    return new Vector3(
-      Math.floor(pos.x / this.chunkSize),
-      Math.floor(pos.y / this.chunkSize),
-      Math.floor(pos.z / this.chunkSize)
-    );
-  }
-
-  // 
-  /**
-   * Convert chunk coordinates to block coordinates in the world.
-   * @param pos The position to convert, in chunk coordinates.
-   * @returns The world coordinate.
-   */
-  _chunkToWorldCoord(pos: Vector3): Vector3 {
-    return new Vector3(
-      pos.x % this.chunkSize,
-      pos.y % this.chunkSize,
-      pos.z % this.chunkSize
-    );
+    return ChunkData.CHUNK_SIZE;
   }
 }

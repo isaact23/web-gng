@@ -1,6 +1,7 @@
+import { ChunkData } from "@share/cluster-data/chunk";
 import { IAbsoluteCoordinate } from ".";
-import { IChunkCoordinate } from "../ChunkCoordinate";
-import { IRelativeCoordinate } from "../RelativeCoordinate";
+import { ChunkCoordinate, IChunkCoordinate } from "../ChunkCoordinate";
+import { IRelativeCoordinate, RelativeCoordinate } from "../RelativeCoordinate";
 
 /**
  * Absolute coordinate in world space,
@@ -19,7 +20,13 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
    * @returns The chunk coordinate of the chunk that contains this absolute coordinate.
    */
   getChunkCoordinate(): IChunkCoordinate {
-    throw "Not implemented";
+    const chunkSize = ChunkData.CHUNK_SIZE;
+
+    const x = Math.floor(this.x / chunkSize);
+    const y = Math.floor(this.y / chunkSize);
+    const z = Math.floor(this.z / chunkSize);
+
+    return new ChunkCoordinate(x, y, z);
   }
 
   /**
@@ -28,6 +35,12 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
    * @returns The relative coordinate of this absolute coordinate within its chunk.
    */
   getRelativeCoordinate(): IRelativeCoordinate {
-    throw "Not implemented";
+    const chunkCoord = this.getChunkCoordinate();
+
+    const x = this.x - chunkCoord.x * ChunkData.CHUNK_SIZE;
+    const y = this.y - chunkCoord.y * ChunkData.CHUNK_SIZE;
+    const z = this.z - chunkCoord.z * ChunkData.CHUNK_SIZE;
+
+    return new RelativeCoordinate(x, y, z, chunkCoord);
   }
 }
