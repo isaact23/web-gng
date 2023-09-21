@@ -1,10 +1,14 @@
+import { ChunkData } from "@share/cluster-data/chunk";
 import { IRelativeCoordinate } from ".";
-import { IAbsoluteCoordinate } from "../AbsoluteCoordinate";
+import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../AbsoluteCoordinate";
 import { IChunkCoordinate } from "../ChunkCoordinate";
 
 /**
- * A relative coordinate, which stores the
+ * Interface for a relative coordinate, which stores the
  * position of a block relative to its chunk.
+ * 
+ * The x, y and z coordinates must be within 0 and the chunk size minus 1.
+ * @throws {RangeError} If the x, y or z coordinate is not within 0 and the chunk size minus 1.
  */
 export class RelativeCoordinate implements IRelativeCoordinate {
   
@@ -13,7 +17,15 @@ export class RelativeCoordinate implements IRelativeCoordinate {
     public readonly y: number,
     public readonly z: number,
     public readonly chunkCoordinate: IChunkCoordinate
-  ) {}
+  ) {
+    const chunkSize = ChunkData.CHUNK_SIZE;
+
+    if (x < 0 || y < 0 || z < 0 ||
+      x >= chunkSize || y >= chunkSize || z >= chunkSize)
+    {
+      throw new RangeError("Relative coordinate must be within 0 and the chunk size minus 1.");
+    }
+  }
 
   /**
    * Convert this relative coordinate to an absolute coordinate.
@@ -21,6 +33,12 @@ export class RelativeCoordinate implements IRelativeCoordinate {
    * @returns The absolute coordinate of this relative coordinate.
    */
   getAbsoluteCoordinate(): IAbsoluteCoordinate {
-    throw "Not implemented";
+    const chunkSize = ChunkData.CHUNK_SIZE;
+
+    const x = this.x + this.chunkCoordinate.x * chunkSize;
+    const y = this.y + this.chunkCoordinate.y * chunkSize;
+    const z = this.z + this.chunkCoordinate.z * chunkSize;
+
+    return new AbsoluteCoordinate(x, y, z);
   }
 }

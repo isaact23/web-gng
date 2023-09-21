@@ -32,7 +32,7 @@ for (const [name, coord] of implementations) {
       expect(relCoord1.getAbsoluteCoordinate()).toEqual({ x: -17, y: 4, z: 71 });
 
       const chunkCoord2 = new ChunkCoordinate(4, 2, -3);
-      expect(new coord(-2, 32, 5, chunkCoord2)).toThrow(RangeError);
+      expect(() => new coord(-2, 32, 5, chunkCoord2)).toThrow(RangeError);
     });
   });
 }

@@ -24,10 +24,10 @@ for (const [name, coord] of implementations) {
 
     test("Get absolute coordinate from chunk coordinate", () => {
       const c = new coord(1, 2, 3);
-      expect(c.getAbsoluteCoordinate()).toEqual([32, 64, 96]);
+      expect(c.getAbsoluteCoordinate()).toEqual({ x: 32, y: 64, z: 96 });
 
       const c2 = new coord(-2, 0, -1);
-      expect(c2.getAbsoluteCoordinate()).toEqual([-64, 0, -32]);
+      expect(c2.getAbsoluteCoordinate()).toEqual({ x: -64, y: 0, z: -32 });
     });
   });
 }
