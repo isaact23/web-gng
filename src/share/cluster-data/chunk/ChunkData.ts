@@ -3,6 +3,7 @@ import { IChunkData } from ".";
 
 import { Vector3 } from "babylonjs";
 import * as Babylon from "babylonjs";
+import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
 
 // TODO: Implement greedy meshing
 
@@ -21,7 +22,7 @@ export class ChunkData implements IChunkData {
 
   // Create an empty chunk
   constructor(
-    private readonly coordinate: Vector3 = new Vector3(0, 0, 0)
+    private readonly coordinate: IChunkCoordinate = new ChunkCoordinate(0, 0, 0)
   ) {
     this.blocks = [];
 
@@ -67,7 +68,7 @@ export class ChunkData implements IChunkData {
   }
 
   // Get the coordinate of this chunk.
-  getCoordinate() : Vector3 {
+  getCoordinate(): IChunkCoordinate {
     return this.coordinate;
   }
 

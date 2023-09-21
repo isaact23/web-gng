@@ -1,3 +1,4 @@
+import { IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
 import { Block } from "@share/utility";
 import { Vector3 } from "babylonjs";
 
@@ -16,24 +17,24 @@ export interface IChunkData {
    * @param pos The position of the block to access.
    * @returns The block.
    */
-  getBlock(pos: Vector3) : Block;
+  getBlock(pos: Vector3): Block;
 
   /**
    * Set a block at an xyz coordinate.
    * @param pos The coordiante to update.
    * @param block The block to set at the coordinate.
    */
-  setBlock(pos: Vector3, block: Block) : void;
+  setBlock(pos: Vector3, block: Block): void;
 
   /**
    * Get the coordinate of this chunk.
    * @returns The coordinates of this chunk.
    */
-  getCoordinate() : Vector3;
+  getCoordinate(): IChunkCoordinate;
 
   /**
    * Get iterator for local-space positions of all non-air blocks in the chunk
    * @returns An iterator for blocks in the chunk.
    */
-  getIterator() : Generator<[Vector3, Block]>;
+  getIterator(): Generator<[Vector3, Block]>;
 }

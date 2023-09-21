@@ -2,6 +2,7 @@ import { Block } from "@share/utility";
 import { ChunkData } from ".";
 import { IChunkData} from ".";
 import { Vector3 } from "babylonjs";
+import { ChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
 
 
 describe('Testing ChunkData', () => {
@@ -9,7 +10,7 @@ describe('Testing ChunkData', () => {
   // Lambda to generate Vector3's
   const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
   
-  const chunkData1: IChunkData = new ChunkData(v(0, 5, -2), 32);
+  const chunkData1: IChunkData = new ChunkData(new ChunkCoordinate(0, 5, -2));
 
   test("Get ChunkData size", () => {
     expect(chunkData1.getSize()).toBe(32);
@@ -50,11 +51,13 @@ describe('Testing ChunkData', () => {
 
   test("Get chunk coordinate", () => {
     const c = chunkData1.getCoordinate();
-    expect(c).toEqual(v(0, 5, -2));
+    expect(c.x).toBe(0);
+    expect(c.y).toBe(5);
+    expect(c.z).toBe(-2);
   });
 
 
-  const chunkData2: IChunkData = new ChunkData(v(4, -5, 8), 32);
+  const chunkData2: IChunkData = new ChunkData(new ChunkCoordinate(4, -5, 8));
   chunkData2.setBlock(v(0, 0, 0), Block.Stone);
   chunkData2.setBlock(v(31, 0, 0), Block.Grass);
   chunkData2.setBlock(v(0, 0, 15), Block.Dirt);
