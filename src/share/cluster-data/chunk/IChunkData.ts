@@ -1,4 +1,6 @@
+import { IAbsoluteCoordinate } from "@share/data/coordinate/AbsoluteCoordinate";
 import { IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
+import { IRelativeCoordinate } from "@share/data/coordinate/RelativeCoordinate";
 import { Block } from "@share/utility";
 import { Vector3 } from "babylonjs";
 
@@ -13,18 +15,18 @@ export interface IChunkData {
   getSize(): number;
 
   /**
-   * Get the block at an xyz coordinate
-   * @param pos The position of the block to access.
+   * Get the block at an absolute coordinate
+   * @param coord The position of the block to access.
    * @returns The block.
    */
-  getBlock(pos: Vector3): Block;
+  getBlock(coord: IAbsoluteCoordinate): Block;
 
   /**
-   * Set a block at an xyz coordinate.
-   * @param pos The coordiante to update.
+   * Set a block at an absolute coordinate.
+   * @param coord The coordiante to update.
    * @param block The block to set at the coordinate.
    */
-  setBlock(pos: Vector3, block: Block): void;
+  setBlock(coord: IAbsoluteCoordinate, block: Block): void;
 
   /**
    * Get the coordinate of this chunk.
@@ -33,8 +35,8 @@ export interface IChunkData {
   getCoordinate(): IChunkCoordinate;
 
   /**
-   * Get iterator for local-space positions of all non-air blocks in the chunk
+   * Get iterator for relative coordinates of all non-air blocks in the chunk
    * @returns An iterator for blocks in the chunk.
    */
-  getIterator(): Generator<[Vector3, Block]>;
+  getIterator(): Generator<[IRelativeCoordinate, Block]>;
 }
