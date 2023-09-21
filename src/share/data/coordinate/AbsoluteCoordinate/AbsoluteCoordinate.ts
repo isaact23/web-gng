@@ -43,4 +43,18 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
 
     return new RelativeCoordinate(x, y, z, chunkCoord);
   }
+
+  /**
+   * Add this coordinate to another coordinate and return the result.
+   * 
+   * @param other The other coordinate to add to this coordinate.
+   * @return The sum of this coordinate and the other coordinate.
+   */
+  add(other: IAbsoluteCoordinate): IAbsoluteCoordinate {
+    return new AbsoluteCoordinate(
+      this.x + other.x,
+      this.y + other.y,
+      this.z + other.z
+    );
+  }
 }

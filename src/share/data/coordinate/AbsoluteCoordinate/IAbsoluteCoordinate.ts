@@ -23,4 +23,12 @@ export interface IAbsoluteCoordinate {
    * @returns The relative coordinate of this absolute coordinate within its chunk.
    */
   getRelativeCoordinate(): IRelativeCoordinate;
+
+  /**
+   * Add this coordinate to another coordinate and return the result.
+   * 
+   * @param other The other coordinate to add to this coordinate.
+   * @return The sum of this coordinate and the other coordinate.
+   */
+  add(other: IAbsoluteCoordinate): IAbsoluteCoordinate;
 }

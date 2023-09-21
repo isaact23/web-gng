@@ -28,4 +28,18 @@ export class ChunkCoordinate implements IChunkCoordinate {
 
     return new AbsoluteCoordinate(x, y, z);
   }
+
+  /**
+   * Add this chunk coordinate to another chunk coordinate and return the result.
+   * 
+   * @param other The other chunk coordinate to add to this chunk coordinate.
+   * @return The sum of this chunk coordinate and the other chunk coordinate.
+   */
+  add(other: IChunkCoordinate): IChunkCoordinate {
+    return new ChunkCoordinate(
+      this.x + other.x,
+      this.y + other.y,
+      this.z + other.z
+    );
+  }
 }

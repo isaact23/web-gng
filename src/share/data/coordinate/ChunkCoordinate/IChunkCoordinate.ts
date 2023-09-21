@@ -15,4 +15,12 @@ export interface IChunkCoordinate {
    * @returns The absolute coordinate of the block at the origin of this chunk.
    */
   getAbsoluteCoordinate(): IAbsoluteCoordinate;
+
+  /**
+   * Add this chunk coordinate to another chunk coordinate and return the result.
+   * 
+   * @param other The other chunk coordinate to add to this chunk coordinate.
+   * @return The sum of this chunk coordinate and the other chunk coordinate.
+   */
+  add(other: IChunkCoordinate): IChunkCoordinate;
 }

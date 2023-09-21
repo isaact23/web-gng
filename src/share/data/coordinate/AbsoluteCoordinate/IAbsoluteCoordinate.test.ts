@@ -65,5 +65,14 @@ for (const [name, coord] of implementations) {
       expect(rel4.z).toBe(31);
       expect(rel4.chunkCoordinate).toEqual({ x: -1, y: -1, z: -2 });
     });
+
+    test("Add absolute coordinates", () => {
+      const c1 = new coord(4, 10, -5);
+      const c2 = new coord(2, 15, 52);
+      expect(c1.add(c2)).toEqual({ x: 6, y: 25, z: 47});
+
+      const c3 = new coord(5, -5, 0);
+      expect(c1.add(c3)).toEqual({ x: 9, y: 5, z: -5});
+    });
   });
 }
