@@ -1,4 +1,5 @@
 import { IRelativeCoordinate } from ".";
+import { IAbsoluteCoordinate } from "../AbsoluteCoordinate";
 import { IChunkCoordinate } from "../ChunkCoordinate";
 
 /**
@@ -13,4 +14,13 @@ export class RelativeCoordinate implements IRelativeCoordinate {
     public readonly z: number,
     public readonly chunkCoordinate: IChunkCoordinate
   ) {}
+
+  /**
+   * Convert this relative coordinate to an absolute coordinate.
+   * 
+   * @returns The absolute coordinate of this relative coordinate.
+   */
+  getAbsoluteCoordinate(): IAbsoluteCoordinate {
+    throw "Not implemented";
+  }
 }
