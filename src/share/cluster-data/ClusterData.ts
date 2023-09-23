@@ -3,6 +3,7 @@ import { IChunkData, ChunkData } from "./chunk-data";
 import { IClusterData } from "./IClusterData";
 import { Block } from "@share/utility";
 import { Grid, IGrid } from "@share/data/grid";
+import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them
@@ -15,7 +16,7 @@ export class ClusterData implements IClusterData {
   constructor(
 
   ) {
-    this.chunks = new Grid<IChunkData>();
+    this.chunks = new Grid<IChunkData>;
   }
 
   /**
@@ -24,54 +25,55 @@ export class ClusterData implements IClusterData {
    */
   addChunk(chunk: IChunkData): void {
     const coord = chunk.getCoordinate();
-    this.chunks.set(coord, chunk);
+    const vec = new Vector3(coord.x, coord.y, coord.z);
+    this.chunks.set(vec, chunk);
   }
 
   /**
    * Get the chunk at a coordinate.
-   * @param pos The coordinate of the chunk to access.
+   * @param coord The coordinate of the chunk to access.
    * @returns The chunk at the specified coordinate, or undefined if there is no chunk.
    */
-  getChunk(pos: Vector3): IChunkData | undefined {
-    return this.chunks.get(pos);
+  getChunk(coord: IChunkCoordinate): IChunkData | undefined {
+    const vec = new Vector3(coord.x, coord.y, coord.z);
+    return this.chunks.get(vec);
   }
 
   /**
-   * Get the block at an xyz coordinate.
-   * @param pos The coordinate to access.
+   * Get the block at an absolute coordinate.
+   * @param coord The coordinate to access.
    * @returns The block at the coordinate, or undefined if there is no block.
    */
-  getBlock(pos: Vector3): Block | undefined {
+  getBlock(coord: IAbsoluteCoordinate) : Block | undefined {
 
     // Get the chunk that the block is in
-    const chunk = this.getChunk(pos);
+    const relCoord = coord.getRelativeCoordinate();
+    const chunk = this.getChunk(relCoord.chunkCoordinate);
     if (chunk === undefined) return undefined;
 
     // Get the block from the chunk
-    const blockCoord = this._chunkToBlockCoord(pos);
-    return chunk.getBlock(blockCoord);
+    return chunk.getBlock(relCoord);
   }
 
   /**
-   * Set a block at an xyz coordinate.
-   * @param pos The coordinate to update.
+   * Set a block at an absolute coordinate.
+   * @param coord The coordinate to update.
    * @param block The block to set at the specified coordinate.
    */
-  setBlock(pos: Vector3, block: Block): void {
+  setBlock(coord: IAbsoluteCoordinate, block: Block) : void {
 
     // Get the chunk that the block is in
-    const chunkCoord = this._blockToChunkCoord(pos);
-    let chunk = this.getChunk(chunkCoord);
+    const relCoord = coord.getRelativeCoordinate();
+    let chunk = this.getChunk(relCoord.chunkCoordinate);
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new ChunkData(chunkCoord);
+      chunk = new ChunkData(relCoord.chunkCoordinate);
       this.addChunk(chunk);
     }
 
     // Set the block from the chunk
-    const blockCoord = this._worldToBlockCoord(pos);
-    chunk.setBlock(blockCoord, block);
+    chunk.setBlock(relCoord, block);
   }
 
   /**

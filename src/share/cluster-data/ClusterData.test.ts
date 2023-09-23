@@ -2,54 +2,66 @@ import { Block } from "@share/utility";
 import { ClusterData } from ".";
 import { IClusterData} from ".";
 import { Vector3 } from "babylonjs";
-import { ChunkData } from "./chunk-data";
+import { ChunkData, IChunkData } from "./chunk-data";
+import { AbsoluteCoordinate, ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 
 
 describe('Testing ClusterData', () => {
 
-  // Lambda to generate Vector3's
-  const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
-  
-  const cluster1: IClusterData = new ClusterData(32);
+  // Lambda for creating coordinates
+  const a = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
+  const c = (x: number, y: number, z: number) => new ChunkCoordinate(x, y, z);
 
-  test("Get chunk size", () => {
-    expect(cluster1.getChunkSize()).toBe(32);
+  test("Ensure chunk size is 32", () => {
+    expect(ChunkData.CHUNK_SIZE).toBe(32);
   });
 
   test("Add and get chunks", () => {
-      expect(cluster1.getChunk(v(0, 0, 0))).toBeUndefined();
-      cluster1.addChunk(new ChunkData(v(0, 0, 0)));
-      expect(cluster1.getChunk(v(0, 0, 0))).toBeDefined();
-  
-      expect(cluster1.getChunk(v(4, -5, 8))).toBeUndefined();
-      cluster1.addChunk(new ChunkData(v(4, -5, 8)));
-      expect(cluster1.getChunk(v(4, -5, 8))).toBeDefined();
-  });
+    const cluster1 = new ClusterData();
+    const chunkCoord1 = new ChunkCoordinate(0, 0, 0);
+    expect(cluster1.getChunk(chunkCoord1)).toBeUndefined();
+    
+    const chunk1 = new ChunkData(chunkCoord1);
+    cluster1.addChunk(chunk1);
+    expect(cluster1.getChunk(chunkCoord1)).toBe(chunk1);
 
-  const cluster2: IClusterData = new ClusterData(32);
+    const chunkCoord2 = new ChunkCoordinate(4, 0, 0);
+    const chunk2 = new ChunkData(chunkCoord2);
+    cluster1.addChunk(chunk2);
+    expect(cluster1.getChunk(chunkCoord2)).toBe(chunk2);
+
+    const chunk3 = new ChunkData(chunkCoord1);
+    cluster1.addChunk(chunk3);
+    expect(cluster1.getChunk(chunkCoord1)).toBe(chunk3);
+  });
 
   test("Get and set blocks", () => {
-    expect(cluster2.getBlock(v(0, 0, 0))).toBeUndefined();
-    expect(cluster2.getBlock(v(400, 600, -300))).toBeUndefined();
+    const cluster2 = new ClusterData();
 
-    cluster2.setBlock(v(0, 0, 0), Block.Stone);
-    expect(cluster2.getBlock(v(0, 0, 0))).toBe(Block.Stone);
+    expect(cluster2.getBlock(a(0, 0, 0))).toBeUndefined();
+    expect(cluster2.getBlock(a(400, 600, -300))).toBeUndefined();
 
-    cluster2.setBlock(v(-503, 706, 20), Block.Grass);
-    expect(cluster2.getBlock(v(-503, 706, 20))).toBe(Block.Grass);
+    cluster2.setBlock(a(0, 0, 0), Block.Stone);
+    expect(cluster2.getBlock(a(0, 0, 0))).toBe(Block.Stone);
 
-    cluster2.setBlock(v(204, -16, 0), Block.Dirt);
-    expect(cluster2.getBlock(v(204, -16, 0))).toBe(Block.Dirt);
+    cluster2.setBlock(a(-503, 706, 20), Block.Grass);
+    expect(cluster2.getBlock(a(-503, 706, 20))).toBe(Block.Grass);
+
+    cluster2.setBlock(a(204, -16, 0), Block.Dirt);
+    expect(cluster2.getBlock(a(204, -16, 0))).toBe(Block.Dirt);
+
+    cluster2.setBlock(a(0, 0, 0), Block.Air);
+    expect(cluster2.getBlock(a(0, 0, 0))).toBe(Block.Air);
   });
 
-  const cluster3 = new ClusterData(32);
-
   test("Cluster chunk iterator", () => {
+    const cluster3 = new ClusterData();
+
     const it1 = cluster3.getIterator();
     expect(it1.next().done).toBeTruthy();
 
-    cluster3.addChunk(new ChunkData(v(0, 0, 0)));
-    cluster3.addChunk(new ChunkData(v(4, 0, 0)));
+    cluster3.addChunk(new ChunkData(c(0, 0, 0)));
+    cluster3.addChunk(new ChunkData(c(4, 0, 0)));
 
     const it2 = cluster3.getIterator();
 

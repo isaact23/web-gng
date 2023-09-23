@@ -20,7 +20,7 @@ export interface IClusterData {
    * @param coord The coordinate of the chunk to access.
    * @returns The chunk at the specified coordinate, or undefined if there is no chunk.
    */
-  getChunk(coord: IChunkCoordinate) : IChunkData | undefined;
+  getChunk(coord: IChunkCoordinate): IChunkData | undefined;
 
   /**
    * Get the block at an absolute coordinate.
