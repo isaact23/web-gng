@@ -1,7 +1,6 @@
 import { Block } from "@share/utility";
 import { ChunkData } from ".";
 import { IChunkData} from ".";
-import { Vector3 } from "babylonjs";
 import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
 import { RelativeCoordinate, IRelativeCoordinate } from "@share/data/coordinate/RelativeCoordinate";
 

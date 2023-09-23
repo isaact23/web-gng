@@ -1,5 +1,5 @@
 import { Vector3 } from "babylonjs";
-import { IChunkData, ChunkData } from "./chunk";
+import { IChunkData, ChunkData } from "./chunk-data";
 import { IClusterData } from "./IClusterData";
 import { Block } from "@share/utility";
 import { Grid, IGrid } from "@share/data/grid";

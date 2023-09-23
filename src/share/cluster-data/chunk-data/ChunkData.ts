@@ -20,7 +20,7 @@ export class ChunkData implements IChunkData {
 
   // Create an empty chunk
   constructor(
-    private readonly coordinate: IChunkCoordinate = new ChunkCoordinate(0, 0, 0)
+    private readonly coordinate: IChunkCoordinate
   ) {
     this.blocks = [];
 

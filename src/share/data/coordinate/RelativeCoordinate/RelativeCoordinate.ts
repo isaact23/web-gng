@@ -1,4 +1,4 @@
-import { ChunkData } from "@share/cluster-data/chunk";
+import { ChunkData } from "@share/cluster-data/chunk-data";
 import { IRelativeCoordinate } from ".";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../AbsoluteCoordinate";
 import { IChunkCoordinate } from "../ChunkCoordinate";

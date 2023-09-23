@@ -1,8 +1,6 @@
-import { IAbsoluteCoordinate } from "@share/data/coordinate/AbsoluteCoordinate";
 import { IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
 import { IRelativeCoordinate } from "@share/data/coordinate/RelativeCoordinate";
 import { Block } from "@share/utility";
-import { Vector3 } from "babylonjs";
 
 /**
  * Store data for a single chunk, a cubic region of blocks.

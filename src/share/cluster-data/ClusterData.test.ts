@@ -2,7 +2,7 @@ import { Block } from "@share/utility";
 import { ClusterData } from ".";
 import { IClusterData} from ".";
 import { Vector3 } from "babylonjs";
-import { ChunkData } from "./chunk";
+import { ChunkData } from "./chunk-data";
 
 
 describe('Testing ClusterData', () => {
