@@ -2,6 +2,7 @@ import { IClusterClient } from ".";
 import { IAssetManager } from "@client/assets";
 import { IClusterData } from "@share/cluster-data";
 import { IChunkData } from "@share/cluster-data/chunk-data";
+import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { IGrid, Grid } from "@share/data/grid";
 import { Face, Block } from "@share/utility";
 import * as Utility from "@share/utility";
@@ -40,12 +41,12 @@ export class ClusterClient implements IClusterClient {
   }
 
   // Get the chunk at a coordinate
-  getChunk(coord: Vector3) : IChunkData | undefined {
+  getChunk(coord: IChunkCoordinate) : IChunkData | undefined {
     return this.clusterData.getChunk(coord);
   }
 
   // Get the block at an xyz coordinate
-  getBlock(coord: Vector3) : Block | undefined {
+  getBlock(coord: IAbsoluteCoordinate) : Block | undefined {
     return this.clusterData.getBlock(coord);
   }
 
@@ -217,8 +218,25 @@ export class ClusterClient implements IClusterClient {
     return mesh;
   }
 
-  // Flag a chunk for re-meshing.
-  _flagDirty(coord: Vector3) {
-    this.dirtyChunks.set(coord, true);
+  /**
+   * Flag a chunk as dirty or clean.
+   * @param coord The chunk coordinate.
+   * @param dirty True if the chunk is dirty, false if clean.
+   */
+  _setDirty(coord: IChunkCoordinate, dirty: boolean): void {
+    const vec = new Vector3(coord.x, coord.y, coord.z);
+    this.dirtyChunks.set(vec, dirty);
+  }
+
+  /**
+   * Get whether a chunk is dirty.
+   * @param coord The chunk coordinate.
+   * @returns True if dirty, false if clean.
+   */
+  _isDirty(coord: IChunkCoordinate): boolean {
+    const vec = new Vector3(coord.x, coord.y, coord.z);
+    const res = this.dirtyChunks.get(vec);
+    if (res == undefined) return false;
+    return res;
   }
 }

@@ -1,5 +1,5 @@
-import { Vector3 } from "babylonjs";
 import { Face } from "@share/utility";
+import { IAbsoluteCoordinate } from "@share/data/coordinate";
 
 export interface IBlockTargeter {
   /**
@@ -12,5 +12,5 @@ export interface IBlockTargeter {
    * Determine the block and face the player is currently targeting.
    * @returns The position and face of the targeted block, or null if no block is targeted.
    */
-  getTargetBlockAndFace() : [Vector3, Face] | null;
+  getTargetBlockAndFace() : [IAbsoluteCoordinate, Face] | null;
 }

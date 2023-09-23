@@ -2,6 +2,7 @@ import { Vector3 } from "babylonjs";
 import { Block } from "@share/utility";
 import { ClusterData, IClusterData } from "@share/cluster-data";
 import { IClusterGenerator } from "./IClusterGenerator";
+import { AbsoluteCoordinate } from "@share/data/coordinate";
 
 /**
  * Generator for cluster data.
@@ -25,7 +26,7 @@ export class ClusterGenerator implements IClusterGenerator {
           if (y == 127) block = Block.Grass;
           if (y < 75) block = Block.Stone;
   
-          cluster.setBlock(new Vector3(x, y, z), block);
+          cluster.setBlock(new AbsoluteCoordinate(x, y, z), block);
         }
       }
     }
@@ -40,8 +41,8 @@ export class ClusterGenerator implements IClusterGenerator {
 
     const cluster = new ClusterData();
 
-    // Lambda to create Vector3
-    const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
+    // Lambda to create absolute coordinate
+    const v = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
   
     for (let x = 0; x < size; x++) {
       for (let z = 0; z < size; z++) {

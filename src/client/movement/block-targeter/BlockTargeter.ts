@@ -3,6 +3,7 @@ import { Vector3 } from "babylonjs";
 import { Face, FaceVectorConverter } from "@share/utility";
 import { IAssetManager } from "@client/assets";
 import { IBlockTargeter } from "./IBlockTargeter";
+import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 
 const VIEW_DISTANCE = 5;
 
@@ -33,7 +34,9 @@ export class BlockTargeter implements IBlockTargeter {
       this.indicator.visibility = 0;
     } else {
       this.indicator.visibility = 1;
-      this.indicator.position = target[0];
+
+      const vec = new Vector3(target[0].x, target[0].y, target[0].z);
+      this.indicator.position = vec;
     }
 
     return true;
@@ -43,7 +46,7 @@ export class BlockTargeter implements IBlockTargeter {
    * Determine the block and face the player is currently targeting.
    * @returns The position and face of the targeted block, or null if no block is targeted.
    */
-  public getTargetBlockAndFace() : [Vector3, Face] | null {
+  public getTargetBlockAndFace() : [IAbsoluteCoordinate, Face] | null {
 
     // Raycast
     const direction = this.camera.getDirection(Babylon.Axis.Z);
@@ -65,7 +68,7 @@ export class BlockTargeter implements IBlockTargeter {
     // Determine which block was hit
     const hitPos = pickingInfo.pickedPoint;
     const blockMid = hitPos.add(normal.multiplyByFloats(-0.5, -0.5, -0.5));
-    const blockPos = new Vector3(Math.floor(blockMid.x), Math.floor(blockMid.y), Math.floor(blockMid.z));
+    const blockPos = new AbsoluteCoordinate(Math.floor(blockMid.x), Math.floor(blockMid.y), Math.floor(blockMid.z));
 
     return [blockPos, face];
   }
