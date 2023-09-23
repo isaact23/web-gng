@@ -23,4 +23,11 @@ export interface IChunkCoordinate {
    * @return The sum of this chunk coordinate and the other chunk coordinate.
    */
   add(other: IChunkCoordinate): IChunkCoordinate;
+
+  /**
+   * Determine if this coordinate is equal to another IChunkCoordinate.
+   * 
+   * @returns True if the coordinates are equal, false otherwise.
+   */
+  equals(other: IChunkCoordinate): boolean;
 }

@@ -42,4 +42,17 @@ export class ChunkCoordinate implements IChunkCoordinate {
       this.z + other.z
     );
   }
+
+  /**
+   * Determine if this coordinate is equal to another IChunkCoordinate.
+   * 
+   * @returns True if the coordinates are equal, false otherwise.
+   */
+  equals(other: IChunkCoordinate): boolean {
+    return (
+      this.x === other.x &&
+      this.y === other.y &&
+      this.z === other.z
+    );
+  }
 }

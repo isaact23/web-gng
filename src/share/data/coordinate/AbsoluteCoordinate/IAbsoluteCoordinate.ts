@@ -31,4 +31,11 @@ export interface IAbsoluteCoordinate {
    * @return The sum of this coordinate and the other coordinate.
    */
   add(other: IAbsoluteCoordinate): IAbsoluteCoordinate;
+
+  /**
+   * Determine if this coordinate is equal to another IAbsoluteCoordiante.
+   * 
+   * @returns True if the coordinates are equal, false otherwise.
+   */
+  equals(other: IAbsoluteCoordinate): boolean;
 }

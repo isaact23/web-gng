@@ -15,18 +15,18 @@ export interface IChunkData {
   getSize(): number;
 
   /**
-   * Get the block at an absolute coordinate
+   * Get the block at a relative coordinate
    * @param coord The position of the block to access.
    * @returns The block.
    */
-  getBlock(coord: IAbsoluteCoordinate): Block;
+  getBlock(coord: IRelativeCoordinate): Block;
 
   /**
-   * Set a block at an absolute coordinate.
+   * Set a block at a relative coordinate.
    * @param coord The coordiante to update.
    * @param block The block to set at the coordinate.
    */
-  setBlock(coord: IAbsoluteCoordinate, block: Block): void;
+  setBlock(coord: IRelativeCoordinate, block: Block): void;
 
   /**
    * Get the coordinate of this chunk.

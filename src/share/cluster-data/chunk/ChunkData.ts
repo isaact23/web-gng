@@ -4,6 +4,8 @@ import { IChunkData } from ".";
 import { Vector3 } from "babylonjs";
 import * as Babylon from "babylonjs";
 import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
+import { IRelativeCoordinate, RelativeCoordinate } from "@share/data/coordinate/RelativeCoordinate";
+import { IAbsoluteCoordinate } from "@share/data/coordinate/AbsoluteCoordinate";
 
 // TODO: Implement greedy meshing
 
@@ -42,29 +44,34 @@ export class ChunkData implements IChunkData {
     return ChunkData.CHUNK_SIZE;
   }
 
-  // Get the block at an xyz coordinate
-  getBlock(pos: Vector3) : Block {
-    // Ensure the coordinates are within the bounds of the chunk
-    if (pos.x < 0 || pos.y < 0 || pos.z < 0) {
-      throw new RangeError("Cannot get a block outside this chunk");
-    }
-    if (pos.x >= ChunkData.CHUNK_SIZE || pos.y >= ChunkData.CHUNK_SIZE || pos.z >= ChunkData.CHUNK_SIZE) {
-      throw new RangeError("Cannot get a block outside this chunk");
+  /**
+   * Get the block at a relative coordinate
+   * @param coord The position of the block to access.
+   * @returns The block.
+   */
+  getBlock(coord: IRelativeCoordinate): Block {
+
+    // Ensure relative coordinate is relative to this chunk
+    if (!coord.chunkCoordinate.equals(this.coordinate)) {
+      throw new Error("Cannot set a block outside this chunk");
     }
 
-    return this.blocks[pos.x][pos.y][pos.z];
+    return this.blocks[coord.x][coord.y][coord.z];
   }
 
-  // Set a block at an xyz coordinate
-  setBlock(pos: Vector3, block: Block) : void {
-    // Ensure set block is within the bounds of this chunk
-    if (pos.x < 0 || pos.y < 0 || pos.z < 0 || 
-      pos.x >= ChunkData.CHUNK_SIZE || pos.y >= ChunkData.CHUNK_SIZE || pos.z >= ChunkData.CHUNK_SIZE)
-    {
-      throw new RangeError("Cannot set a block outside this chunk");
+  /**
+   * Set a block at a relative coordinate.
+   * @param coord The coordiante to update.
+   * @param block The block to set at the coordinate.
+   */
+  setBlock(coord: IRelativeCoordinate, block: Block): void {
+
+    // Ensure relative coordinate is relative to this chunk
+    if (!coord.chunkCoordinate.equals(this.coordinate)) {
+      throw new Error("Cannot set a block outside this chunk");
     }
 
-    this.blocks[pos.x][pos.y][pos.z] = block;
+    this.blocks[coord.x][coord.y][coord.z] = block;
   }
 
   // Get the coordinate of this chunk.
@@ -72,14 +79,18 @@ export class ChunkData implements IChunkData {
     return this.coordinate;
   }
 
-  // Get iterator for local-space positions of all non-air blocks in the chunk
-  *getIterator() : Generator<[Vector3, Block], any, unknown> {
+  /**
+   * Get iterator for relative coordinates of all non-air blocks in the chunk
+   * @returns An iterator for blocks in the chunk.
+   */
+  *getIterator() : Generator<[IRelativeCoordinate, Block], any, unknown> {
     for (var z = 0; z < ChunkData.CHUNK_SIZE; z++) {
       for (var y = 0; y < ChunkData.CHUNK_SIZE; y++) {
         for (var x = 0; x < ChunkData.CHUNK_SIZE; x++) {
           const block = this.blocks[x][y][z];
           if (block != Block.Air) {
-            yield [new Vector3(x, y, z), block];
+            const rel = new RelativeCoordinate(x, y, z, this.coordinate);
+            yield [rel, block];
           }
         }
       }

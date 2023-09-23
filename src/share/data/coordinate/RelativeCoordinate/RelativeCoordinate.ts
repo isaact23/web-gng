@@ -41,4 +41,18 @@ export class RelativeCoordinate implements IRelativeCoordinate {
 
     return new AbsoluteCoordinate(x, y, z);
   }
+
+  /**
+   * Determine if this relative coordiante is equal to another IRelativeCoordinate.
+   * 
+   * @returns True if the coordinates are equal, false otherwise.
+   */
+  equals(other: IRelativeCoordinate): boolean {
+    return (
+      this.x === other.x &&
+      this.y === other.y &&
+      this.z === other.z &&
+      this.chunkCoordinate.equals(other.chunkCoordinate)
+    );
+  }
 }

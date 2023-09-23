@@ -57,4 +57,17 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
       this.z + other.z
     );
   }
+
+  /**
+   * Determine if this coordinate is equal to another IAbsoluteCoordiante.
+   * 
+   * @returns True if the coordinates are equal, false otherwise.
+   */
+  equals(other: IAbsoluteCoordinate): boolean {
+    return (
+      this.x === other.x &&
+      this.y === other.y &&
+      this.z === other.z
+    );
+  }
 }

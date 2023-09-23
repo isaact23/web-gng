@@ -74,5 +74,13 @@ for (const [name, coord] of implementations) {
       const c3 = new coord(5, -5, 0);
       expect(c1.add(c3)).toEqual({ x: 9, y: 5, z: -5});
     });
+
+    test("Check coordinate equality", () => {
+      const c1 = new coord(1, 2, 3);
+      const c2 = new coord(1, 2, 3);
+      const c3 = new coord(3, 2, 1);
+      expect(c1.equals(c2)).toBe(true);
+      expect(c1.equals(c3)).toBe(false);
+    });
   });
 }

@@ -20,4 +20,11 @@ export interface IRelativeCoordinate {
    * @returns The absolute coordinate of this relative coordinate.
    */
   getAbsoluteCoordinate(): IAbsoluteCoordinate;
+  
+  /**
+   * Determine if this relative coordiante is equal to another IRelativeCoordinate.
+   * 
+   * @returns True if the coordinates are equal, false otherwise.
+   */
+  equals(other: IRelativeCoordinate): boolean;
 }

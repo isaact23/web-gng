@@ -35,5 +35,13 @@ for (const [name, coord] of implementations) {
       const c2 = new coord(-2, 0, -1);
       expect(c1.add(c2)).toEqual({ x: -1, y: 2, z: 2 });
     });
+
+    test("Test equality", () => {
+      const c1 = new coord(1, 2, 3);
+      const c2 = new coord(1, 2, 3);
+      const c3 = new coord(3, 2, 1);
+      expect(c1.equals(c2)).toBe(true);
+      expect(c1.equals(c3)).toBe(false);
+    });
   });
 }
