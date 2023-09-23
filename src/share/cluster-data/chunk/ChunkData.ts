@@ -1,11 +1,8 @@
 import { Block } from "@share/utility";
 import { IChunkData } from ".";
 
-import { Vector3 } from "babylonjs";
-import * as Babylon from "babylonjs";
 import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
 import { IRelativeCoordinate, RelativeCoordinate } from "@share/data/coordinate/RelativeCoordinate";
-import { IAbsoluteCoordinate } from "@share/data/coordinate/AbsoluteCoordinate";
 
 // TODO: Implement greedy meshing
 
@@ -20,7 +17,6 @@ export class ChunkData implements IChunkData {
   public static readonly CHUNK_SIZE = 32;
 
   private blocks: Block[][][];
-  private mesh: Babylon.Mesh | null = null;
 
   // Create an empty chunk
   constructor(
