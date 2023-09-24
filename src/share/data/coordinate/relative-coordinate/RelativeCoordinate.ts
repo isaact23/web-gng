@@ -1,7 +1,7 @@
 import { ChunkData } from "@share/cluster-data/chunk-data";
 import { IRelativeCoordinate } from ".";
-import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../AbsoluteCoordinate";
-import { IChunkCoordinate } from "../ChunkCoordinate";
+import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../absolute-coordinate";
+import { IChunkCoordinate } from "../chunk-coordinate";
 
 /**
  * Interface for a relative coordinate, which stores the

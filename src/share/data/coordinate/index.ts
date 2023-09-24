@@ -1,3 +1,3 @@
-export * from "./AbsoluteCoordinate";
-export * from "./ChunkCoordinate";
-export * from "./RelativeCoordinate";
+export * from "./absolute-coordinate";
+export * from "./chunk-coordinate";
+export * from "./relative-coordinate";

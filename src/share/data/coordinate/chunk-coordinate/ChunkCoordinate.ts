@@ -1,6 +1,6 @@
 import { ChunkData } from "@share/cluster-data/chunk-data";
 import { IChunkCoordinate } from ".";
-import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../AbsoluteCoordinate";
+import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../absolute-coordinate";
 
 /**
  * Chunk coordinates. An increment of 1 shifts

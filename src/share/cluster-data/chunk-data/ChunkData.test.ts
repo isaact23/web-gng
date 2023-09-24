@@ -1,8 +1,8 @@
 import { Block } from "@share/utility";
 import { ChunkData } from ".";
 import { IChunkData} from ".";
-import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
-import { RelativeCoordinate, IRelativeCoordinate } from "@share/data/coordinate/RelativeCoordinate";
+import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
+import { RelativeCoordinate, IRelativeCoordinate } from "@share/data/coordinate/relative-coordinate";
 
 
 describe('Testing ChunkData', () => {

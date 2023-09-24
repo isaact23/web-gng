@@ -1,5 +1,5 @@
-import { IChunkCoordinate } from "../ChunkCoordinate";
-import { IRelativeCoordinate } from "../RelativeCoordinate";
+import { IChunkCoordinate } from "../chunk-coordinate";
+import { IRelativeCoordinate } from "../relative-coordinate";
 
 /**
  * Interface for absolute coordinate in world space,

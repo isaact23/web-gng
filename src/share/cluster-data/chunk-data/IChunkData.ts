@@ -1,5 +1,5 @@
-import { IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
-import { IRelativeCoordinate } from "@share/data/coordinate/RelativeCoordinate";
+import { IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
+import { IRelativeCoordinate } from "@share/data/coordinate/relative-coordinate";
 import { Block } from "@share/utility";
 
 /**

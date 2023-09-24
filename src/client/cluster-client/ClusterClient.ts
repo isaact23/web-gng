@@ -3,7 +3,7 @@ import { IAssetManager } from "@client/assets";
 import { IClusterData } from "@share/cluster-data";
 import { IChunkData } from "@share/cluster-data/chunk-data";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
-import { IGrid, Grid } from "@share/data/grid";
+import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
 import { Face, Block } from "@share/utility";
 import * as Utility from "@share/utility";
 
@@ -18,12 +18,12 @@ export class ClusterClient implements IClusterClient {
   /**
    * Keep track of which chunks need to be re-meshed.
    */
-  private dirtyChunks: IGrid<boolean> = new Grid<boolean>;
+  private dirtyChunks: IChunkGrid<boolean> = new ChunkGrid<boolean>;
 
   /**
    * Keep track of chunk meshes.
    */
-  private chunkMeshes: IGrid<Babylon.Mesh> = new Grid<Babylon.Mesh>;
+  private chunkMeshes: IChunkGrid<Babylon.Mesh> = new ChunkGrid<Babylon.Mesh>;
     
   constructor(
     private clusterData: IClusterData,
@@ -35,32 +35,44 @@ export class ClusterClient implements IClusterClient {
     const chunkIt = clusterData.getIterator();
     for (let chunk of chunkIt) {
       const c = chunk.getCoordinate();
-      console.log(c);
-      this._flagDirty(c);
+      this.dirtyChunks.set(c, true);
     }
   }
 
-  // Get the chunk at a coordinate
+  /**
+   * Get the chunk at a chunk coordinate.
+   * @returns The chunk, or undefined if it doesn't exist.
+   */
   getChunk(coord: IChunkCoordinate) : IChunkData | undefined {
     return this.clusterData.getChunk(coord);
   }
 
-  // Get the block at an xyz coordinate
+  /**
+   * Get the block at an absolute coordinate.
+   * @returns The block, or undefined if it doesn't exist.
+   */
   getBlock(coord: IAbsoluteCoordinate) : Block | undefined {
     return this.clusterData.getBlock(coord);
   }
 
-  // Add a new chunk. Replace any chunk in its spot.
+  /**
+   * Add a new chunk. Replace any chunk in its spot.
+   * @param chunk The chunk to add.
+   */
   addChunk(chunk: IChunkData) : void {
     this.clusterData.addChunk(chunk);
 
     // Flag chunk for update
     const c = chunk.getCoordinate();
-    this._flagDirty(c);
+    this.dirtyChunks.set(c, true);
   }
 
-  // Set a block at an xyz coordinate
-  setBlock(pos: Vector3, block: Block) : void {
+  /**
+   * Set a block at an absolute coordinate.
+   * @param coord The absolute coordinate.
+   * @param block The block to set.
+   */
+  setBlock(coord: IAbsoluteCoordinate, block: Block) : void {
     this.clusterData.setBlock(pos, block);
 
     // Flag this chunk for update
@@ -81,17 +93,16 @@ export class ClusterClient implements IClusterClient {
     }
   }
 
-  // Get iterator for all chunks in the world
+  /**
+   * Get iterator for all chunks in the world.
+   */
   getIterator(): Generator<IChunkData> {
     return this.clusterData.getIterator();
   }
-  
-  // Get chunk size
-  getChunkSize(): number {
-    return this.clusterData.getChunkSize();
-  }
 
-  // Load or reload chunk meshes in the world.
+  /**
+   * Load or reload chunk meshes in the world.
+   */
   remesh(): void {
     console.log("Re-meshing");
 
@@ -119,7 +130,9 @@ export class ClusterClient implements IClusterClient {
     }
   }
 
-  // Convert block data for a chunk into a mesh
+  /**
+   * Convert block data for a chunk into a mesh.
+   */
   _generateChunkMesh(chunk: IChunkData): Babylon.Mesh {
 
     const blockIterator = chunk.getIterator();
@@ -216,27 +229,5 @@ export class ClusterClient implements IClusterClient {
     mesh.receiveShadows = true;
 
     return mesh;
-  }
-
-  /**
-   * Flag a chunk as dirty or clean.
-   * @param coord The chunk coordinate.
-   * @param dirty True if the chunk is dirty, false if clean.
-   */
-  _setDirty(coord: IChunkCoordinate, dirty: boolean): void {
-    const vec = new Vector3(coord.x, coord.y, coord.z);
-    this.dirtyChunks.set(vec, dirty);
-  }
-
-  /**
-   * Get whether a chunk is dirty.
-   * @param coord The chunk coordinate.
-   * @returns True if dirty, false if clean.
-   */
-  _isDirty(coord: IChunkCoordinate): boolean {
-    const vec = new Vector3(coord.x, coord.y, coord.z);
-    const res = this.dirtyChunks.get(vec);
-    if (res == undefined) return false;
-    return res;
   }
 }

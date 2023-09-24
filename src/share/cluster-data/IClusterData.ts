@@ -1,8 +1,8 @@
 import { Block } from "share/utility";
 import { IChunkData } from "./chunk-data/IChunkData";
 import { Vector3 } from "babylonjs";
-import { IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
-import { IAbsoluteCoordinate } from "@share/data/coordinate/AbsoluteCoordinate";
+import { IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
+import { IAbsoluteCoordinate } from "@share/data/coordinate/absolute-coordinate";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them

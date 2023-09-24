@@ -1,4 +1,4 @@
-import { IAbsoluteCoordinate } from "../AbsoluteCoordinate";
+import { IAbsoluteCoordinate } from "../absolute-coordinate";
 
 /**
  * Interface for chunk coordinates. An increment of 1 shifts

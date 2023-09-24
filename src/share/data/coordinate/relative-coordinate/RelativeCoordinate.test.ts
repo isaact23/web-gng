@@ -1,6 +1,6 @@
 import { ChunkData } from "@share/cluster-data/chunk-data";
 import { RelativeCoordinate, IRelativeCoordinate } from ".";
-import { ChunkCoordinate, IChunkCoordinate } from "../ChunkCoordinate";
+import { ChunkCoordinate, IChunkCoordinate } from "../chunk-coordinate";
 
 // Store all implementations
 const implementations:

@@ -1,5 +1,5 @@
-import { IAbsoluteCoordinate } from "../AbsoluteCoordinate";
-import { IChunkCoordinate } from "../ChunkCoordinate";
+import { IAbsoluteCoordinate } from "../absolute-coordinate";
+import { IChunkCoordinate } from "../chunk-coordinate";
 
 /**
  * Interface for a relative coordinate, which stores the

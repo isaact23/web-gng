@@ -1,8 +1,8 @@
 import { Block } from "@share/utility";
 import { IChunkData } from ".";
 
-import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/ChunkCoordinate";
-import { IRelativeCoordinate, RelativeCoordinate } from "@share/data/coordinate/RelativeCoordinate";
+import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
+import { IRelativeCoordinate, RelativeCoordinate } from "@share/data/coordinate/relative-coordinate";
 
 // TODO: Implement greedy meshing
 

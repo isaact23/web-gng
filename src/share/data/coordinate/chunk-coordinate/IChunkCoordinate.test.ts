@@ -1,6 +1,6 @@
 import { ChunkData } from "@share/cluster-data/chunk-data";
 import { ChunkCoordinate, IChunkCoordinate } from ".";
-import { AbsoluteCoordinate } from "../AbsoluteCoordinate";
+import { AbsoluteCoordinate } from "../absolute-coordinate";
 
 // Store all implementations
 const implementations: [string, new (x: number, y: number, z: number) => IChunkCoordinate][] = [

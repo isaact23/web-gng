@@ -1,8 +1,6 @@
 import { Block } from "@share/utility";
 import { ClusterData } from ".";
-import { IClusterData} from ".";
-import { Vector3 } from "babylonjs";
-import { ChunkData, IChunkData } from "./chunk-data";
+import { ChunkData } from "./chunk-data";
 import { AbsoluteCoordinate, ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 
 
