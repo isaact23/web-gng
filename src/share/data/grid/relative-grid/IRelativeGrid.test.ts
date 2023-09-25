@@ -40,27 +40,7 @@ for (const [name, grid] of implementations) {
     });
 
     test("Get iterator", () => {
-      const chunk1 = new ChunkCoordinate(2, -5, 3);
-      const grid1 = new grid(chunk1);
-      const rel1 = new RelativeCoordinate(1, 2, 3, chunk1);
-      const rel2 = new RelativeCoordinate(4, 2, 3, chunk1);
-
-      grid1.set(rel1, 1);
-      grid1.set(rel2, 2);
-
-      const it = grid1.getIterator();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeTruthy();
-
-      const grid2 = new grid(chunk1);
-      grid2.set(rel1, 1);
-      grid2.set(rel1, 5);
-      grid2.set(rel1, -3);
-
-      const it2 = grid2.getIterator();
-      expect(it2.next().done).toBeFalsy();
-      expect(it2.next().done).toBeTruthy();
+      expect(true).toBe(false);
     });
   });
 }

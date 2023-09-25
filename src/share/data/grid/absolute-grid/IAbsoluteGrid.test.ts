@@ -23,14 +23,7 @@ for (const [name, grid] of implementations) {
     });
 
     test("Get iterator", () => {
-      const grid1 = new grid();
-      grid1.set(new AbsoluteCoordinate(0, 1, 2), 3);
-      grid1.set(new AbsoluteCoordinate(0, 1, 3), -16);
-
-      const it = grid1.getIterator();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeTruthy();
+      expect(true).toBe(false);
     });
   });
 }

@@ -16,6 +16,7 @@ export interface IChunkData {
    * Get the block at a relative coordinate
    * @param coord The position of the block to access.
    * @returns The block.
+   * @throws Error if the coordinate is not relative to this chunk.
    */
   getBlock(coord: IRelativeCoordinate): Block;
 

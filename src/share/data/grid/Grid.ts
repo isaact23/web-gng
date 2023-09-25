@@ -51,11 +51,11 @@ export class Grid<T> implements IGrid<T> {
    * Get iterator for all set items in the grid.
    * @returns An iterator that iterates through all set values in the grid.
    */ 
-  *getIterator(): Generator<T> {
+  *getIterator(): Generator<[Vector3, T]> {
     for (let [x, sliceX] of this.data) {
       for (let [y, sliceY] of sliceX) {
         for (let [z, value] of sliceY) {
-          yield value;
+          yield [new Vector3(x, y, z), value];
         }
       }
     }

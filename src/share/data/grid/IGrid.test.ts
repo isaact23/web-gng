@@ -39,18 +39,7 @@ for (const [name, grid] of implementations) {
     });
 
     test("Test grid iterator", () => {
-      const grid1 = new grid();
-      grid1.set(v(2, 5, 3),  4);
-      grid1.set(v(2, 5, 7),  7);
-      const it1 = grid1.getIterator();
-
-      expect(it1.next().value).toBe(4);
-      expect(it1.next().value).toBe(7);
-      expect(it1.next().done).toBe(true);
-
-      const grid2 = new grid();
-      const it2 = grid2.getIterator();
-      expect(it2.next().done).toBe(true);
+      expect(true).toBe(false);
     });
   });
 }

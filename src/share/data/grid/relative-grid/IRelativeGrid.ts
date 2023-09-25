@@ -24,7 +24,8 @@ export interface IRelativeGrid<T> {
     
     /**
      * Get iterator for all set items in the grid.
-     * @returns An iterator that iterates through all set values in the grid.
+     * @returns An iterator that iterates through all set values in the grid
+     * and their coordinates.
      */ 
-    getIterator(): Generator<T>;
+    getIterator(): Generator<[IRelativeCoordinate, T]>;
 }
