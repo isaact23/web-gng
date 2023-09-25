@@ -4,7 +4,7 @@
   "description": "Voxels in the sky",
   "scripts": {
     "start": "ts-node src/server/index.ts",
-    "webpack": "npx webpack --watch",
+    "build": "npx webpack --",
     "test": "jest --"
   },
   "author": "",
