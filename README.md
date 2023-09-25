@@ -8,5 +8,4 @@ To run server:
 `npx webpack`  
 `npm run start`  
 
-Write test for @share/data
-Check style / TSdocs
+ADD SOME STUFF AND COMMIT DIRECTLY TO MAIN
