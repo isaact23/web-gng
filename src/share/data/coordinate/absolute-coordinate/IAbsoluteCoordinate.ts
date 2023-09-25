@@ -1,3 +1,4 @@
+import { Vector3 } from "babylonjs";
 import { IChunkCoordinate } from "../chunk-coordinate";
 import { IRelativeCoordinate } from "../relative-coordinate";
 
@@ -55,4 +56,11 @@ export interface IAbsoluteCoordinate {
    * @returns The product of this coordinate and the scalar value.
    */
   multiply(scalar: number): IAbsoluteCoordinate;
+
+  /**
+   * Get the Vector3 representation of this absolute coordinate.
+   * 
+   * @returns The Vector3 representation of this absolute coordinate.
+   */
+  vec(): Vector3;
 }

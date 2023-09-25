@@ -170,16 +170,17 @@ export class ClusterClient implements IClusterClient {
     // For each block in the chunk,
     for (let [coord, block] of blockIterator) {
 
+      const absoluteCoord = coord.getAbsoluteCoordinate();
+
       // For each face in the block,
       for (let face of Object.values(Face)) {
         if (typeof(face) === "string") continue;
 
         // Get adjacent block
-        const vec = Utility.FaceVectorConverter.getVectorFromFace(face);
+        const faceVector = Utility.FaceVectorConverter.getVectorFromFace(face);
+        if (faceVector === undefined) continue;
 
-        if (vec === undefined) continue;
-
-        const adjCoord = coord.getAbsoluteCoordinate().addScalars(vec.x, vec.y, vec.z);
+        const adjCoord = absoluteCoord.addScalars(faceVector.x, faceVector.y, faceVector.z);
         const adjBlock = this.clusterData.getBlock(adjCoord);
 
         // If the adjacent block is empty,
@@ -189,12 +190,12 @@ export class ClusterClient implements IClusterClient {
           // Get texture UVs
           const uvBlock = Utility.TextureUvCalculator.getTextureUvs(block, face);
 
-          // Add vertices
+          // Add vertices and normals
           const vertIndices = faceVerts.get(face);
           if (vertIndices === undefined) continue;
           for (let i = 0; i < 4; i++) {
             const offset = cubeVerts[vertIndices[i]];
-            const vertCoord = coord.add(offset);
+            const vertCoord = absoluteCoord.addScalars(offset.x, offset.y, offset.z);
             vertices.push(vertCoord.x, vertCoord.y, vertCoord.z);
             normals.push(faceVector.x, faceVector.y, faceVector.z);
           }
@@ -223,7 +224,7 @@ export class ClusterClient implements IClusterClient {
     vertexData.uvs = uvs;
     vertexData.applyToMesh(mesh);
 
-    mesh.position = chunkGlobalCoord;
+    mesh.position = chunk.getCoordinate().getAbsoluteCoordinate().vec();
     mesh.material = this.assetManager.getMaterialManager().getTilemapMaterial();
 
     mesh.checkCollisions = true;

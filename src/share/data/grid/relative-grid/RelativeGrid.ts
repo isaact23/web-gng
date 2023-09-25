@@ -43,6 +43,7 @@ export class RelativeGrid<T> implements IRelativeGrid<T> {
     this._ensureSameChunk(coord);
 
     const vec = new Vector3(coord.x, coord.y, coord.z);
+    this.grid.set(vec, value);
   }
 
   /**

@@ -1,5 +1,6 @@
 import { ChunkData } from "@share/cluster-data/chunk-data";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from ".";
+import { Vector3 } from "babylonjs";
 
 // Store all implementations
 const implementations: [string, new (x: number, y: number, z: number) => IAbsoluteCoordinate][] = [
@@ -93,6 +94,11 @@ for (const [name, coord] of implementations) {
       const c1 = new coord(1, 2, 3);
       const c2 = c1.multiply(2);
       expect(c2.equals(new coord(2, 4, 6))).toBe(true);
+    });
+
+    test("Get Vector3", () => {
+      const c1 = new coord(1, 2, 3);
+      expect(c1.vec().equals(new Vector3(1, 2, 3))).toBeTruthy();
     });
   });
 }

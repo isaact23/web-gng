@@ -2,50 +2,55 @@ import { Grid } from ".";
 import { IGrid } from ".";
 import { Vector3 } from "babylonjs";
 
-// Test an implementing class of IGrid
-function testGrid(grid: IGrid<boolean>) {
+// Store all implementations
+const implementations: [string, new () => IGrid<number>][] = [
+  ["Grid", Grid<number>]
+];
 
-  // Lambda to generate Vector3's
-  const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
+// Iterate through and test implementations
+for (const [name, grid] of implementations) {
+  describe("Testing " + name, () => {
 
-  test("Unset values should be undefined", () => {
-    expect(grid.get(v(0, 0, 0))).toBe(undefined);
-    expect(grid.get(v(-1, -2, -3))).toBe(undefined);
-    expect(grid.get(v(20, 60, 4000))).toBe(undefined);
-  });
+    // Lambda to generate Vector3's
+    const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
 
-  grid.set(v(2, 5, 3),  true);
-  grid.set(v(2, 5, 7),  false);
-  grid.set(v(2, 6, -2), false);
+    test("Unset values should be undefined", () => {
+      const grid1 = new grid();
 
-  test("Get true/false/undefined values from grid", () => {
-    expect(grid.get(v(2, 5, 3))).toBe(true);
-    expect(grid.get(v(2, 5, 7))).toBe(false);
-    expect(grid.get(v(2, 6, -2))).toBe(false);
-    expect(grid.get(v(4, 5, 7))).toBe(undefined);
-    expect(grid.get(v(2, -4, 7))).toBe(undefined);
-    expect(grid.get(v(2, 5, 0))).toBe(undefined);
-  });
+      expect(grid1.get(v(0, 0, 0))).toBe(undefined);
+      expect(grid1.get(v(-1, -2, -3))).toBe(undefined);
+      expect(grid1.get(v(20, 60, 4000))).toBe(undefined);
+    });
 
-  grid.set(v(-5, -10, -100), true);
-  const it = grid.getIterator();
+    test("Get/set values from grid", () => {
+      const grid1 = new grid();
 
-  test("Test grid iterator", () => {
-    expect(it.next().value).toBe(true);
-    expect(it.next().value).toBe(false);
-    expect(it.next().value).toBe(false);
+      grid1.set(v(2, 5, 3),  4);
+      grid1.set(v(2, 5, 7),  7);
+      grid1.set(v(2, 6, -2), 3);
+      grid1.set(v(2, 5, 3),  0);
 
-    const res1 = it.next();
-    expect(res1.value).toBe(true);
-    expect(res1.done).toBe(false);
+      expect(grid1.get(v(2, 5,  3))).toBe(0);
+      expect(grid1.get(v(2, 5,  7))).toBe(7);
+      expect(grid1.get(v(2, 6, -2))).toBe(3);
+      expect(grid1.get(v(4, 5,  7))).toBe(undefined);
+      expect(grid1.get(v(2, -4, 7))).toBe(undefined);
+      expect(grid1.get(v(2, 5,  0))).toBe(undefined);
+    });
 
-    const res2 = it.next();
-    expect(res2.value).toBe(undefined);
-    expect(res2.done).toBe(true);
+    test("Test grid iterator", () => {
+      const grid1 = new grid();
+      grid1.set(v(2, 5, 3),  4);
+      grid1.set(v(2, 5, 7),  7);
+      const it1 = grid1.getIterator();
+
+      expect(it1.next().value).toBe(4);
+      expect(it1.next().value).toBe(7);
+      expect(it1.next().done).toBe(true);
+
+      const grid2 = new grid();
+      const it2 = grid2.getIterator();
+      expect(it2.next().done).toBe(true);
+    });
   });
 }
-
-// Test grid implementations
-describe('Testing IGrid implementations', () => {
-  testGrid(new Grid<boolean>());
-});

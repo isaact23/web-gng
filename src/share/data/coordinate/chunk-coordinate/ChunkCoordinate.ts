@@ -1,6 +1,7 @@
 import { ChunkData } from "@share/cluster-data/chunk-data";
 import { IChunkCoordinate } from ".";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../absolute-coordinate";
+import { Vector3 } from "babylonjs";
 
 /**
  * Chunk coordinates. An increment of 1 shifts
@@ -67,5 +68,14 @@ export class ChunkCoordinate implements IChunkCoordinate {
       this.y * scalar,
       this.z * scalar
     );
+  }
+
+  /**
+   * Get the Vector3 representation of this chunk coordinate.
+   * 
+   * @returns The Vector3 representation of this chunk coordinate.
+   */
+  vec(): Vector3 {
+    return new Vector3(this.x, this.y, this.z);
   }
 }

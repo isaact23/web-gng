@@ -2,6 +2,7 @@ import { ChunkData } from "@share/cluster-data/chunk-data";
 import { IAbsoluteCoordinate } from ".";
 import { ChunkCoordinate, IChunkCoordinate } from "../chunk-coordinate";
 import { IRelativeCoordinate, RelativeCoordinate } from "../relative-coordinate";
+import { Vector3 } from "babylonjs";
 
 /**
  * Absolute coordinate in world space,
@@ -96,5 +97,14 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
       this.y * scalar,
       this.z * scalar
     );
+  }
+
+  /**
+   * Get the Vector3 representation of this absolute coordinate.
+   * 
+   * @returns The Vector3 representation of this absolute coordinate.
+   */
+  vec(): Vector3 {
+    return new Vector3(this.x, this.y, this.z);
   }
 }
