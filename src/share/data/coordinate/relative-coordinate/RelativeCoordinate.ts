@@ -2,6 +2,7 @@ import { ChunkData } from "@share/cluster-data/chunk-data";
 import { IRelativeCoordinate } from ".";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../absolute-coordinate";
 import { IChunkCoordinate } from "../chunk-coordinate";
+import { Vector3 } from "babylonjs";
 
 /**
  * Interface for a relative coordinate, which stores the
@@ -74,5 +75,16 @@ export class RelativeCoordinate implements IRelativeCoordinate {
     }
 
     return new RelativeCoordinate(newX, newY, newZ, this.chunkCoordinate, this.chunkSize);
+  }
+
+  /**
+   * Get the Vector3 representation of this relative coordinate,
+   * excluding the chunk coordinate.
+   * 
+   * @returns The Vector3 representation of this relative coordinate,
+   * excluding the chunk coordinate.
+   */
+  vec(): Vector3 {
+    return new Vector3(this.x, this.y, this.z);
   }
 }

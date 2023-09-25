@@ -26,6 +26,15 @@ export interface IChunkCoordinate {
   add(other: IChunkCoordinate): IChunkCoordinate;
 
   /**
+   * Add three scalars to this chunk coordinate and return the result.
+   * @param x The x scalar to add to this chunk coordinate.
+   * @param y The y scalar to add to this chunk coordinate.
+   * @param z The z scalar to add to this chunk coordinate.
+   * @return The sum of this chunk coordinate and the three scalars.
+   */
+  addScalars(x: number, y: number, z: number): IChunkCoordinate;
+
+  /**
    * Determine if this coordinate is equal to another IChunkCoordinate.
    * 
    * @returns True if the coordinates are equal, false otherwise.

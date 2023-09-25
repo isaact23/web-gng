@@ -2,7 +2,7 @@ import { IClusterClient } from ".";
 import { IAssetManager } from "@client/assets";
 import { IClusterData } from "@share/cluster-data";
 import { ChunkData, IChunkData } from "@share/cluster-data/chunk-data";
-import { ChunkCoordinate, IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
+import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
 import { Face, Block } from "@share/utility";
 import * as Utility from "@share/utility";
@@ -81,9 +81,8 @@ export class ClusterClient implements IClusterClient {
 
     // Flag adjacent chunks for update
     const chunkSize = ChunkData.CHUNK_SIZE;
-    const flagAdj = (vec: Vector3) => {
-      const offset = new ChunkCoordinate(vec.x, vec.y, vec.z);
-      this.dirtyChunks.set(chunkCoord.add(offset), true);
+    const flagAdj = (offset: Vector3) => {
+      this.dirtyChunks.set(chunkCoord.addScalars(offset.x, offset.y, offset.z), true);
     }
     if (block == Block.Air) {
       if (coord.x == 0)               flagAdj(Vector3.Left());
@@ -195,7 +194,7 @@ export class ClusterClient implements IClusterClient {
           if (vertIndices === undefined) continue;
           for (let i = 0; i < 4; i++) {
             const offset = cubeVerts[vertIndices[i]];
-            const vertCoord = absoluteCoord.addScalars(offset.x, offset.y, offset.z);
+            const vertCoord = coord.vec().add(offset);
             vertices.push(vertCoord.x, vertCoord.y, vertCoord.z);
             normals.push(faceVector.x, faceVector.y, faceVector.z);
           }

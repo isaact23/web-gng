@@ -1,6 +1,7 @@
 import { ChunkData } from "@share/cluster-data/chunk-data";
 import { RelativeCoordinate, IRelativeCoordinate } from ".";
 import { ChunkCoordinate, IChunkCoordinate } from "../chunk-coordinate";
+import { Vector3 } from "babylonjs";
 
 // Store all implementations
 const implementations:
@@ -85,6 +86,12 @@ for (const [name, coord] of implementations) {
       const relCoord9 = relCoord1.add(0, 0, -1);
       expect(relCoord9).toBeUndefined();
       
+    });
+    
+    test("Get Vector3", () => {
+      const chunkCoord1 = new ChunkCoordinate(5, 0, -1);
+      const relCoord1 = new coord(1, 2, 3, chunkCoord1);
+      expect(relCoord1.vec().equals(new Vector3(1, 2, 3))).toBe(true);
     });
   });
 }

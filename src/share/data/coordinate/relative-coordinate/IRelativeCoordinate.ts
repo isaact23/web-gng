@@ -1,3 +1,4 @@
+import { Vector3 } from "babylonjs";
 import { IAbsoluteCoordinate } from "../absolute-coordinate";
 import { IChunkCoordinate } from "../chunk-coordinate";
 
@@ -33,4 +34,13 @@ export interface IRelativeCoordinate {
    * undefined if the result is not within the chunk.
    */
   add(x: number, y: number, z: number): IRelativeCoordinate | undefined;
+
+  /**
+   * Get the Vector3 representation of this relative coordinate,
+   * excluding the chunk coordinate.
+   * 
+   * @returns The Vector3 representation of this relative coordinate,
+   * excluding the chunk coordinate.
+   */
+  vec(): Vector3;
 }

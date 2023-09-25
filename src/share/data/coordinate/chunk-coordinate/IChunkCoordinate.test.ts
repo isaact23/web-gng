@@ -37,6 +37,12 @@ for (const [name, coord] of implementations) {
       expect(c1.add(c2)).toEqual({ x: -1, y: 2, z: 2 });
     });
 
+    test("Add scalars", () => {
+      const c1 = new coord(5, 0, -5);
+      const c2 = c1.addScalars(-5, 3, 15);
+      expect(c2.equals(new coord(0, 3, 10))).toBe(true);
+    });
+
     test("Test equality", () => {
       const c1 = new coord(1, 2, 3);
       const c2 = new coord(1, 2, 3);

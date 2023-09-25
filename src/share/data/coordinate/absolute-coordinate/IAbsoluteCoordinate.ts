@@ -34,7 +34,7 @@ export interface IAbsoluteCoordinate {
   add(other: IAbsoluteCoordinate): IAbsoluteCoordinate;
 
   /**
-   * Add this coordinate to three scalars and return the result.
+   * Add three scalars to this coordinate and return the result.
    * 
    * @param x The x scalar to add to this coordinate.
    * @param y The y scalar to add to this coordinate.

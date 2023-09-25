@@ -37,10 +37,25 @@ export class ChunkCoordinate implements IChunkCoordinate {
    * @return The sum of this chunk coordinate and the other chunk coordinate.
    */
   add(other: IChunkCoordinate): IChunkCoordinate {
+    return this.addScalars(
+      other.x,
+      other.y,
+      other.z
+    );
+  }
+
+  /**
+   * Add three scalars to this chunk coordinate and return the result.
+   * @param x The x scalar to add to this chunk coordinate.
+   * @param y The y scalar to add to this chunk coordinate.
+   * @param z The z scalar to add to this chunk coordinate.
+   * @return The sum of this chunk coordinate and the three scalars.
+   */
+  addScalars(x: number, y: number, z: number): IChunkCoordinate {
     return new ChunkCoordinate(
-      this.x + other.x,
-      this.y + other.y,
-      this.z + other.z
+      this.x + x,
+      this.y + y,
+      this.z + z
     );
   }
 
