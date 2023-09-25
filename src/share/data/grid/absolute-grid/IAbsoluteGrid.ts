@@ -4,7 +4,7 @@ import { IAbsoluteCoordinate } from "@share/data/coordinate";
  * An interface for a grid indexed by absolute coordinates.
  * @param <T> The type of object to store.
  */
-export interface IAbsoluteGrid<T> {
+export interface IAbsoluteGrid<T> extends Iterable<[IAbsoluteCoordinate, T]> {
   
   /**
    * Get a value at a coordinate in this grid.

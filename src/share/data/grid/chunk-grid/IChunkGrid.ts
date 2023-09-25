@@ -4,7 +4,7 @@ import { IChunkCoordinate } from "@share/data/coordinate";
  * An interface for a grid indexed by chunk coordinates.
  * @param <T> The type of object to store.
  */
-export interface IChunkGrid<T> {
+export interface IChunkGrid<T> extends Iterable<[IChunkCoordinate, T]> {
 
   /**
    * Get a value at a coordinate in this grid.

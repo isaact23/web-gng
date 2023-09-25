@@ -39,6 +39,14 @@ for (const [name, grid] of implementations) {
     });
 
     test("Test grid iterator", () => {
+      const grid1 = new grid();
+
+      grid1.set(v(1, 2, 3), 4);
+      grid1.set(v(1, 0, 6), 10);
+      grid1.set(v(5, 3, 1), 0);
+      grid1.set(v(1, 0, 5), 3);
+
+      const it1 = grid1[Symbol.iterator]();
       expect(true).toBe(false);
     });
   });

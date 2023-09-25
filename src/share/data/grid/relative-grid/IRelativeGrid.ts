@@ -4,7 +4,7 @@ import { IRelativeCoordinate } from "@share/data/coordinate";
  * An interface for a grid indexed by relative coordinates.
  * @param <T> The type of object to store.
  */
-export interface IRelativeGrid<T> {
+export interface IRelativeGrid<T> extends Iterable<[IRelativeCoordinate, T]> {
 
   /**
    * Get a value at a coordinate in this grid.
