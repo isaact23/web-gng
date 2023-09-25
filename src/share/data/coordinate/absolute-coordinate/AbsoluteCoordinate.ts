@@ -51,10 +51,24 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
    * @return The sum of this coordinate and the other coordinate.
    */
   add(other: IAbsoluteCoordinate): IAbsoluteCoordinate {
-    return new AbsoluteCoordinate(
-      this.x + other.x,
-      this.y + other.y,
-      this.z + other.z
+    return this.addScalars(other.x, other.y, other.z);
+  }
+
+  /**
+   * Add this coordinate to three scalars and return the result.
+   * 
+   * @param x The x scalar to add to this coordinate.
+   * @param y The y scalar to add to this coordinate.
+   * @param z The z scalar to add to this coordinate.
+   * @return The sum of this coordinate and the three scalars.
+   */
+  addScalars(x: number, y: number, z: number): IAbsoluteCoordinate {
+    return (
+      new AbsoluteCoordinate(
+        this.x + x,
+        this.y + y,
+        this.z + z
+      )
     );
   }
 
@@ -68,6 +82,19 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
       this.x === other.x &&
       this.y === other.y &&
       this.z === other.z
+    );
+  }
+
+  /**
+   * Multiply this coordinate by a scalar value and return the result.
+   * 
+   * @returns The product of this coordinate and the scalar value.
+   */
+  multiply(scalar: number): IAbsoluteCoordinate {
+    return new AbsoluteCoordinate(
+      this.x * scalar,
+      this.y * scalar,
+      this.z * scalar
     );
   }
 }

@@ -10,15 +10,16 @@ import { IChunkCoordinate } from "../chunk-coordinate";
  * The x, y and z coordinates must be within 0 and the chunk size minus 1.
  * @throws {RangeError} If the x, y or z coordinate is not within 0 and the chunk size minus 1.
  */
+
 export class RelativeCoordinate implements IRelativeCoordinate {
   
   constructor(
     public readonly x: number,
     public readonly y: number,
     public readonly z: number,
-    public readonly chunkCoordinate: IChunkCoordinate
+    public readonly chunkCoordinate: IChunkCoordinate,
+    public readonly chunkSize: number = ChunkData.CHUNK_SIZE
   ) {
-    const chunkSize = ChunkData.CHUNK_SIZE;
 
     if (x < 0 || y < 0 || z < 0 ||
       x >= chunkSize || y >= chunkSize || z >= chunkSize)
@@ -54,5 +55,24 @@ export class RelativeCoordinate implements IRelativeCoordinate {
       this.z === other.z &&
       this.chunkCoordinate.equals(other.chunkCoordinate)
     );
+  }
+
+  /**
+   * Add to this relative coordinate and return the result, or
+   * undefined if the result is not within the chunk.
+   */
+  add(x: number, y: number, z: number): IRelativeCoordinate | undefined {
+    const newX = this.x + x;
+    const newY = this.y + y;
+    const newZ = this.z + z;
+
+    // Ensure new relative coordinates are within the bounds of the chunk
+    if (newX < 0 || newY < 0 || newZ < 0 ||
+      newX >= this.chunkSize || newY >= this.chunkSize || newZ >= this.chunkSize)
+    {
+      return undefined;
+    }
+
+    return new RelativeCoordinate(newX, newY, newZ, this.chunkCoordinate, this.chunkSize);
   }
 }

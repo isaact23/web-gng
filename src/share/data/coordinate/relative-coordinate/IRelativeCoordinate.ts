@@ -27,4 +27,10 @@ export interface IRelativeCoordinate {
    * @returns True if the coordinates are equal, false otherwise.
    */
   equals(other: IRelativeCoordinate): boolean;
+
+  /**
+   * Add to this relative coordinate and return the result, or
+   * undefined if the result is not within the chunk.
+   */
+  add(x: number, y: number, z: number): IRelativeCoordinate | undefined;
 }

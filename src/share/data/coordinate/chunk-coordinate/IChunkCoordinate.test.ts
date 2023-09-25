@@ -43,5 +43,11 @@ for (const [name, coord] of implementations) {
       expect(c1.equals(c2)).toBe(true);
       expect(c1.equals(c3)).toBe(false);
     });
+
+    test("Multiply coordinate", () => {
+      const c1 = new coord(1, 2, 3);
+      const c2 = c1.multiply(2);
+      expect(c2.equals(new coord(2, 4, 6))).toBe(true);
+    });
   });
 }

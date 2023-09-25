@@ -33,9 +33,26 @@ export interface IAbsoluteCoordinate {
   add(other: IAbsoluteCoordinate): IAbsoluteCoordinate;
 
   /**
+   * Add this coordinate to three scalars and return the result.
+   * 
+   * @param x The x scalar to add to this coordinate.
+   * @param y The y scalar to add to this coordinate.
+   * @param z The z scalar to add to this coordinate.
+   * @return The sum of this coordinate and the three scalars.
+   */
+  addScalars(x: number, y: number, z: number): IAbsoluteCoordinate;
+
+  /**
    * Determine if this coordinate is equal to another IAbsoluteCoordiante.
    * 
    * @returns True if the coordinates are equal, false otherwise.
    */
   equals(other: IAbsoluteCoordinate): boolean;
+
+  /**
+   * Multiply this coordinate by a scalar value and return the result.
+   * 
+   * @returns The product of this coordinate and the scalar value.
+   */
+  multiply(scalar: number): IAbsoluteCoordinate;
 }

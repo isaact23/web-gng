@@ -75,12 +75,24 @@ for (const [name, coord] of implementations) {
       expect(c1.add(c3)).toEqual({ x: 9, y: 5, z: -5});
     });
 
+    test("Add scalars", () => {
+      const c1 = new coord(5, -100, 60);
+      const c2 = c1.addScalars(10, 99, -60);
+      expect(c2.equals(new coord(15, -1, 0))).toBe(true);
+    })
+
     test("Check coordinate equality", () => {
       const c1 = new coord(1, 2, 3);
       const c2 = new coord(1, 2, 3);
       const c3 = new coord(3, 2, 1);
       expect(c1.equals(c2)).toBe(true);
       expect(c1.equals(c3)).toBe(false);
+    });
+
+    test("Multiply coordinate", () => {
+      const c1 = new coord(1, 2, 3);
+      const c2 = c1.multiply(2);
+      expect(c2.equals(new coord(2, 4, 6))).toBe(true);
     });
   });
 }

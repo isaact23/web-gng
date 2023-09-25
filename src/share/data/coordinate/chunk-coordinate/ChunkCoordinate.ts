@@ -55,4 +55,17 @@ export class ChunkCoordinate implements IChunkCoordinate {
       this.z === other.z
     );
   }
+
+  /**
+   * Multiply this coordinate by a scalar value and return the result.
+   * 
+   * @returns The product of this coordinate and the scalar value.
+   */
+  multiply(scalar: number): IChunkCoordinate {
+    return new ChunkCoordinate(
+      this.x * scalar,
+      this.y * scalar,
+      this.z * scalar
+    );
+  }
 }

@@ -1,8 +1,8 @@
 import { IClusterClient } from ".";
 import { IAssetManager } from "@client/assets";
 import { IClusterData } from "@share/cluster-data";
-import { IChunkData } from "@share/cluster-data/chunk-data";
-import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
+import { ChunkData, IChunkData } from "@share/cluster-data/chunk-data";
+import { ChunkCoordinate, IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
 import { Face, Block } from "@share/utility";
 import * as Utility from "@share/utility";
@@ -73,23 +73,25 @@ export class ClusterClient implements IClusterClient {
    * @param block The block to set.
    */
   setBlock(coord: IAbsoluteCoordinate, block: Block) : void {
-    this.clusterData.setBlock(pos, block);
+    this.clusterData.setBlock(coord, block);
 
     // Flag this chunk for update
-    this.dirtyChunks.set(pos, true);
+    const chunkCoord = coord.getChunkCoordinate();
+    this.dirtyChunks.set(chunkCoord, true);
 
     // Flag adjacent chunks for update
-    const chunkSize = this.clusterData.getChunkSize();
+    const chunkSize = ChunkData.CHUNK_SIZE;
     const flagAdj = (vec: Vector3) => {
-      this._flagDirty(pos.add(vec));
+      const offset = new ChunkCoordinate(vec.x, vec.y, vec.z);
+      this.dirtyChunks.set(chunkCoord.add(offset), true);
     }
     if (block == Block.Air) {
-      if (pos.x == 0)               flagAdj(Vector3.Left());
-      if (pos.y == 0)               flagAdj(Vector3.Down());
-      if (pos.z == 0)               flagAdj(Vector3.Backward());
-      if (pos.x >= chunkSize - 1)   flagAdj(Vector3.Right());
-      if (pos.y >= chunkSize - 1)   flagAdj(Vector3.Up());
-      if (pos.z >= chunkSize - 1)   flagAdj(Vector3.Forward());
+      if (coord.x == 0)               flagAdj(Vector3.Left());
+      if (coord.y == 0)               flagAdj(Vector3.Down());
+      if (coord.z == 0)               flagAdj(Vector3.Backward());
+      if (coord.x >= chunkSize - 1)   flagAdj(Vector3.Right());
+      if (coord.y >= chunkSize - 1)   flagAdj(Vector3.Up());
+      if (coord.z >= chunkSize - 1)   flagAdj(Vector3.Forward());
     }
   }
 
@@ -136,8 +138,6 @@ export class ClusterClient implements IClusterClient {
   _generateChunkMesh(chunk: IChunkData): Babylon.Mesh {
 
     const blockIterator = chunk.getIterator();
-    const size = chunk.getSize();
-    const chunkGlobalCoord = chunk.getCoordinate().multiplyByFloats(size, size, size);
 
     // Initialize arrays for mesh data
     const vertices = new Array<number>;
@@ -175,14 +175,15 @@ export class ClusterClient implements IClusterClient {
         if (typeof(face) === "string") continue;
 
         // Get adjacent block
-        const faceVector = Utility.FaceVectorConverter.getVectorFromFace(face);
+        const vec = Utility.FaceVectorConverter.getVectorFromFace(face);
 
-        if (faceVector === undefined) continue;
-        const adjCoord = coord.add(faceVector).add(chunkGlobalCoord);
-        let adjacentBlock = this.getBlock(adjCoord);
+        if (vec === undefined) continue;
+
+        const adjCoord = coord.getAbsoluteCoordinate().addScalars(vec.x, vec.y, vec.z);
+        const adjBlock = this.clusterData.getBlock(adjCoord);
 
         // If the adjacent block is empty,
-        if (adjacentBlock == Block.Air || adjacentBlock === undefined) {
+        if (adjBlock == Block.Air || adjBlock === undefined) {
           // Then render the face.
 
           // Get texture UVs

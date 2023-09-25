@@ -30,4 +30,11 @@ export interface IChunkCoordinate {
    * @returns True if the coordinates are equal, false otherwise.
    */
   equals(other: IChunkCoordinate): boolean;
+
+  /**
+   * Multiply this coordinate by a scalar value and return the result.
+   * 
+   * @returns The product of this coordinate and the scalar value.
+   */
+  multiply(scalar: number): IChunkCoordinate;
 }
