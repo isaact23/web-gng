@@ -33,9 +33,8 @@ export class ClusterClient implements IClusterClient {
 
     // Initialize all chunks as needing update
     const chunkIt = clusterData.getIterator();
-    for (let chunk of chunkIt) {
-      const c = chunk.getCoordinate();
-      this.dirtyChunks.set(c, true);
+    for (let [coord, chunk] of chunkIt) {
+      this.dirtyChunks.set(coord, true);
     }
   }
 
@@ -96,9 +95,11 @@ export class ClusterClient implements IClusterClient {
 
   /**
    * Get iterator for all chunks in the world.
+   * @returns An iterator for all chunks in this world
+   * with respective chunk coordinates.
    */
-  getIterator(): Generator<IChunkData> {
-    return this.clusterData.getIterator();
+  [Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]> {
+    return this.clusterData[Symbol.iterator]();
   }
 
   /**
@@ -111,10 +112,9 @@ export class ClusterClient implements IClusterClient {
     
     // Iterate through each chunk
     const chunkIt = this.getIterator();
-    for (let chunk of chunkIt) {
+    for (let [coord, chunk] of chunkIt) {
 
       // Check if each chunk needs to be updated
-      const coord = chunk.getCoordinate();
       if (this.dirtyChunks.get(coord)) {
         
         // Replace mesh

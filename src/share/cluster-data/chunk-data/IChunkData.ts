@@ -5,7 +5,7 @@ import { Block } from "@share/utility";
 /**
  * Store data for a single chunk, a cubic region of blocks.
  */
-export interface IChunkData {
+export interface IChunkData extends Iterable<[IRelativeCoordinate, Block]> {
   /**
    * Get the size (width, length, height) of a chunk in blocks.
    * @return The width of the chunk.
@@ -32,10 +32,4 @@ export interface IChunkData {
    * @returns The coordinates of this chunk.
    */
   getCoordinate(): IChunkCoordinate;
-
-  /**
-   * Get iterator for relative coordinates of all non-air blocks in the chunk
-   * @returns An iterator for blocks in the chunk.
-   */
-  getIterator(): Generator<[IRelativeCoordinate, Block]>;
 }

@@ -23,9 +23,10 @@ export interface IRelativeGrid<T> extends Iterable<[IRelativeCoordinate, T]> {
     set(coord: IRelativeCoordinate, value: T): void;
     
     /**
-     * Get iterator for all set items in the grid.
+     * Get iterator for all set items in the grid and their coordinates
+     * in order by coordinates in x, y, z order.
      * @returns An iterator that iterates through all set values in the grid
-     * and their coordinates.
-     */ 
-    getIterator(): Generator<[IRelativeCoordinate, T]>;
+     * and their coordinates in x, y, z order.
+     */
+    [Symbol.iterator](): Iterator<[IRelativeCoordinate, T]>;
 }

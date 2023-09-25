@@ -74,11 +74,13 @@ export class ClusterData implements IClusterData {
   }
 
   /**
-   * Get iterator for all chunks in the cluster.
-   * @returns An iterator for all chunks in this cluster.
+   * Get iterator for all chunks in the cluster and
+   * corresponding chunk coordinates.
+   * @returns An iterator for all chunks in this cluster and
+   * corresponding chunk coordinates.
    */
-  getIterator(): Generator<IChunkData> {
-    return this.chunks.getIterator();
+  [Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]> {
+    return this.chunks[Symbol.iterator]();
   }
 
   /**

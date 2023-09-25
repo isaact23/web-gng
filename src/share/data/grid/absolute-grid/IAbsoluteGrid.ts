@@ -21,9 +21,10 @@ export interface IAbsoluteGrid<T> extends Iterable<[IAbsoluteCoordinate, T]> {
   set(coord: IAbsoluteCoordinate, value: T): void;
   
   /**
-   * Get iterator for all set items in the grid.
+   * Get iterator for all set items in the grid and their coordinates
+   * in order by coordinates in x, y, z order.
    * @returns An iterator that iterates through all set values in the grid
-   * and their coordinates.
-   */ 
-  getIterator(): Generator<[IAbsoluteCoordinate, T]>;
+   * and their coordinates in x, y, z order.
+   */
+  [Symbol.iterator](): Iterator<[IAbsoluteCoordinate, T]>;
 }

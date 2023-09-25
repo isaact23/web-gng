@@ -84,7 +84,7 @@ export class ChunkData implements IChunkData {
    * Get iterator for relative coordinates of all non-air blocks in the chunk
    * @returns An iterator for blocks in the chunk.
    */
-  *getIterator() : Generator<[IRelativeCoordinate, Block], any, unknown> {
-    return this.blocks.getIterator();
+  [Symbol.iterator](): Iterator<[IRelativeCoordinate, Block], any, unknown> {
+    return this.blocks[Symbol.iterator]();
   }
 }

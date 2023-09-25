@@ -34,11 +34,6 @@ export interface IClusterClient extends IClusterData {
   setBlock(coord: IAbsoluteCoordinate, block: Block) : void;
 
   /**
-   * Get iterator for all chunks in the world.
-   */
-  getIterator(): Generator<IChunkData>;
-
-  /**
    * Load or reload chunk meshes in the world.
    */
   remesh(): void;

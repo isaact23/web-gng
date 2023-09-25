@@ -47,7 +47,26 @@ for (const [name, grid] of implementations) {
       grid1.set(v(1, 0, 5), 3);
 
       const it1 = grid1[Symbol.iterator]();
-      expect(true).toBe(false);
+      
+      const val1 = it1.next();
+      expect(val1.value.equals(v(1, 0, 5))).toBe(true);
+      expect(val1.done).toBe(false);
+
+      const val2 = it1.next();
+      expect(val2.value.equals(v(1, 0, 6))).toBe(true);
+      expect(val2.done).toBe(false);
+
+      const val3 = it1.next();
+      expect(val3.value.equals(v(1, 2, 3))).toBe(true);
+      expect(val3.done).toBe(false);
+
+      const val4 = it1.next();
+      expect(val4.value.equals(v(5, 3, 1))).toBe(true);
+      expect(val4.done).toBe(false);
+
+      const val5 = it1.next();
+      expect(val5.value).toBeUndefined();
+      expect(val5.done).toBe(true);
     });
   });
 }

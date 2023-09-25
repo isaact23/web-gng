@@ -21,9 +21,10 @@ export interface IChunkGrid<T> extends Iterable<[IChunkCoordinate, T]> {
     set(coord: IChunkCoordinate, value: T): void;
     
     /**
-     * Get iterator for all set items in the grid.
+     * Get iterator for all set items in the grid and their coordinates
+     * in order by coordinates in x, y, z order.
      * @returns An iterator that iterates through all set values in the grid
-     * and their coordinates.
-     */ 
-    getIterator(): Generator<[IChunkCoordinate, T]>;
+     * and their coordinates in x, y, z order.
+     */
+    [Symbol.iterator](): Iterator<[IChunkCoordinate, T]>;
 }
