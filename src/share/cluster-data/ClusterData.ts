@@ -77,7 +77,7 @@ export class ClusterData implements IClusterData {
    * Get iterator for all chunks in the cluster.
    * @returns An iterator for all chunks in this cluster.
    */
-  *getIterator(): Generator<IChunkData> {
+  getIterator(): Generator<IChunkData> {
     return this.chunks.getIterator();
   }
 

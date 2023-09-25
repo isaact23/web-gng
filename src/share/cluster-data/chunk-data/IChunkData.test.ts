@@ -81,6 +81,11 @@ for (const [name, chunkData] of implementations) {
       expect(it1.next().done).toBeFalsy();
       expect(it1.next().done).toBeFalsy();
       expect(it1.next().done).toBeTruthy();
+
+      const it2 = chunkData2.getIterator();
+      expect(it2.next().done).toBeFalsy();
+      expect(it2.next().done).toBeFalsy();
+      expect(it2.next().done).toBeTruthy();
     });
   });
 }

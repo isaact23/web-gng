@@ -31,6 +31,11 @@ for (const [name, grid] of implementations) {
       expect(it.next().done).toBeFalsy();
       expect(it.next().done).toBeFalsy();
       expect(it.next().done).toBeTruthy();
+
+      const it2 = grid1.getIterator();
+      expect(it2.next().done).toBeFalsy();
+      expect(it2.next().done).toBeFalsy();
+      expect(it2.next().done).toBeTruthy();
     });
   });
 }

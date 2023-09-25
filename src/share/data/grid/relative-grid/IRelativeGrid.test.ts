@@ -23,7 +23,7 @@ for (const [name, grid] of implementations) {
       grid1.set(relCoord1, 1);
       expect(grid1.get(relCoord1)).toBe(1);
 
-      const relCoord2 = new RelativeCoordinate(3, -4, 6, chunkCoord1);
+      const relCoord2 = new RelativeCoordinate(3, 4, 6, chunkCoord1);
       expect(grid1.get(relCoord2)).toBeUndefined();
       grid1.set(relCoord2, -5);
       expect(grid1.get(relCoord2)).toBe(-5);

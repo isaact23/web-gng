@@ -69,7 +69,7 @@ for (const [name, clusterData] of implementations) {
       cluster3.addChunk(new ChunkData(c(4, 0, 0)));
 
       const it2 = cluster3.getIterator();
-
+      
       expect(it2.next().done).toBeFalsy();
       expect(it2.next().done).toBeFalsy();
       expect(it2.next().done).toBeTruthy();
