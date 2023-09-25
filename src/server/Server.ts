@@ -1,0 +1,53 @@
+import express, { Request, Response } from 'express';
+import path from 'path';
+import http from 'http';
+import { Server as IOServer } from 'socket.io';
+
+import { IServer } from ".";
+import { GameServer, IGameServer } from "./game-server";
+import { ISocketIncoming, SocketIncoming } from './socket/socket-incoming';
+import { ISocketOutgoing, SocketOutgoing } from './socket/socket-outgoing';
+
+const PORT = 3000;
+
+/**
+ * Handler for basic services connecting the server to the client,
+ * i.e. express, socket.io, http, etc.
+ */
+export class Server implements IServer {
+
+  private gameServer: IGameServer;
+
+  /**
+   * Initialize the connection.
+   */
+  constructor() {
+
+    const app = express();
+    app.use(express.static("dist"));
+    app.use(express.static("public"));
+
+    const server = http.createServer(app);
+
+    const io = new IOServer
+      (server, {
+        cors: {
+          origin: "localhost:3000",
+          methods: ["GET", "POST"]
+        }
+      });
+    
+    // Initialize the game server and socket.io message handlers
+    const socketOutgoing: ISocketOutgoing = new SocketOutgoing();
+    this.gameServer = new GameServer(socketOutgoing);
+    const socketIncoming: ISocketIncoming = new SocketIncoming(this.gameServer, io);
+
+    app.get("/", (req: Request, res: Response) => {
+      res.sendFile(path.join(__dirname, "../dist/index.html"));
+    });
+
+    server.listen(PORT, () => {
+      console.log(`Sky Quest server listening on port ${PORT}`);
+    });
+  }
+}

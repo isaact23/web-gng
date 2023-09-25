@@ -21,7 +21,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "skyloft",
+      title: "skyquest",
       template: "./src/index.html"
     })
   ],
