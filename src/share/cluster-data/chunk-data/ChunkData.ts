@@ -49,7 +49,7 @@ export class ChunkData implements IChunkData {
 
     // Ensure relative coordinate is relative to this chunk
     if (!coord.chunkCoordinate.equals(this.coordinate)) {
-      throw new Error("Cannot set a block outside this chunk");
+      throw new Error("Cannot get a block outside this chunk");
     }
 
     return this.blocks[coord.x][coord.y][coord.z];

@@ -1,9 +1,8 @@
-import { Vector3 } from "babylonjs";
 import { IChunkData, ChunkData } from "./chunk-data";
 import { IClusterData } from "./IClusterData";
 import { Block } from "@share/utility";
-import { Grid, IGrid } from "@share/data/grid";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
+import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them
@@ -11,12 +10,12 @@ import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
  */
 export class ClusterData implements IClusterData {
 
-  private chunks: IGrid<IChunkData>;
+  private chunks: IChunkGrid<IChunkData>;
 
   constructor(
 
   ) {
-    this.chunks = new Grid<IChunkData>;
+    this.chunks = new ChunkGrid<IChunkData>;
   }
 
   /**
@@ -25,8 +24,7 @@ export class ClusterData implements IClusterData {
    */
   addChunk(chunk: IChunkData): void {
     const coord = chunk.getCoordinate();
-    const vec = new Vector3(coord.x, coord.y, coord.z);
-    this.chunks.set(vec, chunk);
+    this.chunks.set(coord, chunk);
   }
 
   /**
@@ -35,8 +33,7 @@ export class ClusterData implements IClusterData {
    * @returns The chunk at the specified coordinate, or undefined if there is no chunk.
    */
   getChunk(coord: IChunkCoordinate): IChunkData | undefined {
-    const vec = new Vector3(coord.x, coord.y, coord.z);
-    return this.chunks.get(vec);
+    return this.chunks.get(coord);
   }
 
   /**
