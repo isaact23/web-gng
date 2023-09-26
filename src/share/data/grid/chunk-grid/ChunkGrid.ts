@@ -36,9 +36,9 @@ export class ChunkGrid<T> implements IChunkGrid<T> {
   
   /**
    * Get iterator for all set items in the grid and their coordinates
-   * in order by coordinates in x, y, z order.
+   * in order by coordinates in an arbitrary order.
    * @returns An iterator that iterates through all set values in the grid
-   * and their coordinates in x, y, z order.
+   * and their coordinates in an arbitrary order.
    */
   *[Symbol.iterator](): Iterator<[IChunkCoordinate, T]> {
     for (const [vec, value] of this.grid) {

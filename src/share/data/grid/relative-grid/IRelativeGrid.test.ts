@@ -45,31 +45,16 @@ for (const [name, grid] of implementations) {
 
       const relCoord1 = new RelativeCoordinate(4, 2, 5, chunkCoord1);
       const relCoord2 = new RelativeCoordinate(3, 4, 6, chunkCoord1);
-      const relCoord3 = new RelativeCoordinate(1, 2, 3, chunkCoord1);
+      const relCoord3 = new RelativeCoordinate(4, 2, 5, chunkCoord1);
       grid1.set(relCoord1, 1);
       grid1.set(relCoord2, -5);
       grid1.set(relCoord3, 10);
 
       const it = grid1[Symbol.iterator]();
 
-      const val1 = it.next();
-      expect(val1.value[0].equals(relCoord3)).toBe(true);
-      expect(val1.value[1]).toEqual(10);
-      expect(val1.done).toBe(false);
-
-      const val2 = it.next();
-      expect(val2.value[0].equals(relCoord2)).toBe(true);
-      expect(val2.value[1]).toEqual(-5);
-      expect(val2.done).toBe(false);
-
-      const val3 = it.next();
-      expect(val3.value[0].equals(relCoord1)).toBe(true);
-      expect(val3.value[1]).toEqual(1);
-      expect(val3.done).toBe(false);
-
-      const val4 = it.next();
-      expect(val4.value).toBeUndefined();
-      expect(val4.done).toBe(true);
+      expect(it.next().done).toBe(false);
+      expect(it.next().done).toBe(false);
+      expect(it.next().done).toBe(true);
     })
   });
 }

@@ -24,14 +24,6 @@ export class ChunkData implements IChunkData {
     private readonly coordinate: IChunkCoordinate
   ) {
     this.blocks = new RelativeGrid<Block>(coordinate);
-
-    for (var x = 0; x < ChunkData.CHUNK_SIZE; x++) {
-      for (var y = 0; y < ChunkData.CHUNK_SIZE; y++) {
-        for (var z = 0; z < ChunkData.CHUNK_SIZE; z++) {
-          this.blocks.set(new RelativeCoordinate(x, y, z, coordinate), Block.Air);
-        }
-      }
-    }
   }
 
   // Get the size (width, length, height) of a chunk in blocks
@@ -54,7 +46,7 @@ export class ChunkData implements IChunkData {
 
     const block = this.blocks.get(coord);
     if (block == undefined) {
-      throw new Error("Tried to access a block but it was undefined");
+      return Block.Air;
     }
 
     return block;
