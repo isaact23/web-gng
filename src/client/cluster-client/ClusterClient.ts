@@ -83,13 +83,15 @@ export class ClusterClient implements IClusterClient {
     const flagAdj = (offset: Vector3) => {
       this.dirtyChunks.set(chunkCoord.addScalars(offset.x, offset.y, offset.z), true);
     }
+
+    const relCoord = coord.getRelativeCoordinate();
     if (block == Block.Air) {
-      if (coord.x == 0)               flagAdj(Vector3.Left());
-      if (coord.y == 0)               flagAdj(Vector3.Down());
-      if (coord.z == 0)               flagAdj(Vector3.Backward());
-      if (coord.x >= chunkSize - 1)   flagAdj(Vector3.Right());
-      if (coord.y >= chunkSize - 1)   flagAdj(Vector3.Up());
-      if (coord.z >= chunkSize - 1)   flagAdj(Vector3.Forward());
+      if (relCoord.x == 0)               flagAdj(Vector3.Left());
+      if (relCoord.y == 0)               flagAdj(Vector3.Down());
+      if (relCoord.z == 0)               flagAdj(Vector3.Backward());
+      if (relCoord.x == chunkSize - 1)   flagAdj(Vector3.Right());
+      if (relCoord.y == chunkSize - 1)   flagAdj(Vector3.Up());
+      if (relCoord.z == chunkSize - 1)   flagAdj(Vector3.Forward());
     }
   }
 
