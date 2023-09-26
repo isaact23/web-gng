@@ -77,12 +77,12 @@ for (const [name, chunkData] of implementations) {
       chunkData2.setBlock(r(0, 0, 0, c2), Block.Stone);
       chunkData2.setBlock(r(31, 0, 0, c2), Block.Grass);
 
-      const it1 = chunkData2.getIterator();
+      const it1 = chunkData2[Symbol.iterator]();
       expect(it1.next().done).toBeFalsy();
       expect(it1.next().done).toBeFalsy();
       expect(it1.next().done).toBeTruthy();
 
-      const it2 = chunkData2.getIterator();
+      const it2 = chunkData2[Symbol.iterator]();
       expect(it2.next().done).toBeFalsy();
       expect(it2.next().done).toBeFalsy();
       expect(it2.next().done).toBeTruthy();

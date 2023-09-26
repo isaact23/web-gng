@@ -35,4 +35,12 @@ export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
    * @param block The block to set at the specified coordinate.
    */
   setBlock(coord: IAbsoluteCoordinate, block: Block) : void;
+
+  /**
+   * Get iterator for all chunks in the cluster and
+   * corresponding chunk coordinates.
+   * @returns An iterator for all chunks in this cluster and
+   * corresponding chunk coordinates.
+   */
+  [Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]>;
 }

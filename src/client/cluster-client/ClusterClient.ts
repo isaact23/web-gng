@@ -32,8 +32,7 @@ export class ClusterClient implements IClusterClient {
   ) {
 
     // Initialize all chunks as needing update
-    const chunkIt = clusterData.getIterator();
-    for (let [coord, chunk] of chunkIt) {
+    for (let [coord, chunk] of clusterData) {
       this.dirtyChunks.set(coord, true);
     }
   }
@@ -111,8 +110,7 @@ export class ClusterClient implements IClusterClient {
     const shadowMap = this.shadowGenerator.getShadowMap();
     
     // Iterate through each chunk
-    const chunkIt = this.getIterator();
-    for (let [coord, chunk] of chunkIt) {
+    for (let [coord, chunk] of this) {
 
       // Check if each chunk needs to be updated
       if (this.dirtyChunks.get(coord)) {
@@ -135,8 +133,6 @@ export class ClusterClient implements IClusterClient {
    * Convert block data for a chunk into a mesh.
    */
   _generateChunkMesh(chunk: IChunkData): Babylon.Mesh {
-
-    const blockIterator = chunk.getIterator();
 
     // Initialize arrays for mesh data
     const vertices = new Array<number>;
@@ -167,7 +163,7 @@ export class ClusterClient implements IClusterClient {
 
     // Generate vertex and triangle data.
     // For each block in the chunk,
-    for (let [coord, block] of blockIterator) {
+    for (let [coord, block] of chunk) {
 
       const absoluteCoord = coord.getAbsoluteCoordinate();
 

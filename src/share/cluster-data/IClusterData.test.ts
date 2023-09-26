@@ -62,13 +62,13 @@ for (const [name, clusterData] of implementations) {
     test("Cluster chunk iterator", () => {
       const cluster3 = new clusterData();
 
-      const it1 = cluster3.getIterator();
+      const it1 = cluster3[Symbol.iterator]();
       expect(it1.next().done).toBeTruthy();
 
       cluster3.addChunk(new ChunkData(c(0, 0, 0)));
       cluster3.addChunk(new ChunkData(c(4, 0, 0)));
 
-      const it2 = cluster3.getIterator();
+      const it2 = cluster3[Symbol.iterator]();
       
       expect(it2.next().done).toBeFalsy();
       expect(it2.next().done).toBeFalsy();

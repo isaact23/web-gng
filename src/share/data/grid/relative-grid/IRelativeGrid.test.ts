@@ -39,10 +39,6 @@ for (const [name, grid] of implementations) {
       expect(() => grid1.set(relCoord1, 5)).toThrow();
     });
 
-    test("Get iterator", () => {
-      expect(true).toBe(false);
-    });
-
     test("Relative grid iterator", () => {
       const chunkCoord1 = new ChunkCoordinate(2, -5, 3);
       const grid1 = new grid(chunkCoord1);

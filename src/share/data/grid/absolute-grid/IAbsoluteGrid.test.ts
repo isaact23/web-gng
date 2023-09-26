@@ -22,10 +22,6 @@ for (const [name, grid] of implementations) {
       expect(grid1.get(coord2)).toEqual(-16);
     });
 
-    test("Get iterator", () => {
-      expect(true).toBe(false);
-    });
-
     test("Absolute grid iterator", () => {
       const coord1 = new AbsoluteCoordinate(0, 4, 3);
       const coord2 = new AbsoluteCoordinate(2, 1, 3);
