@@ -19,7 +19,10 @@ export class TextureUvCalculator {
   // Get coordinates of a texture in the tilemap.
   static _getTextureCoordinateInTilemap(block: Block, face: Face): [number, number] {
     switch (block) {
-      case Block.Air: return [4, 0];
+      case Block.Air: {
+        // return [4, 0];
+        throw "Cannot get texture coordinate for air block."
+      }
       case Block.Stone: return [3, 0];
       case Block.Grass: {
         switch (face) {

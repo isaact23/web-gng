@@ -85,6 +85,11 @@ for (const [name, chunkData] of implementations) {
       expect(it2.next().done).toBeFalsy();
       expect(it2.next().done).toBeFalsy();
       expect(it2.next().done).toBeTruthy();
+
+      chunkData2.setBlock(r(0, 0, 0, c2), Block.Air);
+      chunkData2.setBlock(r(5, 0, 0, c2), Block.Air);
+      const it3 = chunkData2[Symbol.iterator]();
+      expect(it3.next().done).toBeTruthy();
     });
   });
 }
