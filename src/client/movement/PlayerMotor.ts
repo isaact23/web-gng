@@ -54,7 +54,7 @@ export class PlayerMotor implements IPlayerMotor {
     camera.attachControl(canvas, false);
     camera.minZ = 0;
 
-    this.blockTargeter = new BlockTargeter(assetManager, camera, scene);
+    this.blockTargeter = new BlockTargeter(camera, scene);
     
     const input = {
       forward: false,
