@@ -11,10 +11,6 @@ const implementations: [string, new (x: number, y: number, z: number) => IChunkC
 // Iterate through and test implementations
 for (const [name, coord] of implementations) {
   describe('Testing ' + name, () => {
-
-    test("Ensure chunk size is 32", () => {
-      expect(ChunkData.CHUNK_SIZE).toBe(32);
-    });
     
     test("Get values", () => {
       const c = new coord(1, 2, 3);

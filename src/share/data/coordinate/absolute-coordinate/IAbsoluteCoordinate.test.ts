@@ -10,10 +10,8 @@ const implementations: [string, new (x: number, y: number, z: number) => IAbsolu
 // Iterate through and test implementations
 for (const [name, coord] of implementations) {
   describe('Testing ' + name, () => {
-  
-    test("Ensure chunk size is 32", () => {
-      expect(ChunkData.CHUNK_SIZE).toBe(32);
-    });
+
+    const chunkSize = 16;
   
     test("Get values", () => {
       const absCoord = new coord(1, 2, 3);
@@ -27,13 +25,13 @@ for (const [name, coord] of implementations) {
       const absCoord1 = new coord(1, 2, 3);
       expect(absCoord1.getChunkCoordinate()).toEqual({ x: 0, y: 0, z: 0 });
   
-      const absCoord2 = new coord(35, -5, 4);
+      const absCoord2 = new coord(chunkSize + 3, -5, 4);
       expect(absCoord2.getChunkCoordinate()).toEqual({ x: 1, y: -1, z: 0 });
 
-      const absCoord3 = new coord(32, 31, -1);
+      const absCoord3 = new coord(chunkSize, chunkSize - 1, -1);
       expect(absCoord3.getChunkCoordinate()).toEqual({ x: 1, y: 0, z: -1 });
 
-      const absCoord4 = new coord(0, -32, -33);
+      const absCoord4 = new coord(0, -chunkSize, -chunkSize - 1);
       expect(absCoord4.getChunkCoordinate()).toEqual({ x: 0, y: -1, z: -2 });
     });
 
@@ -45,25 +43,25 @@ for (const [name, coord] of implementations) {
       expect(rel1.z).toBe(0);
       expect(rel1.chunkCoordinate).toEqual({ x: 0, y: 0, z: 0 });
 
-      const absCoord2 = new coord(1, 31, 32);
+      const absCoord2 = new coord(1, chunkSize - 1, chunkSize);
       const rel2 = absCoord2.getRelativeCoordinate();
       expect(rel2.x).toBe(1);
-      expect(rel2.y).toBe(31);
+      expect(rel2.y).toBe(chunkSize - 1);
       expect(rel2.z).toBe(0);
       expect(rel2.chunkCoordinate).toEqual({ x: 0, y: 0, z: 1 });
 
-      const absCoord3 = new coord(40, -40, -70);
+      const absCoord3 = new coord(chunkSize + 8, (-2 * chunkSize) + 4, 6);
       const rel3 = absCoord3.getRelativeCoordinate();
       expect(rel3.x).toBe(8);
-      expect(rel3.y).toBe(24);
-      expect(rel3.z).toBe(26);
-      expect(rel3.chunkCoordinate).toEqual({ x: 1, y: -2, z: -3 });
+      expect(rel3.y).toBe(4);
+      expect(rel3.z).toBe(6);
+      expect(rel3.chunkCoordinate).toEqual({ x: 1, y: -2, z: 0 });
 
-      const absCoord4 = new coord(-1, -32, -33);
+      const absCoord4 = new coord(-1, -chunkSize, -chunkSize - 1);
       const rel4 = absCoord4.getRelativeCoordinate();
-      expect(rel4.x).toBe(31);
+      expect(rel4.x).toBe(chunkSize - 1);
       expect(rel4.y).toBe(0);
-      expect(rel4.z).toBe(31);
+      expect(rel4.z).toBe(chunkSize - 1);
       expect(rel4.chunkCoordinate).toEqual({ x: -1, y: -1, z: -2 });
     });
 

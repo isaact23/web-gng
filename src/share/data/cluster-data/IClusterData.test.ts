@@ -17,10 +17,6 @@ for (const [name, clusterData] of implementations) {
     const a = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
     const c = (x: number, y: number, z: number) => new ChunkCoordinate(x, y, z);
 
-    test("Ensure chunk size is 32", () => {
-      expect(ChunkData.CHUNK_SIZE).toBe(32);
-    });
-
     test("Add and get chunks", () => {
       const cluster1 = new clusterData();
       const chunkCoord1 = new ChunkCoordinate(0, 0, 0);
