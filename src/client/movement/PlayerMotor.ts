@@ -6,10 +6,11 @@ import { IClusterClient } from "@client/cluster-client";
 import { Block } from "../../share/utility/Block";
 import { IPlayerMotor } from "./IPlayerMotor";
 import { IBlockTargeter } from "./block-targeter/IBlockTargeter";
+import { FaceVectorConverter } from "@share/utility";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;
-const WALK_SPEED = 8;
+const WALK_SPEED = 7;
 const LATERAL_ACCELERATION = 50;
 const JUMP_VELOCITY = 6;
 
@@ -68,16 +69,29 @@ export class PlayerMotor implements IPlayerMotor {
 
     // Handle mouse clicks
     scene.onPointerObservable.add(pointerInfo => {
-      if (pointerInfo.type == Babylon.PointerEventTypes.POINTERDOWN &&
-        pointerInfo.event.inputIndex == 2)
-      {
-        let target = this.blockTargeter.getTargetBlockAndFace();
-        if (target != null) {
-          cluster.setBlock(target[0], Block.Air);
-          cluster.remesh();
+      if (pointerInfo.type === Babylon.PointerEventTypes.POINTERDOWN) {
+        // Destroy blocks on left click
+        if (pointerInfo.event.inputIndex === Babylon.PointerInput.LeftClick) {
+          let target = this.blockTargeter.getTargetBlockAndFace();
+          if (target != null) {
+            cluster.setBlock(target[0], Block.Air);
+            cluster.remesh();
+          }
+        }
+
+        // Place blocks on right click
+        else if (pointerInfo.event.inputIndex === Babylon.PointerInput.RightClick) {
+          let target = this.blockTargeter.getTargetBlockAndFace();
+          if (target != null) {
+            const offset = FaceVectorConverter.getVectorFromFace(target[1]);
+            const coord = target[0].addScalars(offset.x, offset.y, offset.z);
+            cluster.setBlock(coord, Block.Stone);
+            cluster.remesh();
+          }
         }
       }
     });
+
 
     // Handle keyboard input
     scene.onKeyboardObservable.add(kbInfo => {
