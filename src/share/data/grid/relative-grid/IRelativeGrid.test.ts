@@ -10,9 +10,6 @@ const implementations: [string, new (chunkCoord: IChunkCoordinate) => IRelativeG
 // Iterate through and test implementations
 for (const [name, grid] of implementations) {
   describe("Testing " + name, () => {
-    test("Ensure chunk size is 32", () => {
-      expect(ChunkData.CHUNK_SIZE).toBe(32);
-    });
 
     test("Get and set", () => {
       const chunkCoord1 = new ChunkCoordinate(2, -5, 3);

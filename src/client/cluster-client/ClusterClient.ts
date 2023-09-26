@@ -1,5 +1,6 @@
 import { IClusterClient } from ".";
 import { IAssetManager } from "@client/assets";
+import { Settings } from "@share/config/Settings";
 import { IClusterData } from "@share/data/cluster-data";
 import { ChunkData, IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
@@ -78,7 +79,7 @@ export class ClusterClient implements IClusterClient {
     this.dirtyChunks.set(chunkCoord, true);
 
     // Flag adjacent chunks for update
-    const chunkSize = ChunkData.CHUNK_SIZE;
+    const chunkSize = Settings.CHUNK_SIZE;
     const flagAdj = (offset: Vector3) => {
       this.dirtyChunks.set(chunkCoord.addScalars(offset.x, offset.y, offset.z), true);
     }

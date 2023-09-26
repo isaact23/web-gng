@@ -2,6 +2,7 @@ import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { ChunkCoordinate, IChunkCoordinate } from ".";
 import { AbsoluteCoordinate } from "../absolute-coordinate";
 import { Vector3 } from "babylonjs";
+import { Settings } from "@share/config/Settings";
 
 // Store all implementations
 const implementations: [string, new (x: number, y: number, z: number) => IChunkCoordinate][] = [
@@ -11,6 +12,8 @@ const implementations: [string, new (x: number, y: number, z: number) => IChunkC
 // Iterate through and test implementations
 for (const [name, coord] of implementations) {
   describe('Testing ' + name, () => {
+
+    const chunkSize = Settings.CHUNK_SIZE;
     
     test("Get values", () => {
       const c = new coord(1, 2, 3);
@@ -21,10 +24,10 @@ for (const [name, coord] of implementations) {
 
     test("Get absolute coordinate from chunk coordinate", () => {
       const c = new coord(1, 2, 3);
-      expect(c.getAbsoluteCoordinate()).toEqual({ x: 32, y: 64, z: 96 });
+      expect(c.getAbsoluteCoordinate()).toEqual({ x: chunkSize, y: chunkSize * 2, z: chunkSize * 3 });
 
       const c2 = new coord(-2, 0, -1);
-      expect(c2.getAbsoluteCoordinate()).toEqual({ x: -64, y: 0, z: -32 });
+      expect(c2.getAbsoluteCoordinate()).toEqual({ x: chunkSize * -2, y: 0, z: chunkSize * -1 });
     });
 
     test("Add chunk coordinates", () => {
