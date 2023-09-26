@@ -1,4 +1,4 @@
-import { ChunkData } from "@share/cluster-data/chunk-data";
+import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { IRelativeGrid, RelativeGrid } from ".";
 import { ChunkCoordinate, IChunkCoordinate, RelativeCoordinate } from "@share/data/coordinate";
 

@@ -4,6 +4,7 @@ import { IChunkData } from ".";
 import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
 import { IRelativeCoordinate, RelativeCoordinate } from "@share/data/coordinate/relative-coordinate";
 import { IRelativeGrid, RelativeGrid } from "@share/data/grid/relative-grid";
+import { Settings } from "@share/config/Settings";
 
 // TODO: Implement greedy meshing
 
@@ -11,11 +12,6 @@ import { IRelativeGrid, RelativeGrid } from "@share/data/grid/relative-grid";
  * Store data for a single chunk, a cubic region of blocks.
  */
 export class ChunkData implements IChunkData {
-
-  /**
-   * The chunk size in blocks, universal across the entire program.
-   */
-  public static readonly CHUNK_SIZE = 32;
 
   private blocks: IRelativeGrid<Block>;
 
@@ -28,7 +24,7 @@ export class ChunkData implements IChunkData {
 
   // Get the size (width, length, height) of a chunk in blocks
   getSize() {
-    return ChunkData.CHUNK_SIZE;
+    return Settings.CHUNK_SIZE;
   }
 
   /**

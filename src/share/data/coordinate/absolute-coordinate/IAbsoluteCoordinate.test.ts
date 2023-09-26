@@ -1,4 +1,4 @@
-import { ChunkData } from "@share/cluster-data/chunk-data";
+import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from ".";
 import { Vector3 } from "babylonjs";
 

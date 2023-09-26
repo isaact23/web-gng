@@ -1,4 +1,4 @@
-import { IClusterData } from "@share/cluster-data";
+import { IClusterData } from "@share/data/cluster-data";
 
 export interface IClusterGenerator {
   

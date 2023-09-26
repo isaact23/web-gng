@@ -3,6 +3,7 @@ import { ChunkData } from ".";
 import { IChunkData} from ".";
 import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
 import { RelativeCoordinate, IRelativeCoordinate } from "@share/data/coordinate/relative-coordinate";
+import { Settings } from "@share/config/Settings";
 
 // Store all implementations
 const implementations: [string, new (coord: IChunkCoordinate) => IChunkData][] = [
@@ -18,9 +19,7 @@ for (const [name, chunkData] of implementations) {
     const r: (x: number, y: number, z: number, c: IChunkCoordinate) => IRelativeCoordinate = 
             (x: number, y: number, z: number, c: IChunkCoordinate) => new RelativeCoordinate(x, y, z, c); 
     
-    test("Assert ChunkData size is 32", () => {
-      expect(ChunkData.CHUNK_SIZE).toBe(32);
-    });
+    const chunkSize = Settings.CHUNK_SIZE;
 
     test("Ensure no out-of-bounds block getting or setting", () => {
 

@@ -1,7 +1,7 @@
 import { IClusterClient } from ".";
 import { IAssetManager } from "@client/assets";
-import { IClusterData } from "@share/cluster-data";
-import { ChunkData, IChunkData } from "@share/cluster-data/chunk-data";
+import { IClusterData } from "@share/data/cluster-data";
+import { ChunkData, IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
 import { Face, Block } from "@share/utility";

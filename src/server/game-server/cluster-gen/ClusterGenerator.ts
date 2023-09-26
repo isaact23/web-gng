@@ -1,6 +1,6 @@
 import { Vector3 } from "babylonjs";
 import { Block } from "@share/utility";
-import { ClusterData, IClusterData } from "@share/cluster-data";
+import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { IClusterGenerator } from "./IClusterGenerator";
 import { AbsoluteCoordinate } from "@share/data/coordinate";
 

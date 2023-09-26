@@ -1,5 +1,5 @@
-import { IClusterData } from "@share/cluster-data";
-import { IChunkData } from "@share/cluster-data/chunk-data";
+import { IClusterData } from "@share/data/cluster-data";
+import { IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { Block } from "@share/utility";
 

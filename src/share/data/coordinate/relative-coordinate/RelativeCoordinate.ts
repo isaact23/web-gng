@@ -1,4 +1,4 @@
-import { ChunkData } from "@share/cluster-data/chunk-data";
+import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { IRelativeCoordinate } from ".";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../absolute-coordinate";
 import { IChunkCoordinate } from "../chunk-coordinate";
@@ -18,8 +18,7 @@ export class RelativeCoordinate implements IRelativeCoordinate {
     public readonly x: number,
     public readonly y: number,
     public readonly z: number,
-    public readonly chunkCoordinate: IChunkCoordinate,
-    public readonly chunkSize: number = ChunkData.CHUNK_SIZE
+    public readonly chunkCoordinate: IChunkCoordinate
   ) {
 
     if (x < 0 || y < 0 || z < 0 ||
