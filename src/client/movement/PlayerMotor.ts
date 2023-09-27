@@ -3,7 +3,7 @@ import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./block-targeter/BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
 import { IClusterClient } from "@client/cluster-client";
-import { Block } from "../../share/utility/Block";
+import { Block } from "@share/utility/Block";
 import { IPlayerMotor } from "./IPlayerMotor";
 import { IBlockTargeter } from "./block-targeter/IBlockTargeter";
 import { FaceVectorConverter } from "@share/utility";
@@ -28,7 +28,6 @@ export class PlayerMotor implements IPlayerMotor {
     engine: Babylon.Engine,
     scene: Babylon.Scene,
     cluster: IClusterClient,
-    private assetManager: IAssetManager,
     position: Vector3 | null = null
 
   ) {

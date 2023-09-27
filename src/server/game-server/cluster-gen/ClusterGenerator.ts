@@ -58,8 +58,6 @@ export class ClusterGenerator implements IClusterGenerator {
       }
     }
   
-    cluster.setBlock(v(25, 15, 25), Block.Stone);
-  
     return cluster;
   }
 }
