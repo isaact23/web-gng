@@ -3,6 +3,7 @@ import { IClusterData } from "./IClusterData";
 import { Block } from "@share/utility";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
+import { Settings } from "@share/config/Settings";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them
@@ -10,13 +11,7 @@ import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
  */
 export class ClusterData implements IClusterData {
 
-  private chunks: IChunkGrid<IChunkData>;
-
-  constructor(
-
-  ) {
-    this.chunks = new ChunkGrid<IChunkData>;
-  }
+  private chunks: IChunkGrid<IChunkData> = new ChunkGrid<IChunkData>;
 
   /**
    * Add a new chunk. Replace any chunk in its spot.
@@ -74,11 +69,13 @@ export class ClusterData implements IClusterData {
   }
 
   /**
-   * Get iterator for all chunks in the cluster.
-   * @returns An iterator for all chunks in this cluster.
+   * Get iterator for all chunks in the cluster and
+   * corresponding chunk coordinates.
+   * @returns An iterator for all chunks in this cluster and
+   * corresponding chunk coordinates.
    */
-  getIterator(): Generator<IChunkData> {
-    return this.chunks.getIterator();
+  [Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]> {
+    return this.chunks[Symbol.iterator]();
   }
 
   /**
@@ -86,6 +83,6 @@ export class ClusterData implements IClusterData {
    * @returns The chunk width in blocks.
    */
   getChunkSize(): number {
-    return ChunkData.CHUNK_SIZE;
+    return Settings.CHUNK_SIZE;
   }
 }

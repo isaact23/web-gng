@@ -4,7 +4,7 @@ import { IAbsoluteCoordinate } from "@share/data/coordinate";
  * An interface for a grid indexed by absolute coordinates.
  * @param <T> The type of object to store.
  */
-export interface IAbsoluteGrid<T> {
+export interface IAbsoluteGrid<T> extends Iterable<[IAbsoluteCoordinate, T]> {
   
   /**
    * Get a value at a coordinate in this grid.
@@ -21,8 +21,10 @@ export interface IAbsoluteGrid<T> {
   set(coord: IAbsoluteCoordinate, value: T): void;
   
   /**
-   * Get iterator for all set items in the grid.
-   * @returns An iterator that iterates through all set values in the grid.
-   */ 
-  getIterator(): Generator<T>;
+   * Get iterator for all set items in the grid and their coordinates
+   * in order by coordinates in an arbitrary order.
+   * @returns An iterator that iterates through all set values in the grid
+   * and their coordinates in an arbitrary order.
+   */
+  [Symbol.iterator](): Iterator<[IAbsoluteCoordinate, T]>;
 }

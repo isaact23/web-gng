@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 import { ISocketOutgoing } from "./ISocketOutgoing";
-import { IClusterData } from "@share/cluster-data";
+import { IClusterData } from "@share/data/cluster-data";
 
 /**
  * Receive messages from IGameServer and forward

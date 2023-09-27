@@ -8,36 +8,20 @@ import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate"
 const VIEW_DISTANCE = 5;
 
 export class BlockTargeter implements IBlockTargeter {
-  private indicator: Babylon.AbstractMesh;
 
   /**
    * Create a new BlockTargeter instance for an IPlayerMotor.
    */
   constructor(
-    private assetManager: IAssetManager,
     private camera: Babylon.UniversalCamera,
     private scene: Babylon.Scene
-  ) {
-    this.indicator = Babylon.MeshBuilder.CreateSphere("block-indicator", {
-      diameter: 0.2
-    });
-  }
+  ) { }
 
   /**
    * Highlight a block based on the player view ray.
    * @returns True on success.
    */
   public highlightBlock(): boolean {
-
-    const target = this.getTargetBlockAndFace();
-    if (target == null) {
-      this.indicator.visibility = 0;
-    } else {
-      this.indicator.visibility = 1;
-
-      const vec = new Vector3(target[0].x, target[0].y, target[0].z);
-      this.indicator.position = vec;
-    }
 
     return true;
   }

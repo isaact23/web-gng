@@ -24,18 +24,18 @@ for (const [name, grid] of implementations) {
 
     test("Get iterator", () => {
       const grid1 = new grid();
-      grid1.set(new ChunkCoordinate(0, 1, 2), 3);
-      grid1.set(new ChunkCoordinate(0, 1, 3), -16);
+      const coord1 = new ChunkCoordinate(0, 1, 2);
+      const coord2 = new ChunkCoordinate(2, 1, 3);
+      const coord3 = new ChunkCoordinate(0, 1, 2);
+      grid1.set(coord1, 3);
+      grid1.set(coord2, -16);
+      grid1.set(coord3, 7);
 
-      const it = grid1.getIterator();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeTruthy();
+      const it = grid1[Symbol.iterator]();
 
-      const it2 = grid1.getIterator();
-      expect(it2.next().done).toBeFalsy();
-      expect(it2.next().done).toBeFalsy();
-      expect(it2.next().done).toBeTruthy();
+      expect(it.next().done).toBe(false);
+      expect(it.next().done).toBe(false);
+      expect(it.next().done).toBe(true);
     });
   });
 }

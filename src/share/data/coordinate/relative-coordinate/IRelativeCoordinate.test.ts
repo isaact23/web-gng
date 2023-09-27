@@ -1,7 +1,8 @@
-import { ChunkData } from "@share/cluster-data/chunk-data";
+import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { RelativeCoordinate, IRelativeCoordinate } from ".";
 import { ChunkCoordinate, IChunkCoordinate } from "../chunk-coordinate";
 import { Vector3 } from "babylonjs";
+import { Settings } from "@share/config/Settings";
 
 // Store all implementations
 const implementations:
@@ -14,20 +15,18 @@ const implementations:
 for (const [name, coord] of implementations) {
   describe('Testing ' + name, () => {
 
+    const chunkSize = Settings.CHUNK_SIZE;
+
     test("Ensure relative coordinates are initialized correctly", () => {
       const chunkCoord = new ChunkCoordinate(1, 0, -1);
       expect(() => new coord(-1, 0, 0, chunkCoord)).toThrow(RangeError);
       expect(() => new coord(0, -1, 0, chunkCoord)).toThrow(RangeError);
       expect(() => new coord(0, 0, -1, chunkCoord)).toThrow(RangeError);
-      expect(() => new coord(32, 0, 0, chunkCoord)).toThrow(RangeError);
-      expect(() => new coord(0, 32, 0, chunkCoord)).toThrow(RangeError);
-      expect(() => new coord(0, 0, 32, chunkCoord)).toThrow(RangeError);
+      expect(() => new coord(chunkSize, 0, 0, chunkCoord)).toThrow(RangeError);
+      expect(() => new coord(0, chunkSize, 0, chunkCoord)).toThrow(RangeError);
+      expect(() => new coord(0, 0, chunkSize, chunkCoord)).toThrow(RangeError);
 
       expect(() => new coord(0, 0, 0, chunkCoord)).not.toThrow(RangeError);
-    });
-
-    test("Ensure chunk size is 32", () => {
-      expect(ChunkData.CHUNK_SIZE).toBe(32);
     });
 
     test("Get values", () => {
@@ -42,7 +41,7 @@ for (const [name, coord] of implementations) {
     test("Get absolute coordinates", () => {
       const chunkCoord1 = new ChunkCoordinate(-1, 0, 2);
       const relCoord1 = new coord(15, 4, 7, chunkCoord1);
-      expect(relCoord1.getAbsoluteCoordinate()).toEqual({ x: -17, y: 4, z: 71 });
+      expect(relCoord1.getAbsoluteCoordinate()).toEqual({ x: -chunkSize + 15, y: 4, z: (2 * chunkSize) + 7 });
 
       const chunkCoord2 = new ChunkCoordinate(4, 2, -3);
       expect(() => new coord(-2, 32, 5, chunkCoord2)).toThrow(RangeError);
@@ -68,15 +67,15 @@ for (const [name, coord] of implementations) {
       expect(relCoord2).toBeDefined();
       expect(relCoord2!.equals(new coord(1, 2, 3, chunkCoord1))).toBe(true);
 
-      const relCoord3 = relCoord1.add(31, 31, 31);
+      const relCoord3 = relCoord1.add(chunkSize - 1, chunkSize - 1, chunkSize - 1);
       expect(relCoord3).toBeDefined();
-      expect(relCoord3!.equals(new coord(31, 31, 31, chunkCoord1))).toBe(true);
+      expect(relCoord3!.equals(new coord(chunkSize - 1, chunkSize - 1, chunkSize - 1, chunkCoord1))).toBe(true);
 
-      const relCoord4 = relCoord1.add(32, 0, 0);
+      const relCoord4 = relCoord1.add(chunkSize, 0, 0);
       expect(relCoord4).toBeUndefined();
-      const relCoord5 = relCoord1.add(0, 32, 0);
+      const relCoord5 = relCoord1.add(0, chunkSize, 0);
       expect(relCoord5).toBeUndefined();
-      const relCoord6 = relCoord1.add(0, 0, 32);
+      const relCoord6 = relCoord1.add(0, 0, chunkSize);
       expect(relCoord6).toBeUndefined();
 
       const relCoord7 = relCoord1.add(-1, 0, 0);

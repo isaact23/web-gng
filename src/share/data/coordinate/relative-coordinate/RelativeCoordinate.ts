@@ -1,8 +1,9 @@
-import { ChunkData } from "@share/cluster-data/chunk-data";
+import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { IRelativeCoordinate } from ".";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../absolute-coordinate";
 import { IChunkCoordinate } from "../chunk-coordinate";
 import { Vector3 } from "babylonjs";
+import { Settings } from "@share/config/Settings";
 
 /**
  * Interface for a relative coordinate, which stores the
@@ -18,9 +19,10 @@ export class RelativeCoordinate implements IRelativeCoordinate {
     public readonly x: number,
     public readonly y: number,
     public readonly z: number,
-    public readonly chunkCoordinate: IChunkCoordinate,
-    public readonly chunkSize: number = ChunkData.CHUNK_SIZE
+    public readonly chunkCoordinate: IChunkCoordinate
   ) {
+
+    const chunkSize = Settings.CHUNK_SIZE;
 
     if (x < 0 || y < 0 || z < 0 ||
       x >= chunkSize || y >= chunkSize || z >= chunkSize)
@@ -35,7 +37,7 @@ export class RelativeCoordinate implements IRelativeCoordinate {
    * @returns The absolute coordinate of this relative coordinate.
    */
   getAbsoluteCoordinate(): IAbsoluteCoordinate {
-    const chunkSize = ChunkData.CHUNK_SIZE;
+    const chunkSize = Settings.CHUNK_SIZE;
 
     const x = this.x + this.chunkCoordinate.x * chunkSize;
     const y = this.y + this.chunkCoordinate.y * chunkSize;
@@ -67,14 +69,16 @@ export class RelativeCoordinate implements IRelativeCoordinate {
     const newY = this.y + y;
     const newZ = this.z + z;
 
+    const chunkSize = Settings.CHUNK_SIZE;
+
     // Ensure new relative coordinates are within the bounds of the chunk
     if (newX < 0 || newY < 0 || newZ < 0 ||
-      newX >= this.chunkSize || newY >= this.chunkSize || newZ >= this.chunkSize)
+      newX >= chunkSize || newY >= chunkSize || newZ >= chunkSize)
     {
       return undefined;
     }
 
-    return new RelativeCoordinate(newX, newY, newZ, this.chunkCoordinate, this.chunkSize);
+    return new RelativeCoordinate(newX, newY, newZ, this.chunkCoordinate);
   }
 
   /**

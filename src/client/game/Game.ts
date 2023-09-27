@@ -74,7 +74,7 @@ export class Game implements IGame {
 
     // Create local player motor
     this.motor = new PlayerMotor(
-      view.getCanvas(), this.engine, this.scene, this.cluster, this.assetManager, new Vector3(20, 20, 20));
+      view.getCanvas(), this.engine, this.scene, this.cluster, new Vector3(20, 20, 20));
 
     this.gui = new GUI();
     //this.gui.mainMenuGui();

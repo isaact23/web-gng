@@ -1,7 +1,8 @@
-import { ChunkData } from "@share/cluster-data/chunk-data";
+import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { IChunkCoordinate } from ".";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../absolute-coordinate";
 import { Vector3 } from "babylonjs";
+import { Settings } from "@share/config/Settings";
 
 /**
  * Chunk coordinates. An increment of 1 shifts
@@ -21,7 +22,7 @@ export class ChunkCoordinate implements IChunkCoordinate {
    * @returns The absolute coordinate of the block at the origin of this chunk.
    */
   getAbsoluteCoordinate(): IAbsoluteCoordinate {
-    const chunkSize = ChunkData.CHUNK_SIZE;
+    const chunkSize = Settings.CHUNK_SIZE;
 
     const x = this.x * chunkSize;
     const y = this.y * chunkSize;

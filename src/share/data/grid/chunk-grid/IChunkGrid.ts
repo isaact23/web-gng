@@ -4,7 +4,7 @@ import { IChunkCoordinate } from "@share/data/coordinate";
  * An interface for a grid indexed by chunk coordinates.
  * @param <T> The type of object to store.
  */
-export interface IChunkGrid<T> {
+export interface IChunkGrid<T> extends Iterable<[IChunkCoordinate, T]> {
 
   /**
    * Get a value at a coordinate in this grid.
@@ -21,8 +21,10 @@ export interface IChunkGrid<T> {
     set(coord: IChunkCoordinate, value: T): void;
     
     /**
-     * Get iterator for all set items in the grid.
-     * @returns An iterator that iterates through all set values in the grid.
-     */ 
-    getIterator(): Generator<T>;
+     * Get iterator for all set items in the grid and their coordinates
+     * in order by coordinates in an arbitrary order.
+     * @returns An iterator that iterates through all set values in the grid
+     * and their coordinates in an arbitrary order.
+     */
+    [Symbol.iterator](): Iterator<[IChunkCoordinate, T]>;
 }

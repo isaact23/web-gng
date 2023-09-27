@@ -1,8 +1,9 @@
-import { ChunkData } from "@share/cluster-data/chunk-data";
+import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { IAbsoluteCoordinate } from ".";
 import { ChunkCoordinate, IChunkCoordinate } from "../chunk-coordinate";
 import { IRelativeCoordinate, RelativeCoordinate } from "../relative-coordinate";
 import { Vector3 } from "babylonjs";
+import { Settings } from "@share/config/Settings";
 
 /**
  * Absolute coordinate in world space,
@@ -21,7 +22,7 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
    * @returns The chunk coordinate of the chunk that contains this absolute coordinate.
    */
   getChunkCoordinate(): IChunkCoordinate {
-    const chunkSize = ChunkData.CHUNK_SIZE;
+    const chunkSize = Settings.CHUNK_SIZE;
 
     const x = Math.floor(this.x / chunkSize);
     const y = Math.floor(this.y / chunkSize);
@@ -37,10 +38,11 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
    */
   getRelativeCoordinate(): IRelativeCoordinate {
     const chunkCoord = this.getChunkCoordinate();
+    const chunkSize = Settings.CHUNK_SIZE;
 
-    const x = this.x - chunkCoord.x * ChunkData.CHUNK_SIZE;
-    const y = this.y - chunkCoord.y * ChunkData.CHUNK_SIZE;
-    const z = this.z - chunkCoord.z * ChunkData.CHUNK_SIZE;
+    const x = this.x - chunkCoord.x * chunkSize;
+    const y = this.y - chunkCoord.y * chunkSize;
+    const z = this.z - chunkCoord.z * chunkSize;
 
     return new RelativeCoordinate(x, y, z, chunkCoord);
   }

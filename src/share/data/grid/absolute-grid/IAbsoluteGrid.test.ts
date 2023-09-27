@@ -22,15 +22,21 @@ for (const [name, grid] of implementations) {
       expect(grid1.get(coord2)).toEqual(-16);
     });
 
-    test("Get iterator", () => {
-      const grid1 = new grid();
-      grid1.set(new AbsoluteCoordinate(0, 1, 2), 3);
-      grid1.set(new AbsoluteCoordinate(0, 1, 3), -16);
+    test("Absolute grid iterator", () => {
+      const coord1 = new AbsoluteCoordinate(0, 4, 3);
+      const coord2 = new AbsoluteCoordinate(2, 1, 3);
+      const coord3 = new AbsoluteCoordinate(0, 4, 3);
 
-      const it = grid1.getIterator();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeTruthy();
+      const grid1 = new grid();
+      grid1.set(coord1, 3);
+      grid1.set(coord2, -16);
+      grid1.set(coord3, 7);
+
+      const it = grid1[Symbol.iterator]();
+
+      expect(it.next().done).toBe(false);
+      expect(it.next().done).toBe(false);
+      expect(it.next().done).toBe(true);
     });
   });
 }

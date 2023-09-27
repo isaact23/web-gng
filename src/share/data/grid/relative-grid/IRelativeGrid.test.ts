@@ -1,4 +1,4 @@
-import { ChunkData } from "@share/cluster-data/chunk-data";
+import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { IRelativeGrid, RelativeGrid } from ".";
 import { ChunkCoordinate, IChunkCoordinate, RelativeCoordinate } from "@share/data/coordinate";
 
@@ -10,9 +10,6 @@ const implementations: [string, new (chunkCoord: IChunkCoordinate) => IRelativeG
 // Iterate through and test implementations
 for (const [name, grid] of implementations) {
   describe("Testing " + name, () => {
-    test("Ensure chunk size is 32", () => {
-      expect(ChunkData.CHUNK_SIZE).toBe(32);
-    });
 
     test("Get and set", () => {
       const chunkCoord1 = new ChunkCoordinate(2, -5, 3);
@@ -39,28 +36,22 @@ for (const [name, grid] of implementations) {
       expect(() => grid1.set(relCoord1, 5)).toThrow();
     });
 
-    test("Get iterator", () => {
-      const chunk1 = new ChunkCoordinate(2, -5, 3);
-      const grid1 = new grid(chunk1);
-      const rel1 = new RelativeCoordinate(1, 2, 3, chunk1);
-      const rel2 = new RelativeCoordinate(4, 2, 3, chunk1);
+    test("Relative grid iterator", () => {
+      const chunkCoord1 = new ChunkCoordinate(2, -5, 3);
+      const grid1 = new grid(chunkCoord1);
 
-      grid1.set(rel1, 1);
-      grid1.set(rel2, 2);
+      const relCoord1 = new RelativeCoordinate(4, 2, 5, chunkCoord1);
+      const relCoord2 = new RelativeCoordinate(3, 4, 6, chunkCoord1);
+      const relCoord3 = new RelativeCoordinate(4, 2, 5, chunkCoord1);
+      grid1.set(relCoord1, 1);
+      grid1.set(relCoord2, -5);
+      grid1.set(relCoord3, 10);
 
-      const it = grid1.getIterator();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeFalsy();
-      expect(it.next().done).toBeTruthy();
+      const it = grid1[Symbol.iterator]();
 
-      const grid2 = new grid(chunk1);
-      grid2.set(rel1, 1);
-      grid2.set(rel1, 5);
-      grid2.set(rel1, -3);
-
-      const it2 = grid2.getIterator();
-      expect(it2.next().done).toBeFalsy();
-      expect(it2.next().done).toBeTruthy();
-    });
+      expect(it.next().done).toBe(false);
+      expect(it.next().done).toBe(false);
+      expect(it.next().done).toBe(true);
+    })
   });
 }

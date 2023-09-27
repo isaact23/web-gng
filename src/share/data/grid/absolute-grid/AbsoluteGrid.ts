@@ -1,4 +1,4 @@
-import { IAbsoluteCoordinate } from "@share/data/coordinate";
+import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 import { IAbsoluteGrid } from ".";
 import { IGrid, Grid } from "..";
 import { Vector3 } from "babylonjs";
@@ -35,10 +35,14 @@ export class AbsoluteGrid<T> implements IAbsoluteGrid<T> {
   }
   
   /**
-   * Get iterator for all set items in the grid.
-   * @returns An iterator that iterates through all set values in the grid.
-   */ 
-  getIterator(): Generator<T> {
-    return this.grid.getIterator();
+   * Get iterator for all set items in the grid and their coordinates
+   * in order by coordinates in an arbitrary order.
+   * @returns An iterator that iterates through all set values in the grid
+   * and their coordinates in an arbitrary order.
+   */
+  *[Symbol.iterator](): Iterator<[IAbsoluteCoordinate, T]> {
+    for (const [vec, value] of this.grid) {
+      yield [new AbsoluteCoordinate(vec.x, vec.y, vec.z), value];
+    }
   }
 }

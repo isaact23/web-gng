@@ -48,14 +48,16 @@ export class Grid<T> implements IGrid<T> {
   }
 
   /**
-   * Get iterator for all set items in the grid.
-   * @returns An iterator that iterates through all set values in the grid.
-   */ 
-  *getIterator(): Generator<T> {
-    for (let [x, sliceX] of this.data) {
-      for (let [y, sliceY] of sliceX) {
-        for (let [z, value] of sliceY) {
-          yield value;
+   * Get iterator for all set items in the grid and their coordinates
+   * in order by coordinates in an arbitrary order.
+   * @returns An iterator that iterates through all set values in the grid
+   * and their coordinates in an arbitrary order.
+   */
+  public *[Symbol.iterator](): Iterator<[Vector3, T]> {
+    for (const [x, row] of this.data) {
+      for (const [y, col] of row) {
+        for (const [z, value] of col) {
+          yield [new Vector3(x, y, z), value];
         }
       }
     }

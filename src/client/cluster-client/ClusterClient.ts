@@ -1,7 +1,8 @@
 import { IClusterClient } from ".";
 import { IAssetManager } from "@client/assets";
-import { IClusterData } from "@share/cluster-data";
-import { ChunkData, IChunkData } from "@share/cluster-data/chunk-data";
+import { Settings } from "@share/config/Settings";
+import { IClusterData } from "@share/data/cluster-data";
+import { ChunkData, IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
 import { Face, Block } from "@share/utility";
@@ -32,10 +33,8 @@ export class ClusterClient implements IClusterClient {
   ) {
 
     // Initialize all chunks as needing update
-    const chunkIt = clusterData.getIterator();
-    for (let chunk of chunkIt) {
-      const c = chunk.getCoordinate();
-      this.dirtyChunks.set(c, true);
+    for (let [coord, chunk] of clusterData) {
+      this.dirtyChunks.set(coord, true);
     }
   }
 
@@ -80,41 +79,41 @@ export class ClusterClient implements IClusterClient {
     this.dirtyChunks.set(chunkCoord, true);
 
     // Flag adjacent chunks for update
-    const chunkSize = ChunkData.CHUNK_SIZE;
+    const chunkSize = Settings.CHUNK_SIZE;
     const flagAdj = (offset: Vector3) => {
       this.dirtyChunks.set(chunkCoord.addScalars(offset.x, offset.y, offset.z), true);
     }
+
+    const relCoord = coord.getRelativeCoordinate();
     if (block == Block.Air) {
-      if (coord.x == 0)               flagAdj(Vector3.Left());
-      if (coord.y == 0)               flagAdj(Vector3.Down());
-      if (coord.z == 0)               flagAdj(Vector3.Backward());
-      if (coord.x >= chunkSize - 1)   flagAdj(Vector3.Right());
-      if (coord.y >= chunkSize - 1)   flagAdj(Vector3.Up());
-      if (coord.z >= chunkSize - 1)   flagAdj(Vector3.Forward());
+      if (relCoord.x == 0)               flagAdj(Vector3.Left());
+      if (relCoord.y == 0)               flagAdj(Vector3.Down());
+      if (relCoord.z == 0)               flagAdj(Vector3.Backward());
+      if (relCoord.x == chunkSize - 1)   flagAdj(Vector3.Right());
+      if (relCoord.y == chunkSize - 1)   flagAdj(Vector3.Up());
+      if (relCoord.z == chunkSize - 1)   flagAdj(Vector3.Forward());
     }
   }
 
   /**
    * Get iterator for all chunks in the world.
+   * @returns An iterator for all chunks in this world
+   * with respective chunk coordinates.
    */
-  getIterator(): Generator<IChunkData> {
-    return this.clusterData.getIterator();
+  [Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]> {
+    return this.clusterData[Symbol.iterator]();
   }
 
   /**
    * Load or reload chunk meshes in the world.
    */
   remesh(): void {
-    console.log("Re-meshing");
-
     const shadowMap = this.shadowGenerator.getShadowMap();
     
     // Iterate through each chunk
-    const chunkIt = this.getIterator();
-    for (let chunk of chunkIt) {
+    for (let [coord, chunk] of this) {
 
       // Check if each chunk needs to be updated
-      const coord = chunk.getCoordinate();
       if (this.dirtyChunks.get(coord)) {
         
         // Replace mesh
@@ -135,8 +134,6 @@ export class ClusterClient implements IClusterClient {
    * Convert block data for a chunk into a mesh.
    */
   _generateChunkMesh(chunk: IChunkData): Babylon.Mesh {
-
-    const blockIterator = chunk.getIterator();
 
     // Initialize arrays for mesh data
     const vertices = new Array<number>;
@@ -167,7 +164,7 @@ export class ClusterClient implements IClusterClient {
 
     // Generate vertex and triangle data.
     // For each block in the chunk,
-    for (let [coord, block] of blockIterator) {
+    for (let [coord, block] of chunk) {
 
       const absoluteCoord = coord.getAbsoluteCoordinate();
 

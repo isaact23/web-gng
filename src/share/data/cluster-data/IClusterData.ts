@@ -8,7 +8,7 @@ import { IAbsoluteCoordinate } from "@share/data/coordinate/absolute-coordinate"
  * Manage multiple chunks, generating their meshes and loading them
  * into the Babylon scene.
  */
-export interface IClusterData {
+export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
   /**
    * Add a new chunk. Replace any chunk in its spot.
    * @param chunk The chunk to add.
@@ -37,8 +37,10 @@ export interface IClusterData {
   setBlock(coord: IAbsoluteCoordinate, block: Block) : void;
 
   /**
-   * Get iterator for all chunks in the cluster.
-   * @returns An iterator for all chunks in this cluster.
+   * Get iterator for all chunks in the cluster and
+   * corresponding chunk coordinates.
+   * @returns An iterator for all chunks in this cluster and
+   * corresponding chunk coordinates.
    */
-  getIterator(): Generator<IChunkData>;
+  [Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]>;
 }

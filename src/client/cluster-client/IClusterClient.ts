@@ -1,5 +1,5 @@
-import { IClusterData } from "@share/cluster-data";
-import { IChunkData } from "@share/cluster-data/chunk-data";
+import { IClusterData } from "@share/data/cluster-data";
+import { IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { Block } from "@share/utility";
 
@@ -32,11 +32,6 @@ export interface IClusterClient extends IClusterData {
    * @param block The block to set.
    */
   setBlock(coord: IAbsoluteCoordinate, block: Block) : void;
-
-  /**
-   * Get iterator for all chunks in the world.
-   */
-  getIterator(): Generator<IChunkData>;
 
   /**
    * Load or reload chunk meshes in the world.
