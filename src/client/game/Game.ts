@@ -77,8 +77,8 @@ export class Game implements IGame {
       view.getCanvas(), this.engine, this.scene, this.cluster, new Vector3(20, 20, 20));
 
     this.gui = new GUIManager();
-    this.gui.mainMenuGui();
-    //this.gui.gameGui();
+    //this.gui.mainMenuGui();
+    this.gui.gameGui();
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();
