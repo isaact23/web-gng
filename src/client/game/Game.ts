@@ -46,7 +46,7 @@ export class Game implements IGame {
   )
   {
     this.view = view;
-    this.engine = new Babylon.Engine(view.getCanvas());
+    this.engine = new Babylon.Engine(view.getCanvas(), true);
 
     // Set up the scene
     this.scene = this._initScene(debugMode);
