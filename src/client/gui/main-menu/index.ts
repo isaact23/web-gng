@@ -1,2 +1,2 @@
-export { MainMenuGui } from "./MainMenuGUI";
-export { IMainMenuGui } from "./IMainMenuGUI";
+export { MainMenuGUI } from "./MainMenuGUI";
+export { IMainMenuGUI } from "./IMainMenuGUI";
