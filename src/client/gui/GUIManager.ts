@@ -1,8 +1,8 @@
 import * as Babylon from "babylonjs";
 import * as BabylonGUI from "babylonjs-gui";
-import { IGUI } from "./IGUI";
+import { IGUIManager } from "./IGUIManager";
 
-export class GUI implements IGUI {
+export class GUIManager implements IGUIManager {
 
   private readonly ui: BabylonGUI.AdvancedDynamicTexture;
 
@@ -25,8 +25,6 @@ export class GUI implements IGUI {
    */
   mainMenuGui(): void {
     this._resetUi();
-
-
   }
 
   /**

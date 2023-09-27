@@ -3,7 +3,7 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
-import { GUI } from "@client/gui";
+import { GUIManager, IGUIManager } from "@client/gui";
 import { ClusterClient, IClusterClient } from "@client/cluster-client";
 import { IGame } from ".";
 import { IView } from "@client/view";
@@ -32,7 +32,7 @@ export class Game implements IGame {
   private view: IView;
   private cluster: IClusterClient;
   private motor: IPlayerMotor;
-  private gui: GUI;
+  private gui: IGUIManager;
   private assetManager: IAssetManager | null = null;
 
   /**
@@ -76,9 +76,9 @@ export class Game implements IGame {
     this.motor = new PlayerMotor(
       view.getCanvas(), this.engine, this.scene, this.cluster, new Vector3(20, 20, 20));
 
-    this.gui = new GUI();
-    //this.gui.mainMenuGui();
-    this.gui.gameGui();
+    this.gui = new GUIManager();
+    this.gui.mainMenuGui();
+    //this.gui.gameGui();
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();

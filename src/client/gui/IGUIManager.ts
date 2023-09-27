@@ -1,7 +1,7 @@
 /**
  * Handle the GUI for SkyQuest.
  */
-export interface IGUI {
+export interface IGUIManager {
 
   /**
    * Enable the main menu GUI.

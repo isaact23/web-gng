@@ -1,2 +1,2 @@
-export { GUI } from "./GUI";
-export { IGUI } from "./IGUI";
+export { GUIManager } from "./GUIManager";
+export { IGUIManager } from "./IGUIManager";
