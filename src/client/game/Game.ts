@@ -68,17 +68,17 @@ export class Game implements IGame {
 
     // Create world cluster
     const clusterGenerator: IClusterGenerator = new ClusterGenerator();
-    const clusterData = clusterGenerator.createSineCluster(100);
+    const clusterData = clusterGenerator.createWorldCluster();
     this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
     this.cluster.remesh();
 
     // Create local player motor
     this.motor = new PlayerMotor(
-      view.getCanvas(), this.engine, this.scene, this.cluster, new Vector3(20, 20, 20));
+      view.getCanvas(), this.engine, this.scene, this.cluster, new Vector3(10, 22, 10), true);
 
     this.gui = new GUIManager();
-    //this.gui.mainMenuGui();
-    this.gui.gameGui();
+    this.gui.mainMenuGui();
+    //this.gui.gameGui();
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();

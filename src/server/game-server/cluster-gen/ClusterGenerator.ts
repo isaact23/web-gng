@@ -60,4 +60,34 @@ export class ClusterGenerator implements IClusterGenerator {
   
     return cluster;
   }
+
+  /**
+   * Generate a standard world.
+   */
+  createWorldCluster(): IClusterData {
+    const cluster = new ClusterData();
+
+    const SIZE = 40;
+
+    // Lambda to create absolute coordinate
+    const v = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
+
+    for (let x = 0; x < SIZE; x++) {
+      for (let y = 0; y < 20; y++) {
+        for (let z = 0; z < SIZE; z++) {
+          if (y < 15) {
+            cluster.setBlock(v(x, y, z), Block.Stone);
+          }
+          else if (y < 19) {
+            cluster.setBlock(v(x, y, z), Block.Dirt);
+          }
+          else {
+            cluster.setBlock(v(x, y, z), Block.Grass);
+          }
+        }
+      }
+    }
+
+    return cluster;
+  }
 }

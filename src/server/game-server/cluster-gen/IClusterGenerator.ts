@@ -11,4 +11,9 @@ export interface IClusterGenerator {
    * Create a cluster with sine waves.
    */
   createSineCluster(size: number): IClusterData;
+
+  /**
+   * Generate a standard world.
+   */
+  createWorldCluster(): IClusterData;
 }

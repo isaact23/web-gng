@@ -11,7 +11,7 @@ export class MainMenuGUI implements IMainMenuGUI {
    */
   constructor(private readonly ui: BabylonGUI.AdvancedDynamicTexture)
   {
-
+    
   }
 
   /**
