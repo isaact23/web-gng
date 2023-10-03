@@ -13,6 +13,7 @@ const MAX_FALL_SPEED = 50;
 const WALK_SPEED = 7;
 const NOCLIP_SPEED = 30;
 const LATERAL_ACCELERATION = 50;
+const NOCLIP_ACCELERATION = 300;
 const JUMP_VELOCITY = 6;
 
 /**
@@ -180,19 +181,7 @@ export class PlayerMotor implements IPlayerMotor {
 
       const fps = engine.getFps();
 
-      if (noclip) {
-
-        if (input.jump) {
-          playerVel.y = NOCLIP_SPEED;
-        } 
-        else if (input.shift) {
-          playerVel.y = -NOCLIP_SPEED;
-        }
-        else {
-          playerVel.y = 0;
-        }
-
-      } else {
+      if (!noclip) {
 
         // Calculate gravity
         let newVelY = 0;
@@ -216,6 +205,7 @@ export class PlayerMotor implements IPlayerMotor {
 
       // Calculate target velocity
       let targetVelX = 0;
+      let targetVelY = 0;
       let targetVelZ = 0;
       let isMoving = false;
 
@@ -223,45 +213,59 @@ export class PlayerMotor implements IPlayerMotor {
       if (input.back && !input.forward) { targetVelZ = -1; isMoving = true; }
       if (input.left && !input.right) { targetVelX = -1; isMoving = true; }
       if (input.right && !input.left) { targetVelX = 1; isMoving = true; }
+      if (noclip) {
+        if (input.jump && !input.shift) { targetVelY = 1; isMoving = true; }
+        if (input.shift && !input.jump) { targetVelY = -1; isMoving = true; }
+      }
 
       let targetVel: Vector3;
-      let targetSpeed;
-      noclip ? targetSpeed = NOCLIP_SPEED : targetSpeed = WALK_SPEED;
+      let targetSpeed = noclip ? NOCLIP_SPEED : WALK_SPEED;
 
       if (isMoving) {
-        targetVel = new Vector3(targetVelX, 0, targetVelZ).normalize().multiplyByFloats(targetSpeed, 0, targetSpeed);
+        targetVel = new Vector3(targetVelX, targetVelY, targetVelZ)
+          .normalize()
+          .multiplyByFloats(targetSpeed, targetSpeed, targetSpeed);
       } else {
         targetVel = Vector3.Zero();
       }
 
       // Move player velocity toward target velocity
-      if (noclip) {
-        playerVel.x = targetVel.x;
-        playerVel.z = targetVel.z;
-      } else {
-        const lateral = LATERAL_ACCELERATION / fps;
+      const lateral = noclip ? NOCLIP_ACCELERATION / fps : LATERAL_ACCELERATION / fps;
+      if (playerVel.x < targetVel.x) {
+        playerVel.x += lateral;
+        if (playerVel.x > targetVel.x) {
+          playerVel.x = targetVel.x;
+        }
+      }
+      else if (playerVel.x > targetVel.x) {
+        playerVel.x -= lateral;
         if (playerVel.x < targetVel.x) {
-          playerVel.x += lateral;
-          if (playerVel.x > targetVel.x) {
-            playerVel.x = targetVel.x;
-          }
+          playerVel.x = targetVel.x;
         }
-        else if (playerVel.x > targetVel.x) {
-          playerVel.x -= lateral;
-          if (playerVel.x < targetVel.x) {
-            playerVel.x = targetVel.x;
-          }
+      }
+      if (playerVel.z < targetVel.z) {
+        playerVel.z += lateral;
+        if (playerVel.z > targetVel.z) {
+          playerVel.z = targetVel.z;
         }
+      }
+      else if (playerVel.z > targetVel.z) {
+        playerVel.z -= lateral;
         if (playerVel.z < targetVel.z) {
-          playerVel.z += lateral;
-          if (playerVel.z > targetVel.z) {
-            playerVel.z = targetVel.z;
+          playerVel.z = targetVel.z;
+        }
+      }
+      if (noclip) {
+        if (playerVel.y < targetVel.y) {
+          playerVel.y += lateral;
+          if (playerVel.y > targetVel.y) {
+            playerVel.y = targetVel.y;
           }
         }
-        else if (playerVel.z > targetVel.z) {
-          playerVel.z -= lateral;
-          if (playerVel.z < targetVel.z) {
-            playerVel.z = targetVel.z;
+        else if (playerVel.y > targetVel.y) {
+          playerVel.y -= lateral;
+          if (playerVel.y < targetVel.y) {
+            playerVel.y = targetVel.y;
           }
         }
       }
