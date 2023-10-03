@@ -63,13 +63,14 @@ export class Game implements IGame {
     this.assetManager = new AssetManager(this.scene);
 
     // Init shadow generator
-    this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
-    this.shadowGenerator.usePoissonSampling = true;
+    //this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
+    //this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
     const clusterGenerator: IClusterGenerator = new ClusterGenerator();
     const clusterData = clusterGenerator.createWorldCluster();
-    this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
+    //this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
+    this.cluster = new ClusterClient(clusterData, null, this.assetManager);
     this.cluster.remesh();
 
     // Create local player motor

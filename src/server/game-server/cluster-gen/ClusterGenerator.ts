@@ -67,23 +67,74 @@ export class ClusterGenerator implements IClusterGenerator {
   createWorldCluster(): IClusterData {
     const cluster = new ClusterData();
 
-    const SIZE = 40;
+    /*const SIZE = 200;
+    const HILL_COUNT = 250;
+    const ALTITUDE = 2; // Distance between sea level and base of hills
+    const SPAN = 10;
+    const HILL_WIDTH = 5;
+    const HILL_GRADE = 0.3;*/
+
+    // Rugged hills
+    const SIZE = 200;
+    const HILL_COUNT = 250;
+    const ALTITUDE = 2; // Distance between sea level and base of hills
+    const SPAN = 30;
+    const HILL_WIDTH = 10;
+    const HILL_GRADE = 1.5;
 
     // Lambda to create absolute coordinate
     const v = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
 
+    // Generate random particles to represent hills
+    let coords: [number, number, number][] = [];
+    for (let i = 0; i < HILL_COUNT; i++) {
+      let x = Math.floor(Math.random() * SIZE);
+      let y = Math.floor(Math.random() * SPAN + ALTITUDE);
+      let z = Math.floor(Math.random() * SIZE);
+      coords.push([x, y, z]);
+
+      //cluster.setBlock(v(x, y, z), Block.Stone);
+    }
+
+    // Generate hills using weighted average of distance to particles
     for (let x = 0; x < SIZE; x++) {
-      for (let y = 0; y < 20; y++) {
-        for (let z = 0; z < SIZE; z++) {
-          if (y < 15) {
-            cluster.setBlock(v(x, y, z), Block.Stone);
+      for (let z = 0; z < SIZE; z++) {
+
+        // Determine how high this column should be based on surrounding particles
+        let ySum = 0;
+        let influenceSum = 0;
+        for (let coord of coords) {
+          let distance = Math.sqrt(Math.pow(x - coord[0], 2) + Math.pow(z - coord[2], 2));
+
+          // Logistic curve
+          let denom = (1 + Math.pow(Math.E, (HILL_GRADE * (distance - HILL_WIDTH))));
+          let influence;
+          if (denom == 0) {
+            influence = 0;
+          } else {
+            influence = 1.0 / denom;
           }
-          else if (y < 19) {
-            cluster.setBlock(v(x, y, z), Block.Dirt);
+
+          ySum += coord[1] * influence;
+          influenceSum += influence;
+        }
+
+        // Calculate weighted average
+        let y;
+        if (influenceSum == 0) {
+          y = 0;
+        } else {
+          y = Math.floor(ySum / influenceSum);
+        }
+        
+        // Set block column
+        cluster.setBlock(v(x, y, z), Block.Grass);
+        for (let i = y - 1; i >= 0; i--) {
+          let block = Block.Stone;
+          if (y - i < 4) {
+            block = Block.Dirt;
           }
-          else {
-            cluster.setBlock(v(x, y, z), Block.Grass);
-          }
+          cluster.setBlock(v(x, i, z), block);
         }
       }
     }
