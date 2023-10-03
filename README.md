@@ -7,3 +7,16 @@ Servers work like Minecraft servers, except that you connect via a web browser i
 To run server:  
 `npx webpack`  
 `npm run start`  
+
+Biomes:  
+Badlands  
+Banks  
+Treetops  
+
+
+Lands of Good Mourning  
+The Salts  
+The Suspension  
+  The air becomes heavy enough to swim through.  
+Nomadic Docks  
+Land of Pisces

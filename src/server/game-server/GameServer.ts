@@ -13,7 +13,7 @@ export class GameServer implements IGameServer {
    * Initialize the game server.
    */
   constructor(private readonly socketOutgoing: ISocketOutgoing) {
-    this.cluster = new ClusterGenerator().createSineCluster();
+    this.cluster = new ClusterGenerator().createWorldCluster();
   }
 
   /**
