@@ -10,18 +10,18 @@ export class StandardNoiseGenerator implements INoiseGenerator {
 
   constructor
   (
-    worldSize: number,
+    worldWidth: number,
     hillDensity: number,
     hillAltitude: number,
     hillSpan: number
   ) {
     // Generate random particles to represent hills
     this.coords = [];
-    const hillCount = Math.floor(worldSize * worldSize / hillDensity);
+    const hillCount = Math.floor(worldWidth * worldWidth / hillDensity);
     for (let i = 0; i < hillCount; i++) {
-      let x = Math.floor(Math.random() * worldSize);
+      let x = Math.floor(Math.random() * worldWidth);
       let y = Math.floor(Math.random() * hillSpan + hillAltitude);
-      let z = Math.floor(Math.random() * worldSize);
+      let z = Math.floor(Math.random() * worldWidth);
       this.coords.push(new AbsoluteCoordinate(x, y, z));
     }
   }

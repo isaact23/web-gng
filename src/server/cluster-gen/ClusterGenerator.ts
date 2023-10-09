@@ -15,23 +15,24 @@ export class ClusterGenerator implements IClusterGenerator {
   createWorldCluster(): IClusterData {
     const cluster = new ClusterData();
 
-    const WORLD_SIZE = 100;
+    const WORLD_WIDTH = 100;
+    const BIOME_WIDTH = 50;
     const HILL_DENSITY = 160; // How many square meters per hill
     const HILL_ALTITUDE = 2; // Distance between sea level and base of hills
-    const HILL_SPAN = 15; // Peak to trough meter span of hills
+    const HILL_SPAN = 20; // Peak to trough meter span of hills
     const HILL_WIDTH = 5;
     const HILL_GRADE = 0.3;
 
     // Lambda for creating absolute coordinates
     const v = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
 
-    /*const noiseGen: INoiseGenerator = new StandardNoiseGenerator(
-      WORLD_SIZE, HILL_DENSITY, HILL_ALTITUDE, HILL_SPAN
+    const noiseGen: INoiseGenerator = new StandardNoiseGenerator(
+      WORLD_WIDTH, HILL_DENSITY, HILL_ALTITUDE, HILL_SPAN
     );
 
     // Generate hills using weighted average of distance to particles
-    for (let x = 0; x < WORLD_SIZE; x++) {
-      for (let z = 0; z < WORLD_SIZE; z++) {
+    for (let x = 0; x < WORLD_WIDTH; x++) {
+      for (let z = 0; z < WORLD_WIDTH; z++) {
 
         // Get noise iterator
         const origin = new AbsoluteCoordinate(x, HILL_ALTITUDE + Math.floor(HILL_SPAN / 2), z);
@@ -73,12 +74,6 @@ export class ClusterGenerator implements IClusterGenerator {
           }
           cluster.setBlock(v(x, i, z), block);
         }
-      }
-    }*/
-
-    for (let x = 0; x < WORLD_SIZE; x++) {
-      for (let z = 0; z < WORLD_SIZE; z++) {
-        cluster.setBlock(v(x, 0, z), Block.Grass);
       }
     }
 
