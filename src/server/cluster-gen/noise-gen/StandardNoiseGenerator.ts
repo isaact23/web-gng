@@ -10,10 +10,10 @@ export class StandardNoiseGenerator implements INoiseGenerator {
 
   constructor
   (
-    private readonly worldSize: number,
-    private readonly hillDensity: number,
-    private readonly hillAltitude: number,
-    private readonly hillSpan: number
+    worldSize: number,
+    hillDensity: number,
+    hillAltitude: number,
+    hillSpan: number
   ) {
     // Generate random particles to represent hills
     this.coords = [];
@@ -35,14 +35,14 @@ export class StandardNoiseGenerator implements INoiseGenerator {
    * within the specified radius of the specified origin, as well as their distances
    * from the origin.
    */
-  *getIterator(origin: IAbsoluteCoordinate, radius: number): Generator<[IAbsoluteCoordinate, number]> {
+  *getIterator(origin: IAbsoluteCoordinate, radius?: number): Generator<[IAbsoluteCoordinate, number]> {
     for (let coord of this.coords) {
       let distance = Math.sqrt(
         Math.pow(origin.x - coord.x, 2) + 
         Math.pow(origin.y - coord.y, 2) + 
         Math.pow(origin.z - coord.z, 2)
       );
-      if (distance <= radius) {
+      if (radius == undefined || distance <= radius) {
         yield [coord, distance];
       }
     }

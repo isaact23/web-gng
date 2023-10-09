@@ -15,7 +15,7 @@ export class ClusterGenerator implements IClusterGenerator {
   createWorldCluster(): IClusterData {
     const cluster = new ClusterData();
 
-    const WORLD_SIZE = 200;
+    const WORLD_SIZE = 100;
     const HILL_DENSITY = 160; // How many square meters per hill
     const HILL_ALTITUDE = 2; // Distance between sea level and base of hills
     const HILL_SPAN = 15; // Peak to trough meter span of hills
@@ -25,7 +25,7 @@ export class ClusterGenerator implements IClusterGenerator {
     // Lambda for creating absolute coordinates
     const v = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
 
-    const noiseGen: INoiseGenerator = new StandardNoiseGenerator(
+    /*const noiseGen: INoiseGenerator = new StandardNoiseGenerator(
       WORLD_SIZE, HILL_DENSITY, HILL_ALTITUDE, HILL_SPAN
     );
 
@@ -73,6 +73,12 @@ export class ClusterGenerator implements IClusterGenerator {
           }
           cluster.setBlock(v(x, i, z), block);
         }
+      }
+    }*/
+
+    for (let x = 0; x < WORLD_SIZE; x++) {
+      for (let z = 0; z < WORLD_SIZE; z++) {
+        cluster.setBlock(v(x, 0, z), Block.Grass);
       }
     }
 

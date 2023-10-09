@@ -13,5 +13,5 @@ export interface INoiseGenerator {
    * within the specified radius of the specified origin, as well as their distances
    * from the origin.
    */
-  getIterator(coord: IAbsoluteCoordinate, radius: number): Generator<[IAbsoluteCoordinate, number]>;
+  getIterator(coord: IAbsoluteCoordinate, radius?: number): Generator<[IAbsoluteCoordinate, number]>;
 }
