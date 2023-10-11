@@ -2,40 +2,32 @@ import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate"
 import { IHillGenerator } from "./IHillGenerator";
 
 /**
- * A basic hill generator.
+ * A hill generator that has different magnitudes for different noise particles.
  */
-export class HillGenerator implements IHillGenerator {
+export class VariableHillGenerator implements IHillGenerator {
 
-  private coords: IAbsoluteCoordinate[];
+  // An array of noise coordinates along with respective magnitudes.
+  private coordMagnitudeArray: [IAbsoluteCoordinate, number][];
 
   constructor (
     WORLD_WIDTH: number = 100,
     HILL_DENSITY: number = 160,
     private readonly HILL_ALTITUDE: number = 2,
-    private readonly HILL_HEIGHT: number = 30,
+    private readonly HILL_SPAN: number = 20,
     private readonly HILL_GRADE: number = 0.3,
     private readonly HILL_WIDTH: number = 5
   ) {
     
     // Generate random particles to guide hill formation
-    this.coords = [];
+    this.coordMagnitudeArray = [];
     const hillCount = Math.floor(WORLD_WIDTH * WORLD_WIDTH / HILL_DENSITY);
     for (let i = 0; i < hillCount; i++) {
       let x = Math.floor(Math.random() * WORLD_WIDTH);
-      let y = Math.floor(Math.random() * HILL_HEIGHT + HILL_ALTITUDE);
+      let y = Math.floor(Math.random() * HILL_SPAN + HILL_ALTITUDE);
       let z = Math.floor(Math.random() * WORLD_WIDTH);
-      this.coords.push(new AbsoluteCoordinate(x, y, z));
+      let magnitude = 1 + (Math.random() * 10);
+      this.coordMagnitudeArray.push([new AbsoluteCoordinate(x, y, z), magnitude]);
     }
-  }
-
-  /**
-   * Generate a random standard normal value using Box-Muller transform
-   */
-  normalRandom() {
-    const v1 = Math.sqrt(-2 * Math.log(1 - Math.random()));
-    const v2 = Math.sin(2 * Math.PI * Math.random());
-    const res = v1 * v2;
-    return res;
   }
 
   /**
@@ -43,12 +35,14 @@ export class HillGenerator implements IHillGenerator {
    */
   getYFromXZ(x: number, z: number): number {
 
-    const origin = new AbsoluteCoordinate(x, this.HILL_ALTITUDE + Math.floor(this.HILL_HEIGHT / 2), z);
+    const origin = new AbsoluteCoordinate(x, this.HILL_ALTITUDE + Math.floor(this.HILL_SPAN / 2), z);
 
     // Determine how high this column should be based on surrounding particles
     let ySum = 0;
     let influenceSum = 0;
-    for (let coord of this.coords) {
+    for (let coordMagnitude of this.coordMagnitudeArray) {
+      const coord = coordMagnitude[0];
+      const magnitude = coordMagnitude[1];
 
       let distance = (coord.vec().subtract(origin.vec())).length();
 
@@ -58,7 +52,7 @@ export class HillGenerator implements IHillGenerator {
       if (denom == 0) {
         influence = 0;
       } else {
-        influence = 1.0 / denom;
+        influence = magnitude / denom;
       }
 
       ySum += coord.y * influence;

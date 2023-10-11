@@ -2,8 +2,7 @@ import { Block } from "@share/utility";
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { IClusterGenerator } from "./IClusterGenerator";
 import { AbsoluteCoordinate } from "@share/data/coordinate";
-import { HillGenerator } from "./hill-gen/HillGenerator";
-import { IHillGenerator } from "./hill-gen/IHillGenerator";
+import { HillGenerator, IHillGenerator, VariableHillGenerator } from "./hill-gen";
 
 /**
  * Generator for cluster data.
