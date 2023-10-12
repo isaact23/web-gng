@@ -1,5 +1,6 @@
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 import { IHillGenerator } from "./IHillGenerator";
+import { logistic } from "../Logistic";
 
 /**
  * A basic hill generator.
@@ -53,12 +54,9 @@ export class HillGenerator implements IHillGenerator {
       let distance = (coord.vec().subtract(origin.vec())).length();
 
       // Logistic curve
-      let denom = (1 + Math.pow(Math.E, (this.HILL_GRADE * (distance - this.HILL_WIDTH))));
-      let influence;
-      if (denom == 0) {
+      let influence = logistic(distance, 1, this.HILL_GRADE, this.HILL_WIDTH);
+      if (influence == undefined) {
         influence = 0;
-      } else {
-        influence = 1.0 / denom;
       }
 
       ySum += coord.y * influence;
