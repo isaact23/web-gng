@@ -10,7 +10,7 @@ export class HillGenerator implements IHillGenerator {
 
   constructor (
     WORLD_WIDTH: number = 100,
-    HILL_DENSITY: number = 160,
+    HILL_DENSITY: number = 0.006,
     private readonly HILL_ALTITUDE: number = 2,
     private readonly HILL_HEIGHT: number = 30,
     private readonly HILL_GRADE: number = 0.3,
@@ -19,7 +19,7 @@ export class HillGenerator implements IHillGenerator {
     
     // Generate random particles to guide hill formation
     this.coords = [];
-    const hillCount = Math.floor(WORLD_WIDTH * WORLD_WIDTH / HILL_DENSITY);
+    const hillCount = Math.floor(WORLD_WIDTH * WORLD_WIDTH * HILL_DENSITY);
     for (let i = 0; i < hillCount; i++) {
       let x = Math.floor(Math.random() * WORLD_WIDTH);
       let y = Math.floor(Math.random() * HILL_HEIGHT + HILL_ALTITUDE);

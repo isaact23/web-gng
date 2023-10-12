@@ -32,6 +32,7 @@ export class TextureUvCalculator {
         }
       }
       case Block.Dirt: return [2, 0];
+      case Block.Sand: return [2, 1];
       default: return [4, 0];
     }
   }
