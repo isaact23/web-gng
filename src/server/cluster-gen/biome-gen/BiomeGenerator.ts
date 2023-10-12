@@ -1,16 +1,18 @@
 import { Biome } from "@share/utility/Biome";
 import { IBiomeGenerator } from ".";
+import { logistic } from "../Logistic";
 
 /**
  * Class for biome placement generator
  */
 export class BiomeGenerator implements IBiomeGenerator {
 
-  private points: [number, number, Biome][]
+  public points: [number, number, Biome][]
 
   constructor (
     WORLD_WIDTH: number,
-    BIOME_WIDTH: number
+    BIOME_WIDTH: number,
+    private readonly BORDER_GRADE = 0.3
   ) {
     this.points = [];
     const biomeCount = Math.floor((WORLD_WIDTH * WORLD_WIDTH) / (BIOME_WIDTH * BIOME_WIDTH));
@@ -30,23 +32,43 @@ export class BiomeGenerator implements IBiomeGenerator {
    */
   getBiomeFromXZ(x: number, z: number): Biome {
 
-    let closestBiome: Biome | undefined;
-    let biomeDistance: number | undefined;
+    let biomeInfluences = new Map<Biome, number>();
 
-    // Find the closest point to the given point
+    // Calculate biome influence on this point
     for (let point of this.points) {
-      const distance = Math.sqrt(Math.pow(point[0] - x, 2) + Math.pow(point[1] - z, 2));
 
-      if (biomeDistance == undefined || distance < biomeDistance) {
-        closestBiome = point[2];
-        biomeDistance = distance;
+      const distance = Math.sqrt(Math.pow(point[0] - x, 2) + Math.pow(point[1] - z, 2));
+      let influence = logistic(distance, 1, -this.BORDER_GRADE, 0);
+
+      if (influence == undefined) {
+        influence = 0;
+      }
+
+      const biome = point[2];
+      const oldInfluence = biomeInfluences.get(biome)
+      if (oldInfluence == undefined) {
+        biomeInfluences.set(biome, influence);
+      } else {
+        biomeInfluences.set(biome, oldInfluence + influence);
       }
     }
 
-    if (closestBiome == undefined) {
-      return Biome.Grasslands;
+    // Determine which biome has the most influence
+    let topBiome: Biome | undefined;
+    let maxInfluence = 0;
+
+    for (let biome of biomeInfluences.keys()) {
+      const influence = biomeInfluences.get(biome);
+      if (influence != undefined && influence > maxInfluence) {
+        maxInfluence = influence;
+        topBiome = biome;
+      }
     }
 
-    return closestBiome;
+    // Return results
+    if (topBiome == undefined) {
+      return Biome.Grasslands;
+    }
+    return topBiome;
   }
 }

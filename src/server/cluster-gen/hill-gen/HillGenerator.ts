@@ -54,7 +54,7 @@ export class HillGenerator implements IHillGenerator {
       let distance = (coord.vec().subtract(origin.vec())).length();
 
       // Logistic curve
-      let influence = logistic(distance, 1, this.HILL_GRADE, this.HILL_WIDTH);
+      let influence = logistic(distance, 1, -this.HILL_GRADE, this.HILL_WIDTH);
       if (influence == undefined) {
         influence = 0;
       }

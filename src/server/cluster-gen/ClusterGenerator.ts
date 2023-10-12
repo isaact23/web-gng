@@ -18,7 +18,7 @@ export class ClusterGenerator implements IClusterGenerator {
     const cluster = new ClusterData();
 
     const WORLD_WIDTH = 200;
-    const BIOME_WIDTH = 30;
+    const BIOME_WIDTH = 20;
 
     // Lambda for creating absolute coordinates
     const v = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
@@ -44,7 +44,11 @@ export class ClusterGenerator implements IClusterGenerator {
     }*/
 
     // Generate biomes
-    const biomeGen: IBiomeGenerator = new BiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
+    const biomeGen = new BiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
+
+    for (let point of biomeGen.points) {
+      cluster.setBlock(v(point[0], 2, point[1]), Block.Stone);
+    }
 
     for (let x = 0; x < WORLD_WIDTH; x++) {
       for (let z = 0; z < WORLD_WIDTH; z++) {
