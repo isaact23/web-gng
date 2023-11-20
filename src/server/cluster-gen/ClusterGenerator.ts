@@ -33,9 +33,21 @@ export class ClusterGenerator implements IClusterGenerator {
       for (let z = 0; z < WORLD_WIDTH; z++) {
 
         const y = hillGen.getYFromXZ(x, z);
+
+        const biome: Biome = biomeGen.getBiomeFromXZ(x, z);
+        let topBlock: Block;
+        if (biome == Biome.Grasslands) {
+          topBlock = Block.Grass;
+        }
+        else if (biome == Biome.Desert) {
+          topBlock = Block.Sand;
+        }
+        else {
+          topBlock = Block.Stone;
+        }
         
         // Set block column
-        cluster.setBlock(a(x, y, z), Block.Grass);
+        cluster.setBlock(a(x, y, z), topBlock);
         for (let i = y - 1; i >= 0; i--) {
           let block = Block.Stone;
           if (y - i < 4) {
