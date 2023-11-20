@@ -5,6 +5,7 @@ import { AbsoluteCoordinate } from "@share/data/coordinate";
 import { HillGenerator, IHillGenerator, VariableHillGenerator } from "./hill-gen";
 import { BiomeGenerator, IBiomeGenerator } from "./biome-gen";
 import { Biome } from "@share/utility/Biome";
+import { IndicatorHillGenerator } from "./hill-gen/IndicatorHillGenerator";
 
 const WORLD_WIDTH = 200;
 const BIOME_WIDTH = 50;
@@ -24,10 +25,10 @@ export class ClusterGenerator implements IClusterGenerator {
     const a = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
 
     // Generate biomes
-    const biomeGen = new BiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
+    const biomeGen: IBiomeGenerator = new BiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
 
     // Generate hills
-    const hillGen: IHillGenerator = new HillGenerator(WORLD_WIDTH);
+    const hillGen: IHillGenerator = new IndicatorHillGenerator(biomeGen);
 
     for (let x = 0; x < WORLD_WIDTH; x++) {
       for (let z = 0; z < WORLD_WIDTH; z++) {

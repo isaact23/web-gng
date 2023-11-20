@@ -18,4 +18,6 @@ The Salts
 The Suspension  
   The air becomes heavy enough to swim through.  
 Nomadic Docks  
-Land of Pisces
+Land of Pisces  
+
+Biome generator should return biomes by percentage.(?)
