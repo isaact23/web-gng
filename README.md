@@ -21,3 +21,4 @@ Nomadic Docks
 Land of Pisces  
 
 Biome generator should return biomes by percentage.(?)
+Write terrain generation in C++

@@ -1,4 +1,4 @@
-import { IBiomeComposition } from "./biome-composition";
+import { IBiomeComposition } from "./biome-composition/IBiomeComposition";
 
 /**
  * Interface for continuous biome placement generator.

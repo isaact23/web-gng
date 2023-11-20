@@ -3,7 +3,7 @@ import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { IClusterGenerator } from "./IClusterGenerator";
 import { AbsoluteCoordinate } from "@share/data/coordinate";
 import { HillGenerator, IHillGenerator, VariableHillGenerator } from "./hill-gen";
-import { DiscreteBiomeGenerator, IDiscreteBiomeGenerator } from "./biome-gen";
+import { DiscreteBiomeGenerator, IDiscreteBiomeGenerator } from "./biome-gen/discrete-biome-gen";
 import { Biome } from "@share/utility/Biome";
 import { IndicatorHillGenerator } from "./hill-gen/IndicatorHillGenerator";
 

@@ -1,5 +1,5 @@
 import { Biome } from "@share/utility/Biome";
-import { IDiscreteBiomeGenerator } from "../biome-gen";
+import { IDiscreteBiomeGenerator } from "../biome-gen/discrete-biome-gen";
 import { IHillGenerator } from "./IHillGenerator";
 
 const GRASSLANDS_HEIGHT = 10;

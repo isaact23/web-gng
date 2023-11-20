@@ -1,13 +1,14 @@
 import { Biome } from "@share/utility/Biome";
 import { logistic } from "../../Logistic";
 import { IContinuousBiomeGenerator } from "./IContinuousBiomeGenerator";
+import { BiomeComposition, IBiomeComposition } from "./biome-composition";
 
 /**
  * Class for biome placement generator
  */
 export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
 
-  public points: [number, number, Biome][]
+  public readonly points: [number, number, Biome][]
 
   constructor (
     WORLD_WIDTH: number,
@@ -30,9 +31,10 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
   /**
    * Given an x and z value, get the biome.
    */
-  getBiomeFromXZ(x: number, z: number): Biome {
+  getBiomesFromXZ(x: number, z: number): IBiomeComposition {
 
     let biomeInfluences = new Map<Biome, number>();
+    let totalInfluence = 0;
 
     // Calculate biome influence on this point
     for (let point of this.points) {
@@ -43,6 +45,7 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
       if (influence == undefined) {
         influence = 0;
       }
+      totalInfluence += influence;
 
       const biome = point[2];
       const oldInfluence = biomeInfluences.get(biome)
@@ -53,22 +56,21 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
       }
     }
 
-    // Determine which biome has the most influence
-    let topBiome: Biome | undefined;
-    let maxInfluence = 0;
-
-    for (let biome of biomeInfluences.keys()) {
-      const influence = biomeInfluences.get(biome);
-      if (influence != undefined && influence > maxInfluence) {
-        maxInfluence = influence;
-        topBiome = biome;
-      }
+    // Convert biome influence levels to biome compositions
+    if (totalInfluence == 0) {
+      const grassComposition = new BiomeComposition();
+      grassComposition.addBiomePercentage(Biome.Grasslands, 1);
+      return grassComposition;
     }
 
-    // Return results
-    if (topBiome == undefined) {
-      return Biome.Grasslands;
+    let biomeComposition = new BiomeComposition();
+    for (let biomeInfluence of biomeInfluences) {
+      let biome = biomeInfluence[0];
+      let influence = biomeInfluence[1];
+      let percentage = influence / totalInfluence;
+      biomeComposition.addBiomePercentage(biome, percentage);
     }
-    return topBiome;
+
+    return biomeComposition;
   }
 }

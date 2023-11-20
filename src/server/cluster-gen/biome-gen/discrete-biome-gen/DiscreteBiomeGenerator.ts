@@ -7,7 +7,7 @@ import { IDiscreteBiomeGenerator } from "./IDiscreteBiomeGenerator";
  */
 export class DiscreteBiomeGenerator implements IDiscreteBiomeGenerator {
 
-  public points: [number, number, Biome][]
+  public readonly points: [number, number, Biome][]
 
   constructor (
     WORLD_WIDTH: number,
