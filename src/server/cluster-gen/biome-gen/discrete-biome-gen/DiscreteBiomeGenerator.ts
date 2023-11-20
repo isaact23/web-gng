@@ -1,11 +1,11 @@
 import { Biome } from "@share/utility/Biome";
-import { IBiomeGenerator } from ".";
-import { logistic } from "../Logistic";
+import { logistic } from "../../Logistic";
+import { IDiscreteBiomeGenerator } from "./IDiscreteBiomeGenerator";
 
 /**
  * Class for biome placement generator
  */
-export class BiomeGenerator implements IBiomeGenerator {
+export class DiscreteBiomeGenerator implements IDiscreteBiomeGenerator {
 
   public points: [number, number, Biome][]
 

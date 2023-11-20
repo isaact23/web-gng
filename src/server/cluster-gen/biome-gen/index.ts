@@ -1,2 +1,2 @@
-export { IBiomeGenerator } from "./IBiomeGenerator";
-export { BiomeGenerator } from "./BiomeGenerator";
+export { IDiscreteBiomeGenerator as IDiscreteBiomeGenerator } from "./discrete-biome-gen/IDiscreteBiomeGenerator";
+export { DiscreteBiomeGenerator } from "./discrete-biome-gen/DiscreteBiomeGenerator";

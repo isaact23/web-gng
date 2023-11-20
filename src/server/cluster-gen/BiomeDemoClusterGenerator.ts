@@ -1,6 +1,6 @@
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { IClusterGenerator } from "./IClusterGenerator";
-import { BiomeGenerator, IBiomeGenerator } from "./biome-gen";
+import { DiscreteBiomeGenerator, IDiscreteBiomeGenerator } from "./biome-gen";
 import { Block } from "@share/utility";
 import { Biome } from "@share/utility/Biome";
 import { AbsoluteCoordinate } from "@share/data/coordinate";
@@ -21,7 +21,7 @@ export class ClusterGenerator implements IClusterGenerator {
   createWorldCluster(): IClusterData {
     
     const cluster = new ClusterData();
-    const biomeGen = new BiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
+    const biomeGen = new DiscreteBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
 
     // Lambda for creating absolute coordinates
     const a = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);

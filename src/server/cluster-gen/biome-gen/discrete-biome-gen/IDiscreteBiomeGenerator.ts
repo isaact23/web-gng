@@ -1,9 +1,10 @@
 import { Biome } from "@share/utility/Biome";
 
 /**
- * Interface for biome placement generator
+ * Interface for discrete biome placement generator.
+ * Assigns one specific biome to each XZ coordinate.
  */
-export interface IBiomeGenerator {
+export interface IDiscreteBiomeGenerator {
   /**
    * Given an x and z value, get the biome.
    */

@@ -3,7 +3,7 @@ import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { IClusterGenerator } from "./IClusterGenerator";
 import { AbsoluteCoordinate } from "@share/data/coordinate";
 import { HillGenerator, IHillGenerator, VariableHillGenerator } from "./hill-gen";
-import { BiomeGenerator, IBiomeGenerator } from "./biome-gen";
+import { DiscreteBiomeGenerator, IDiscreteBiomeGenerator } from "./biome-gen";
 import { Biome } from "@share/utility/Biome";
 import { IndicatorHillGenerator } from "./hill-gen/IndicatorHillGenerator";
 
@@ -25,7 +25,7 @@ export class ClusterGenerator implements IClusterGenerator {
     const a = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
 
     // Generate biomes
-    const biomeGen: IBiomeGenerator = new BiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
+    const biomeGen: IDiscreteBiomeGenerator = new DiscreteBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
 
     // Generate hills
     const hillGen: IHillGenerator = new IndicatorHillGenerator(biomeGen);

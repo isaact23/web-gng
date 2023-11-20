@@ -1,5 +1,5 @@
 import { Biome } from "@share/utility/Biome";
-import { IBiomeGenerator } from "../biome-gen";
+import { IDiscreteBiomeGenerator } from "../biome-gen";
 import { IHillGenerator } from "./IHillGenerator";
 
 const GRASSLANDS_HEIGHT = 10;
@@ -11,7 +11,7 @@ const DEFAULT_HEIGHT = 0;
  */
 export class IndicatorHillGenerator implements IHillGenerator {
 
-  constructor(private biomeGen: IBiomeGenerator) {}
+  constructor(private biomeGen: IDiscreteBiomeGenerator) {}
 
   getYFromXZ(x: number, z: number): number {
 
