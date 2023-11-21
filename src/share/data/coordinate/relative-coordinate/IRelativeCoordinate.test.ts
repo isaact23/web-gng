@@ -92,5 +92,13 @@ for (const [name, coord] of implementations) {
       const relCoord1 = new coord(1, 2, 3, chunkCoord1);
       expect(relCoord1.vec().equals(new Vector3(1, 2, 3))).toBe(true);
     });
+
+    test("Ensure decimals are not allowed", () => {
+      const chunkCoord1 = new ChunkCoordinate(1, 2, 3);
+      expect(() => {let a = new coord(0.5, 2, 1, chunkCoord1)}).toThrowError();
+      expect(() => {let a = new coord(5, 0.2, 1, chunkCoord1)}).toThrowError();
+      expect(() => {let a = new coord(5, 2, 0.1, chunkCoord1)}).toThrowError();
+      expect(() => {let a = new coord(-0.5, 0.2, 0.1, chunkCoord1)}).toThrowError();
+    });
   });
 }

@@ -14,7 +14,12 @@ export class ChunkCoordinate implements IChunkCoordinate {
     public readonly x: number,
     public readonly y: number,
     public readonly z: number
-  ) { }
+  ) {
+    // Ensure coordinates are not decimals
+    if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
+      throw new Error("Cannot use decimals in ChunkCoordinate initialization");
+    }
+  }
 
   /**
    * Get the absolute coordinate of the block at the origin of this chunk.

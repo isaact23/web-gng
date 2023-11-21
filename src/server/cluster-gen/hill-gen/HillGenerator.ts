@@ -71,6 +71,6 @@ export class HillGenerator implements IHillGenerator {
       y = Math.floor(ySum / influenceSum);
     }
 
-    return y;
+    return Math.round(y);
   }
 }

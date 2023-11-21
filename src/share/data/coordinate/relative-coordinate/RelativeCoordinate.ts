@@ -24,10 +24,16 @@ export class RelativeCoordinate implements IRelativeCoordinate {
 
     const chunkSize = Settings.CHUNK_SIZE;
 
+    // Ensure coordinates are within the range of the chunk
     if (x < 0 || y < 0 || z < 0 ||
       x >= chunkSize || y >= chunkSize || z >= chunkSize)
     {
       throw new RangeError("Relative coordinate must be within 0 and the chunk size minus 1.");
+    }
+
+    // Ensure coordinates are not decimals
+    if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
+      throw new Error("Cannot use decimals in RelativeCoordinate initialization");
     }
   }
 

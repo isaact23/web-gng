@@ -35,6 +35,6 @@ export class InterpolatedHillGenerator implements IHillGenerator {
       }
       height += biomeHeight * percentage;
     }
-    return height;
+    return Math.round(height);
   }
 }
