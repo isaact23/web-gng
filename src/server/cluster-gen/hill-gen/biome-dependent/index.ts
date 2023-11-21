@@ -1,0 +1,1 @@
+export { BiomeDependentHillGenerator } from "./BiomeDependentHillGenerator";

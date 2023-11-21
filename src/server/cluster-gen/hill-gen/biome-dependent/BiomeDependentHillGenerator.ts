@@ -1,26 +1,24 @@
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
-import { IHillGenerator } from "./IHillGenerator";
-import { logistic } from "../Logistic";
+import { IHillGenerator } from "..";
+import { IContinuousBiomeGenerator } from "../../biome-gen/continuous-biome-gen";
 
 /**
- * A basic hill generator.
+ * This hill generator considers the biome when determining hill properties.
  */
-export class HillGenerator implements IHillGenerator {
+export class BiomeDependentHillGenerator implements IHillGenerator {
 
   /**
    * Store coordinates of guiding particles.
    */
-  private coords: IAbsoluteCoordinate[];
+  public coords: IAbsoluteCoordinate[];
 
-  constructor (
-    WORLD_WIDTH: number = 100,
-    HILL_DENSITY: number = 60,
-    private readonly HILL_ALTITUDE: number = 2,
-    private readonly HILL_HEIGHT: number = 30,
-    private readonly HILL_GRADE: number = 0.3,
-    private readonly HILL_WIDTH: number = 5
+  constructor(
+    private WORLD_WIDTH: number,
+    private HILL_DENSITY: number,
+    private HILL_HEIGHT: number,
+    private HILL_ALTITUDE: number,
+    private biomeGen: IContinuousBiomeGenerator
   ) {
-    
     // Generate random particles to guide hill formation
     this.coords = [];
     const hillCount = Math.floor(WORLD_WIDTH * WORLD_WIDTH * HILL_DENSITY);
@@ -36,8 +34,9 @@ export class HillGenerator implements IHillGenerator {
    * Given x and z coordinates, get the y coordinate of the hills.
    */
   getYFromXZ(x: number, z: number): number {
+    return 3;
 
-    const origin = new AbsoluteCoordinate(x, this.HILL_ALTITUDE + Math.floor(this.HILL_HEIGHT / 2), z);
+    /*const origin = new AbsoluteCoordinate(x, this.HILL_ALTITUDE + Math.floor(this.HILL_HEIGHT / 2), z);
 
     // Determine how high this column should be based on surrounding particles
     let ySum = 0;
@@ -64,6 +63,6 @@ export class HillGenerator implements IHillGenerator {
       y = Math.floor(ySum / influenceSum);
     }
 
-    return Math.round(y);
+    return Math.round(y);*/
   }
 }
