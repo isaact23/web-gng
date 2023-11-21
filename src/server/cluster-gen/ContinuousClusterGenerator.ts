@@ -1,13 +1,10 @@
 import { Block } from "@share/utility";
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { IClusterGenerator } from "./IClusterGenerator";
-import { AbsoluteCoordinate } from "@share/data/coordinate";
-import { IHillGenerator } from "./hill-gen";
 import { Biome } from "@share/utility/Biome";
-import { IndicatorHillGenerator } from "./hill-gen/IndicatorHillGenerator";
 import { ContinuousBiomeGenerator, IContinuousBiomeGenerator } from "./biome-gen/continuous-biome-gen";
-import { InterpolatedHillGenerator } from "./hill-gen/InterpolatedHillGenerator";
 import { BiomeDependentHillGenerator } from "./hill-gen/biome-dependent/BiomeDependentHillGenerator";
+import { a } from "@share/data/coordinate/CoordinateGenerators";
 
 const WORLD_WIDTH = 200;
 const BIOME_WIDTH = 50;
@@ -23,14 +20,11 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
   createWorldCluster(): IClusterData {
     const cluster = new ClusterData();
 
-    // Lambda for creating absolute coordinates
-    const a = (x: number, y: number, z: number) => new AbsoluteCoordinate(x, y, z);
-
     // Generate biomes
     const biomeGen: IContinuousBiomeGenerator = new ContinuousBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
 
     // Generate hills
-    const hillGen = new BiomeDependentHillGenerator(WORLD_WIDTH, 0.003, 20, 5, biomeGen);
+    const hillGen = new BiomeDependentHillGenerator(WORLD_WIDTH, biomeGen);
 
     for (let x = 0; x < WORLD_WIDTH; x++) {
       for (let z = 0; z < WORLD_WIDTH; z++) {

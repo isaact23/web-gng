@@ -9,5 +9,9 @@ export class HillProperty {
     public readonly height: number,
     public readonly grade: number,
     public readonly width: number
-  ) {}
+  ) {
+    if (density < 0 || density > 1) {
+      throw new Error("Density must be between 0 and 1");
+    }
+  }
 }
