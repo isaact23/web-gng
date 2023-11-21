@@ -73,4 +73,22 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
 
     return biomeComposition;
   }
+
+  /**
+   * Given an x and z value, get the top biome.
+   */
+  getTopBiomeFromXZ(x: number, z: number): Biome {
+    let biomeComposition = this.getBiomesFromXZ(x, z);
+    let topBiome: Biome = Biome.Grasslands;
+    let topPercentage = 0;
+    let biomePercentages = biomeComposition.getBiomePercentages();
+    for (let biomePercentage of biomePercentages) {
+      let percentage = biomePercentage.getPercentage();
+      if (percentage > topPercentage) {
+        topBiome = biomePercentage.getBiome();
+        topPercentage = percentage;
+      }
+    }
+    return topBiome;
+  }
 }

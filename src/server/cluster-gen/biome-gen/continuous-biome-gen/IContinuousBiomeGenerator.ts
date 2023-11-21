@@ -1,3 +1,4 @@
+import { Biome } from "@share/utility/Biome";
 import { IBiomeComposition } from "./biome-composition/IBiomeComposition";
 
 /**
@@ -9,4 +10,9 @@ export interface IContinuousBiomeGenerator {
    * Given an x and z value, get the biomes and percentage compositions.
    */
   getBiomesFromXZ(x: number, z: number): IBiomeComposition;
+
+  /**
+   * Given an x and z value, get the top biome.
+   */
+  getTopBiomeFromXZ(x: number, z: number): Biome;
 }

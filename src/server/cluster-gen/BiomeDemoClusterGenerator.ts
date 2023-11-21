@@ -1,9 +1,9 @@
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { IClusterGenerator } from "./IClusterGenerator";
-import { DiscreteBiomeGenerator, IDiscreteBiomeGenerator } from "./biome-gen";
 import { Block } from "@share/utility";
 import { Biome } from "@share/utility/Biome";
 import { AbsoluteCoordinate } from "@share/data/coordinate";
+import { DiscreteBiomeGenerator } from "./biome-gen/discrete-biome-gen";
 
 const WORLD_WIDTH = 200;
 const BIOME_WIDTH = 50;

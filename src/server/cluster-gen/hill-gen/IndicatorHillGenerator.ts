@@ -7,7 +7,7 @@ const DESERT_HEIGHT = 20;
 const DEFAULT_HEIGHT = 0;
 
 /**
- * A hill generator that demonstrates hill interpolation between biomes.
+ * A hill generator that generates different heights for different biomes.
  */
 export class IndicatorHillGenerator implements IHillGenerator {
 

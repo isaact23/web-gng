@@ -13,7 +13,7 @@ const BIOME_WIDTH = 50;
 /**
  * Generator for cluster data.
  */
-export class ClusterGenerator implements IClusterGenerator {
+export class DiscreteClusterGenerator implements IClusterGenerator {
 
   /**
    * Generate a standard world.
