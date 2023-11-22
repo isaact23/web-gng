@@ -1,9 +1,9 @@
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 import { IHillGenerator } from "..";
 import { IContinuousBiomeGenerator } from "../../biome-gen/continuous-biome-gen";
-import BIOME_HILL_PROPS from "./BiomeHillProps";
 import { a } from "@share/data/coordinate/CoordinateGenerators";
 import { logistic } from "@server/cluster-gen/Logistic";
+import { HillProps } from "./HillProps";
 
 /**
  * This hill generator considers the biome when determining hill properties.
@@ -24,14 +24,11 @@ export class BiomeDependentHillGenerator implements IHillGenerator {
     for (let x = 0; x < worldWidth; x++) {
       for (let z = 0; z < worldWidth; z++) {
 
-        // TODO: Replace with getBiomesFromXZ
-        let biome = biomeGen.getTopBiomeFromXZ(x, z);
+        let biomeComposition = biomeGen.getBiomesFromXZ(x, z);
+        let hillProps = HillProps.createFrom(biomeComposition);
 
-        let hillProps = BIOME_HILL_PROPS.get(biome);
-        if (hillProps == undefined) continue;
-
-        if (Math.random() < hillProps.density) {
-          let y = Math.floor(Math.random() * hillProps.height + hillProps.altitude);
+        if (Math.random() < hillProps.getDensity()) {
+          let y = Math.floor(Math.random() * hillProps.getHeight() + hillProps.getAltitude());
           this.coords.push(a(x, y, z));
         }
       }
@@ -43,14 +40,10 @@ export class BiomeDependentHillGenerator implements IHillGenerator {
    */
   getYFromXZ(x: number, z: number): number {
 
-    // TODO: Replace with getBiomesFromXZ
-    const biome = this.biomeGen.getTopBiomeFromXZ(x, z);
-    const hillProps = BIOME_HILL_PROPS.get(biome);
-    if (hillProps == undefined) {
-      throw new Error("Failed to get hill properties for biome " + biome);
-    }
+    const biomeComposition = this.biomeGen.getBiomesFromXZ(x, z);
+    const hillProps = HillProps.createFrom(biomeComposition);
 
-    const origin = new AbsoluteCoordinate(x, hillProps.altitude + Math.floor(hillProps.height / 2), z);
+    const origin = new AbsoluteCoordinate(x, hillProps.getAltitude() + Math.floor(hillProps.getHeight() / 2), z);
 
     // Determine how high this column should be based on surrounding particles
     let ySum = 0;
@@ -60,7 +53,7 @@ export class BiomeDependentHillGenerator implements IHillGenerator {
       let distance = (coord.vec().subtract(origin.vec())).length();
 
       // Logistic curve
-      let influence = logistic(distance, 1, -hillProps.grade, hillProps.width);
+      let influence = logistic(distance, 1, -hillProps.getGrade(), hillProps.getWidth());
       if (influence == undefined) {
         influence = 0;
       }
