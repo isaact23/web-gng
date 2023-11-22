@@ -43,7 +43,8 @@ export class BiomeDependentHillGenerator implements IHillGenerator {
     const biomeComposition = this.biomeGen.getBiomesFromXZ(x, z);
     const hillProps = HillProps.createFrom(biomeComposition);
 
-    const origin = new AbsoluteCoordinate(x, hillProps.getAltitude() + Math.floor(hillProps.getHeight() / 2), z);
+    const originY = Math.floor(hillProps.getAltitude() + (hillProps.getHeight() / 2));
+    const origin = new AbsoluteCoordinate(x, originY, z);
 
     // Determine how high this column should be based on surrounding particles
     let ySum = 0;

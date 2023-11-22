@@ -11,18 +11,18 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
   public readonly points: [number, number, Biome][]
 
   constructor (
-    WORLD_WIDTH: number,
-    BIOME_WIDTH: number,
-    private readonly BORDER_GRADE = 0.3
+    worldWidth: number,
+    biomeWidth: number,
+    private readonly borderGrade = 0.3
   ) {
     this.points = [];
-    const biomeCount = Math.floor((WORLD_WIDTH * WORLD_WIDTH) / (BIOME_WIDTH * BIOME_WIDTH));
+    const biomeCount = Math.floor((worldWidth * worldWidth) / (biomeWidth * biomeWidth));
     const biomes = Object.values(Biome).filter(v => typeof(v) !== "string") as Biome[];
 
     for (let i = 0; i < biomeCount; i++) {
       this.points.push([
-        Math.floor(Math.random() * WORLD_WIDTH),
-        Math.floor(Math.random() * WORLD_WIDTH),
+        Math.floor(Math.random() * worldWidth),
+        Math.floor(Math.random() * worldWidth),
         biomes[Math.floor(Math.random() * biomes.length)]
       ]);
     }
@@ -40,7 +40,7 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
     for (let point of this.points) {
 
       const distance = Math.sqrt(Math.pow(point[0] - x, 2) + Math.pow(point[1] - z, 2));
-      let influence = logistic(distance, 1, -this.BORDER_GRADE, 0);
+      let influence = logistic(distance, 1, -this.borderGrade, 0);
 
       if (influence == undefined) {
         influence = 0;

@@ -7,11 +7,11 @@ import { BiomeHillPropData } from "./BiomeHillPropData";
  */
 export class HillProps implements IHillProps {
   constructor(
-    private _density: number,
-    private _altitude: number,
-    private _height: number,
-    private _grade: number,
-    private _width: number
+    private readonly _density: number,
+    private readonly _altitude: number,
+    private readonly _height: number,
+    private readonly _grade: number,
+    private readonly _width: number
   ) {
     if (_density < 0 || _density > 1) {
       throw new Error("Density must be between 0 and 1");
@@ -28,7 +28,7 @@ export class HillProps implements IHillProps {
    * Create HillProps from a BiomeComposition.
    */
   static createFrom(biomeComposition: IBiomeComposition): IHillProps {
-    const avgHillProps = new HillProps(0, 0, 0, 0, 0);
+    let avgHillProps: IHillProps = new HillProps(0, 0, 0, 0, 0);
 
     const biomePercentages = biomeComposition.getBiomePercentages();
     for (let biomePercentage of biomePercentages) {
@@ -37,8 +37,8 @@ export class HillProps implements IHillProps {
       let percentage = biomePercentage.getPercentage();
 
       let hillProps = BiomeHillPropData.get(biome);
-      hillProps.multiply(percentage);
-      avgHillProps.add(hillProps);
+      hillProps = hillProps.multiply(percentage);
+      avgHillProps = avgHillProps.add(hillProps);
     }
 
     return avgHillProps;
