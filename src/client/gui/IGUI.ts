@@ -1,15 +1,14 @@
 /**
- * Handle the GUI for SkyQuest.
+ * Interface for any GUI controller class.
  */
 export interface IGUI {
+  /**
+   * Enable the GUI.
+   */
+  enable(): void;
 
   /**
-   * Enable the main menu GUI.
+   * Disable the GUI.
    */
-  mainMenuGui(): void;
-
-  /**
-   * Enable the gameplay GUI.
-   */
-  gameGui(): void;
+  disable(): void;
 }

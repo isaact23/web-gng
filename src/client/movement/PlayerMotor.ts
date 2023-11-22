@@ -11,7 +11,9 @@ import { FaceVectorConverter } from "@share/utility";
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;
 const WALK_SPEED = 7;
+const NOCLIP_SPEED = 30;
 const LATERAL_ACCELERATION = 50;
+const NOCLIP_ACCELERATION = 200;
 const JUMP_VELOCITY = 6;
 
 /**
@@ -28,8 +30,8 @@ export class PlayerMotor implements IPlayerMotor {
     engine: Babylon.Engine,
     scene: Babylon.Scene,
     cluster: IClusterClient,
-    position: Vector3 | null = null
-
+    position: Vector3 | null = null,
+    noclip: boolean = false
   ) {
 
     let playerPos = Vector3.Zero();
@@ -61,7 +63,8 @@ export class PlayerMotor implements IPlayerMotor {
       back: false,
       left: false,
       right: false,
-      jump: false
+      jump: false,
+      shift: false
     };
 
     let grounded = false;
@@ -121,6 +124,10 @@ export class PlayerMotor implements IPlayerMotor {
               input.jump = true;
               break;
             }
+            case 'Shift': {
+              input.shift = true;
+              break;
+            }
           }
           break;
         }
@@ -150,6 +157,10 @@ export class PlayerMotor implements IPlayerMotor {
               input.jump = false;
               break;
             }
+            case 'Shift': {
+              input.shift = false;
+              break;
+            }
           }
           break;
         }
@@ -170,26 +181,31 @@ export class PlayerMotor implements IPlayerMotor {
 
       const fps = engine.getFps();
 
-      // Calculate gravity
-      let newVelY = 0;
-      if (!grounded) {
-        const oldVelY = playerVel.y;
-        const gravityAccel = GRAVITY / fps;
-        newVelY = oldVelY + gravityAccel;
-        if (newVelY < -MAX_FALL_SPEED) {
-          newVelY = -MAX_FALL_SPEED;
-        }
-      }
+      if (!noclip) {
 
-      // Jump
-      if (input.jump && grounded) {
-        grounded = false;
-        newVelY = JUMP_VELOCITY;
+        // Calculate gravity
+        let newVelY = 0;
+        if (!grounded) {
+          const oldVelY = playerVel.y;
+          const gravityAccel = GRAVITY / fps;
+          newVelY = oldVelY + gravityAccel;
+          if (newVelY < -MAX_FALL_SPEED) {
+            newVelY = -MAX_FALL_SPEED;
+          }
+        }
+  
+        // Jump
+        if (input.jump && grounded) {
+          grounded = false;
+          newVelY = JUMP_VELOCITY;
+        }
+        playerVel.y = newVelY;
+
       }
-      playerVel.y = newVelY;
 
       // Calculate target velocity
       let targetVelX = 0;
+      let targetVelY = 0;
       let targetVelZ = 0;
       let isMoving = false;
 
@@ -197,16 +213,24 @@ export class PlayerMotor implements IPlayerMotor {
       if (input.back && !input.forward) { targetVelZ = -1; isMoving = true; }
       if (input.left && !input.right) { targetVelX = -1; isMoving = true; }
       if (input.right && !input.left) { targetVelX = 1; isMoving = true; }
+      if (noclip) {
+        if (input.jump && !input.shift) { targetVelY = 1; isMoving = true; }
+        if (input.shift && !input.jump) { targetVelY = -1; isMoving = true; }
+      }
 
       let targetVel: Vector3;
+      let targetSpeed = noclip ? NOCLIP_SPEED : WALK_SPEED;
+
       if (isMoving) {
-        targetVel = new Vector3(targetVelX, 0, targetVelZ).normalize().multiplyByFloats(WALK_SPEED, 0, WALK_SPEED);
+        targetVel = new Vector3(targetVelX, targetVelY, targetVelZ)
+          .normalize()
+          .multiplyByFloats(targetSpeed, targetSpeed, targetSpeed);
       } else {
         targetVel = Vector3.Zero();
       }
 
       // Move player velocity toward target velocity
-      const lateral = LATERAL_ACCELERATION / fps;
+      const lateral = noclip ? NOCLIP_ACCELERATION / fps : LATERAL_ACCELERATION / fps;
       if (playerVel.x < targetVel.x) {
         playerVel.x += lateral;
         if (playerVel.x > targetVel.x) {
@@ -229,6 +253,20 @@ export class PlayerMotor implements IPlayerMotor {
         playerVel.z -= lateral;
         if (playerVel.z < targetVel.z) {
           playerVel.z = targetVel.z;
+        }
+      }
+      if (noclip) {
+        if (playerVel.y < targetVel.y) {
+          playerVel.y += lateral;
+          if (playerVel.y > targetVel.y) {
+            playerVel.y = targetVel.y;
+          }
+        }
+        else if (playerVel.y > targetVel.y) {
+          playerVel.y -= lateral;
+          if (playerVel.y < targetVel.y) {
+            playerVel.y = targetVel.y;
+          }
         }
       }
 

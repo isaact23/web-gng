@@ -1,13 +1,14 @@
 import * as Babylon from "babylonjs";
 import * as BabylonGUI from "babylonjs-gui";
-import { IGUI } from "./IGUI";
+import { IGUIManager } from "./IGUIManager";
+import { IMainMenuGUI, MainMenuGUI } from "./main-menu";
+import { GameGUI, IGameGUI } from "./game-gui";
 
-export class GUI implements IGUI {
+export class GUIManager implements IGUIManager {
 
   private readonly ui: BabylonGUI.AdvancedDynamicTexture;
-
-  // Gameplay UI elements
-  private readonly crossfire: BabylonGUI.Image;
+  private readonly mainMenuGUI: IMainMenuGUI;
+  private readonly gameGUI: IGameGUI;
 
   /**
    * Initialize gameplay elements
@@ -15,9 +16,8 @@ export class GUI implements IGUI {
   constructor() {
     this.ui = BabylonGUI.AdvancedDynamicTexture.CreateFullscreenUI("ui");
 
-    this.crossfire = new BabylonGUI.Image("crossfire", "img/crossfire.png");
-    this.crossfire.width = "16px";
-    this.crossfire.height = "16px";
+    this.mainMenuGUI = new MainMenuGUI(this.ui);
+    this.gameGUI = new GameGUI(this.ui);
   }
 
   /**
@@ -25,8 +25,7 @@ export class GUI implements IGUI {
    */
   mainMenuGui(): void {
     this._resetUi();
-
-
+    this.mainMenuGUI.enable();
   }
 
   /**
@@ -34,14 +33,16 @@ export class GUI implements IGUI {
    */
   gameGui(): void {
     this._resetUi();
-    
-    this.ui.addControl(this.crossfire);
+    this.gameGUI.enable();
   }
 
   /**
    * Disable all GUI.
    */
   _resetUi(): void {
+    this.mainMenuGUI.disable();
+    this.gameGUI.disable();
+
     this.ui.clear();
   }
 }

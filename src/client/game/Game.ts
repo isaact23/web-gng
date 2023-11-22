@@ -3,7 +3,7 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
-import { GUI } from "@client/gui";
+import { GUIManager, IGUIManager } from "@client/gui";
 import { ClusterClient, IClusterClient } from "@client/cluster-client";
 import { IGame } from ".";
 import { IView } from "@client/view";
@@ -12,7 +12,7 @@ import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
 // TODO: REMOVE THIS IMPORT
-import { ClusterGenerator, IClusterGenerator } from "@server/game-server/cluster-gen";
+import { ContinuousClusterGenerator, IClusterGenerator } from "@server/cluster-gen";
 
 /**
  * The runner class for all game logic.
@@ -32,7 +32,7 @@ export class Game implements IGame {
   private view: IView;
   private cluster: IClusterClient;
   private motor: IPlayerMotor;
-  private gui: GUI;
+  private gui: IGUIManager;
   private assetManager: IAssetManager | null = null;
 
   /**
@@ -46,7 +46,7 @@ export class Game implements IGame {
   )
   {
     this.view = view;
-    this.engine = new Babylon.Engine(view.getCanvas());
+    this.engine = new Babylon.Engine(view.getCanvas(), true);
 
     // Set up the scene
     this.scene = this._initScene(debugMode);
@@ -63,22 +63,23 @@ export class Game implements IGame {
     this.assetManager = new AssetManager(this.scene);
 
     // Init shadow generator
-    this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
-    this.shadowGenerator.usePoissonSampling = true;
+    //this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
+    //this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
-    const clusterGenerator: IClusterGenerator = new ClusterGenerator();
-    const clusterData = clusterGenerator.createSineCluster(100);
-    this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
+    const clusterGenerator: IClusterGenerator = new ContinuousClusterGenerator();
+    const clusterData = clusterGenerator.createWorldCluster();
+    //this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
+    this.cluster = new ClusterClient(clusterData, null, this.assetManager);
     this.cluster.remesh();
 
     // Create local player motor
     this.motor = new PlayerMotor(
-      view.getCanvas(), this.engine, this.scene, this.cluster, new Vector3(20, 20, 20));
+      view.getCanvas(), this.engine, this.scene, this.cluster, new Vector3(10, 22, 10), true);
 
-    this.gui = new GUI();
-    //this.gui.mainMenuGui();
-    this.gui.gameGui();
+    this.gui = new GUIManager();
+    this.gui.mainMenuGui();
+    //this.gui.gameGui();
 
     // Run engine render loop
     const fpsElement = view.getFpsElement();

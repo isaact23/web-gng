@@ -1,0 +1,1 @@
+export { HillProps } from "./HillProps";

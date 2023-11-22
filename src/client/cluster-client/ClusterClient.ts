@@ -28,7 +28,7 @@ export class ClusterClient implements IClusterClient {
     
   constructor(
     private clusterData: IClusterData,
-    private readonly shadowGenerator: Babylon.ShadowGenerator,
+    private readonly shadowGenerator: Babylon.ShadowGenerator | null,
     private readonly assetManager: IAssetManager,
   ) {
 
@@ -108,7 +108,7 @@ export class ClusterClient implements IClusterClient {
    * Load or reload chunk meshes in the world.
    */
   remesh(): void {
-    const shadowMap = this.shadowGenerator.getShadowMap();
+    const shadowMap = this.shadowGenerator?.getShadowMap();
     
     // Iterate through each chunk
     for (let [coord, chunk] of this) {

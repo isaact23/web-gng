@@ -98,5 +98,12 @@ for (const [name, coord] of implementations) {
       const c1 = new coord(1, 2, 3);
       expect(c1.vec().equals(new Vector3(1, 2, 3))).toBeTruthy();
     });
+
+    test("Ensure decimals are not allowed", () => {
+      expect(() => {let a = new coord(0.5, 2, 1)}).toThrowError();
+      expect(() => {let a = new coord(2, 0.2, 1)}).toThrowError();
+      expect(() => {let a = new coord(5, 2, -1.5)}).toThrowError();
+      expect(() => {let a = new coord(1.1, 0.1, -1.5)}).toThrowError();
+    });
   });
 }
