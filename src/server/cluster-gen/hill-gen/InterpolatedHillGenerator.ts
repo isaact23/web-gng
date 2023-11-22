@@ -1,6 +1,6 @@
 import { Biome } from "@share/utility/Biome";
 import { IHillGenerator } from "./IHillGenerator";
-import { IContinuousBiomeGenerator } from "../biome-gen/continuous-biome-gen";
+import { IContinuousBiomeGenerator } from "../biome-gen";
 
 const GRASSLANDS_HEIGHT = 10;
 const DESERT_HEIGHT = 20;

@@ -1,9 +1,9 @@
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 import { IHillGenerator } from "..";
-import { IContinuousBiomeGenerator } from "../../biome-gen/continuous-biome-gen";
 import { a } from "@share/data/coordinate/CoordinateGenerators";
 import { logistic } from "@server/cluster-gen/Logistic";
 import { HillProps } from "./HillProps";
+import { IContinuousBiomeGenerator } from "@server/cluster-gen/biome-gen";
 
 /**
  * This hill generator considers the biome when determining hill properties.
