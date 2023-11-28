@@ -43,7 +43,7 @@ export class ClusterClient implements IClusterClient {
       this.dirtyChunks.set(coord, true);
     }
 
-    this.chunkMeshGen = new GreedyChunkMesher();
+    this.chunkMeshGen = new ChunkMesher();
   }
 
   /**

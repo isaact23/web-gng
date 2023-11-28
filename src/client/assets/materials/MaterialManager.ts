@@ -17,7 +17,7 @@ export class MaterialManager implements IMaterialManager {
     this.mat.specularColor = Babylon.Color3.Black();
     this.mat.diffuseTexture = this.textureManager.getTilemapTexture();
 
-    this.mat.wireframe = true;
+    //this.mat.wireframe = true;
   }
 
   // Get texture manager.

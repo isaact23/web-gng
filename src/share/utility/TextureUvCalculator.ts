@@ -2,7 +2,7 @@ import { Block } from "./Block";
 import { Face } from "./Face";
 
 const TILEMAP_SIZE = 16;
-const OFFSET = 0.0005;
+const OFFSET = 0.005;
 
 export class TextureUvCalculator {
   // Get UV coordinates for a texture within the tilemap.
