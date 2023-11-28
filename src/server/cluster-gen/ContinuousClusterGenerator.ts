@@ -6,7 +6,7 @@ import { BiomeDependentHillGenerator } from "./hill-gen/biome-dependent/BiomeDep
 import { a } from "@share/data/coordinate/CoordinateGenerators";
 import { ContinuousBiomeGenerator, IContinuousBiomeGenerator } from "./biome-gen";
 
-const WORLD_WIDTH = 200;
+const WORLD_WIDTH = 100;
 const BIOME_WIDTH = 50;
 const BIOME_BORDER_GRADE = 0.5;
 

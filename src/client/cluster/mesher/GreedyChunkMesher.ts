@@ -1,10 +1,14 @@
 import * as Babylon from "babylonjs";
-
-import { IChunkData } from "@share/data/cluster-data/chunk-data";
-import { IChunkMesher } from ".";
-import { IClusterData } from "@share/data/cluster-data";
-import { IAssetManager } from "@client/assets";
 import { Vector3 } from "babylonjs";
+
+import { IChunkMesher } from ".";
+import { IChunkData } from "@share/data/cluster-data/chunk-data";
+import { IClusterData } from "@share/data/cluster-data";
+
+import { Block, Face } from "@share/utility";
+import * as Utility from "@share/utility";
+import { IAssetManager } from "@client/assets";
+import { cubeVerts, faceVerts } from "@share/utility/CubeVerts";
 
 /**
  * A chunk mesher implementation that combines redundant faces.
@@ -20,35 +24,35 @@ export class GreedyChunkMesher implements IChunkMesher {
     assetManager: IAssetManager
   ): Babylon.Mesh {
 
-    throw new Error("GreedyChunkMesher generateChunkMesh() not implemented");
+    // Initialize arrays for mesh data
+    const vertices = new Array<number>;
+    const normals = new Array<number>;
+    const triangles = new Array<number>;
+    const uvs = new Array<number>;
 
-    const vertices = new Array<number>(
-      0, 0, 0, 0, 0, 10, 10, 0, 10, 10, 0, 0
-    );
-    const triangles = new Array<number>(
-      0, 1, 2, 2, 3, 0
-    );
-    const normals = new Array<number>(
-      0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0
-    );
-    const uvs = new Array<number>(
-      0,0,0,0,0,0,0,0,0,0,0,0
-    );
+    vertices.push(0, 0, 0, 50, 0, 0, 50, 0, 50, 0, 0, 50);
+    normals.push(0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0);
+    triangles.push(0, 1, 2, 2, 3, 0);
 
+    // Generate the mesh object
     const mesh = new Babylon.Mesh("chunk");
 
     const vertexData = new Babylon.VertexData();
     vertexData.positions = vertices;
-    vertexData.indices = triangles;
     vertexData.normals = normals;
+    vertexData.indices = triangles;
     vertexData.uvs = uvs;
     vertexData.applyToMesh(mesh);
 
-    const mat = new Babylon.StandardMaterial("Grass");
-    mat.diffuseColor = new Babylon.Color3(0.2, 0.8, 0.1);
+    const mat = new Babylon.StandardMaterial("grass");
+    mat.diffuseColor = new Babylon.Color3(0.4, 0.6, 0.3);
+    mat.specularColor = Babylon.Color3.Black();
+
+    mesh.position = chunk.getCoordinate().getAbsoluteCoordinate().vec();
     mesh.material = mat;
 
-    mesh.position = new Vector3(0, 0, 0);
+    mesh.checkCollisions = true;
+    mesh.receiveShadows = true;
 
     return mesh;
   }
