@@ -4,7 +4,7 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
 import { GUIManager, IGUIManager } from "@client/gui";
-import { ClusterClient, IClusterClient } from "@client/cluster-client";
+import { ClusterClient, IClusterClient } from "@client/cluster";
 import { IGame } from ".";
 import { IView } from "@client/view";
 

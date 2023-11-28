@@ -2,7 +2,7 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./block-targeter/BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
-import { IClusterClient } from "@client/cluster-client";
+import { IClusterClient } from "@client/cluster";
 import { Block } from "@share/utility/Block";
 import { IPlayerMotor } from "./IPlayerMotor";
 import { IBlockTargeter } from "./block-targeter/IBlockTargeter";
