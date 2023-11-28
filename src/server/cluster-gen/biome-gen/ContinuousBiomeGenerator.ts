@@ -1,7 +1,7 @@
 import { Biome } from "@share/utility/Biome";
 import { IContinuousBiomeGenerator } from "./IContinuousBiomeGenerator";
 import { BiomeComposition, IBiomeComposition } from "./biome-composition";
-import { logistic } from "../Logistic";
+import { logistic } from "../../../share/utility/Logistic";
 
 /**
  * Class for biome placement generator

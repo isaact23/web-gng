@@ -1,7 +1,7 @@
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 import { IHillGenerator } from "..";
 import { a } from "@share/data/coordinate/CoordinateGenerators";
-import { logistic } from "@server/cluster-gen/Logistic";
+import { logistic } from "@share/utility/Logistic";
 import { HillProps } from "./HillProps";
 import { IContinuousBiomeGenerator } from "@server/cluster-gen/biome-gen";
 

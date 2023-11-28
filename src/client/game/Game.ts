@@ -70,6 +70,7 @@ export class Game implements IGame {
 
     // Create world cluster
     const clusterGenerator: IClusterGenerator = new GreedyMeshClusterGenerator();
+    //const clusterGenerator: IClusterGenerator = new ContinuousClusterGenerator();
     const clusterData = clusterGenerator.createWorldCluster();
     //this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
     this._cluster = new ClusterClient(clusterData, null, this._assetManager);
