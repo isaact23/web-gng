@@ -1,8 +1,118 @@
+import * as Babylon from "babylonjs";
+import { Vector3 } from "babylonjs";
+
 import { IChunkMesher } from "./IChunkMesher";
+import { IChunkData } from "@share/data/cluster-data/chunk-data";
+import { IClusterData } from "@share/data/cluster-data";
+
+import { Block, Face } from "@share/utility";
+import * as Utility from "@share/utility";
+import { IAssetManager } from "@client/assets";
 
 /**
  * A naive chunk mesher algorithm.
  */
 export class ChunkMesher implements IChunkMesher {
-  
+  /**
+   * Convert block data for a chunk from a cluster into a mesh.
+   */
+  generateChunkMesh(
+    chunk: IChunkData,
+    cluster: IClusterData,
+    assetManager: IAssetManager
+  ): Babylon.Mesh {
+    
+    // Initialize arrays for mesh data
+    const vertices = new Array<number>;
+    const normals = new Array<number>;
+    const triangles = new Array<number>;
+    const uvs = new Array<number>;
+
+    let vIndex = 0;
+
+    // Vertices for each face in a cube
+    const cubeVerts = [
+      new Vector3(0,0,0),
+      new Vector3(0,0,1),
+      new Vector3(0,1,0),
+      new Vector3(0,1,1),
+      new Vector3(1,0,0),
+      new Vector3(1,0,1),
+      new Vector3(1,1,0),
+      new Vector3(1,1,1)
+    ];
+    const faceVerts = new Map<Face, number[]>();
+    faceVerts.set(Face.Front,  [1, 3, 7, 5]);
+    faceVerts.set(Face.Right,  [5, 7, 6, 4]);
+    faceVerts.set(Face.Back,   [4, 6, 2, 0]);
+    faceVerts.set(Face.Left,   [0, 2, 3, 1]);
+    faceVerts.set(Face.Top,    [3, 2, 6, 7]);
+    faceVerts.set(Face.Bottom, [1, 5, 4, 0]);
+
+    // Generate vertex and triangle data.
+    // For each block in the chunk,
+    for (let [coord, block] of chunk) {
+
+      const absoluteCoord = coord.getAbsoluteCoordinate();
+
+      // For each face in the block,
+      for (let face of Object.values(Face)) {
+        if (typeof(face) === "string") continue;
+
+        // Get adjacent block
+        const faceVector = Utility.FaceVectorConverter.getVectorFromFace(face);
+        if (faceVector === undefined) continue;
+
+        const adjCoord = absoluteCoord.addScalars(faceVector.x, faceVector.y, faceVector.z);
+        const adjBlock = cluster.getBlock(adjCoord);
+
+        // If the adjacent block is empty,
+        if (adjBlock == Block.Air || adjBlock === undefined) {
+          // Then render the face.
+
+          // Get texture UVs
+          const uvBlock = Utility.TextureUvCalculator.getTextureUvs(block, face);
+
+          // Add vertices and normals
+          const vertIndices = faceVerts.get(face);
+          if (vertIndices === undefined) continue;
+          for (let i = 0; i < 4; i++) {
+            const offset = cubeVerts[vertIndices[i]];
+            const vertCoord = coord.vec().add(offset);
+            vertices.push(vertCoord.x, vertCoord.y, vertCoord.z);
+            normals.push(faceVector.x, faceVector.y, faceVector.z);
+          }
+          
+          // Add triangles
+          triangles.push(vIndex, vIndex + 1, vIndex + 2);
+          triangles.push(vIndex + 2, vIndex + 3, vIndex);
+          vIndex += 4;
+
+          // Add UVs
+          uvs.push(uvBlock[0], uvBlock[1]); // Bottom left
+          uvs.push(uvBlock[0], uvBlock[3]); // Top left
+          uvs.push(uvBlock[2], uvBlock[3]); // Top right
+          uvs.push(uvBlock[2], uvBlock[1]); // Bottom Right
+        }
+      }
+    }
+
+    // Generate the mesh object
+    const mesh = new Babylon.Mesh("chunk");
+
+    const vertexData = new Babylon.VertexData();
+    vertexData.positions = vertices;
+    vertexData.normals = normals;
+    vertexData.indices = triangles;
+    vertexData.uvs = uvs;
+    vertexData.applyToMesh(mesh);
+
+    mesh.position = chunk.getCoordinate().getAbsoluteCoordinate().vec();
+    mesh.material = assetManager.getMaterialManager().getTilemapMaterial();
+
+    mesh.checkCollisions = true;
+    mesh.receiveShadows = true;
+
+    return mesh;
+  }
 }
