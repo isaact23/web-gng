@@ -1,13 +1,14 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
-import { IChunkMesher } from "./IChunkMesher";
+import { IChunkMesher } from ".";
 import { IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IClusterData } from "@share/data/cluster-data";
 
 import { Block, Face } from "@share/utility";
 import * as Utility from "@share/utility";
 import { IAssetManager } from "@client/assets";
+import { cubeVerts, faceVerts } from "@share/utility/CubeVerts";
 
 /**
  * A naive chunk mesher algorithm.
@@ -29,25 +30,6 @@ export class ChunkMesher implements IChunkMesher {
     const uvs = new Array<number>;
 
     let vIndex = 0;
-
-    // Vertices for each face in a cube
-    const cubeVerts = [
-      new Vector3(0,0,0),
-      new Vector3(0,0,1),
-      new Vector3(0,1,0),
-      new Vector3(0,1,1),
-      new Vector3(1,0,0),
-      new Vector3(1,0,1),
-      new Vector3(1,1,0),
-      new Vector3(1,1,1)
-    ];
-    const faceVerts = new Map<Face, number[]>();
-    faceVerts.set(Face.Front,  [1, 3, 7, 5]);
-    faceVerts.set(Face.Right,  [5, 7, 6, 4]);
-    faceVerts.set(Face.Back,   [4, 6, 2, 0]);
-    faceVerts.set(Face.Left,   [0, 2, 3, 1]);
-    faceVerts.set(Face.Top,    [3, 2, 6, 7]);
-    faceVerts.set(Face.Bottom, [1, 5, 4, 0]);
 
     // Generate vertex and triangle data.
     // For each block in the chunk,

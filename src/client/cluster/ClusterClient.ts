@@ -10,6 +10,7 @@ import { Face, Block } from "@share/utility";
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { ChunkMesher, IChunkMesher } from "./mesher";
+import { GreedyChunkMesher } from "./mesher/GreedyChunkMesher";
 
 /**
  * Manage ClusterData on the client side.
@@ -42,7 +43,7 @@ export class ClusterClient implements IClusterClient {
       this.dirtyChunks.set(coord, true);
     }
 
-    this.chunkMeshGen = new ChunkMesher();
+    this.chunkMeshGen = new GreedyChunkMesher();
   }
 
   /**
