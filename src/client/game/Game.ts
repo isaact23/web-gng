@@ -69,8 +69,8 @@ export class Game implements IGame {
     //this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
-    const clusterGenerator: IClusterGenerator = new GreedyMeshClusterGenerator();
-    //const clusterGenerator: IClusterGenerator = new ContinuousClusterGenerator();
+    //const clusterGenerator: IClusterGenerator = new GreedyMeshClusterGenerator();
+    const clusterGenerator: IClusterGenerator = new ContinuousClusterGenerator();
     const clusterData = clusterGenerator.createWorldCluster();
     //this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
     this._cluster = new ClusterClient(clusterData, null, this._assetManager);
@@ -78,7 +78,7 @@ export class Game implements IGame {
 
     // Create local player motor
     this._motor = new PlayerMotor(
-      view.getCanvas(), this._engine, this._scene, this._cluster, new Vector3(8, 8, -8), true);
+      view.getCanvas(), this._engine, this._scene, this._cluster, new Vector3(50, 70, -50), true);
 
     this._gui = new GUIManager();
     this._gui.mainMenuGui();

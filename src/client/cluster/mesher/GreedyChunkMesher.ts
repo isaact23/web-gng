@@ -30,9 +30,15 @@ export class GreedyChunkMesher implements IChunkMesher {
     const triangles = new Array<number>;
     const uvs = new Array<number>;
 
-    vertices.push(0, 0, 0, 50, 0, 0, 50, 0, 50, 0, 0, 50);
-    normals.push(0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0);
-    triangles.push(0, 1, 2, 2, 3, 0);
+    const chunkSize = chunk.getSize();
+
+    let vIndex = 0;
+
+    for (let x = 0; x < chunkSize; x++) {
+      for (let z = 0; z < chunkSize; z++) {
+        
+      }
+    }
 
     // Generate the mesh object
     const mesh = new Babylon.Mesh("chunk");
@@ -47,6 +53,7 @@ export class GreedyChunkMesher implements IChunkMesher {
     const mat = new Babylon.StandardMaterial("grass");
     mat.diffuseColor = new Babylon.Color3(0.4, 0.6, 0.3);
     mat.specularColor = Babylon.Color3.Black();
+    mat.wireframe = true;
 
     mesh.position = chunk.getCoordinate().getAbsoluteCoordinate().vec();
     mesh.material = mat;
