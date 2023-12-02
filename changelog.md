@@ -1,6 +1,6 @@
 ## 0.0.4
 
-* PLANNED: Greedy meshing / fix lines between blocks
+* Fixed lines between blocks
 * PLANNED: Sound FX
 * PLANNED: Fix player movement behavior (going under arches, placing blocks under self, etc.)
 * PLANNED: Make asset manager static

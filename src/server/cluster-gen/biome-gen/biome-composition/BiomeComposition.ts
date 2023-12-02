@@ -5,7 +5,9 @@ import { IBiomePercentage } from "./biome-percentage/IBiomePercentage";
 
 export class BiomeComposition implements IBiomeComposition {
 
-  constructor(private _biomePercentages: BiomePercentage[] = []) {}
+  private _biomePercentages: BiomePercentage[] = [];
+
+  constructor() {}
 
   /**
    * Add a biome and percentage.

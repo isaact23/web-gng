@@ -5,6 +5,7 @@ import { Biome } from "@share/utility/Biome";
 import { BiomeDependentHillGenerator } from "./hill-gen/biome-dependent/BiomeDependentHillGenerator";
 import { a } from "@share/data/coordinate/CoordinateGenerators";
 import { ContinuousBiomeGenerator, IContinuousBiomeGenerator } from "./biome-gen";
+import { InterpolatedHillGenerator } from "./hill-gen/InterpolatedHillGenerator";
 
 const WORLD_WIDTH = 200;
 const BIOME_WIDTH = 50;
@@ -27,6 +28,7 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
 
     // Generate hills
     const hillGen = new BiomeDependentHillGenerator(WORLD_WIDTH, biomeGen);
+    //const hillGen = new InterpolatedHillGenerator(biomeGen);
 
     for (let x = 0; x < WORLD_WIDTH; x++) {
       for (let z = 0; z < WORLD_WIDTH; z++) {
