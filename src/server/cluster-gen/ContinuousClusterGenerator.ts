@@ -10,7 +10,6 @@ import { BiomeBlocks } from "@share/utility/BiomeBlocks";
 
 const WORLD_WIDTH = 200;
 const BIOME_WIDTH = 50;
-const BIOME_BORDER_GRADE = 5;
 
 /**
  * Generator for cluster data.
@@ -24,7 +23,7 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
     const cluster = new ClusterData();
 
     // Generate biomes
-    const biomeGen = new ContinuousBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH, BIOME_BORDER_GRADE);
+    const biomeGen = new ContinuousBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
 
     // Generate hills
     const hillGen = new BiomeDependentHillGenerator(WORLD_WIDTH, biomeGen);
@@ -33,10 +32,8 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
     for (let x = 0; x < WORLD_WIDTH; x++) {
       for (let z = 0; z < WORLD_WIDTH; z++) {
 
-
-        const y = 0;
-
-        const biome: Biome = biomeGen.getTopBiomeFromXZ(x, z);
+        const y = hillGen.getYFromXZ(x, z);
+        const biome: Biome = biomeGen.getBiomesFromXZ(x, z).getTopBiome();
         const topBlock = BiomeBlocks.getBlockFromBiome(biome);
 
         // Set block column
@@ -51,9 +48,13 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
       }
     }
 
-    for (let point of biomeGen.points) {
-      cluster.setBlock(a(point[0], 2, point[1]), BiomeBlocks.getBlockFromBiome(point[2]));
+    /*for (let point of biomeGen.points) {
+      cluster.setBlock(a(point[0], 100, point[1]), BiomeBlocks.getBlockFromBiome(point[2]));
     }
+
+    for (let point of hillGen.coords) {
+      cluster.setBlock(point, Block.Stone);
+    }*/
 
     return cluster;
   }
