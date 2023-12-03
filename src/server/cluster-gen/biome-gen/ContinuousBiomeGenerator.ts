@@ -49,7 +49,7 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
       totalInfluence += influence;
 
       const biome = point[2];
-      const oldInfluence = biomeInfluences.get(biome)
+      const oldInfluence = biomeInfluences.get(biome);
       if (oldInfluence == undefined) {
         biomeInfluences.set(biome, influence);
       } else {

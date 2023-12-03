@@ -6,10 +6,11 @@ import { BiomeDependentHillGenerator } from "./hill-gen/biome-dependent/BiomeDep
 import { a } from "@share/data/coordinate/CoordinateGenerators";
 import { ContinuousBiomeGenerator, IContinuousBiomeGenerator } from "./biome-gen";
 import { InterpolatedHillGenerator } from "./hill-gen/InterpolatedHillGenerator";
+import { BiomeBlocks } from "@share/utility/BiomeBlocks";
 
 const WORLD_WIDTH = 200;
 const BIOME_WIDTH = 50;
-const BIOME_BORDER_GRADE = 2;
+const BIOME_BORDER_GRADE = 5;
 
 /**
  * Generator for cluster data.
@@ -23,8 +24,7 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
     const cluster = new ClusterData();
 
     // Generate biomes
-    const biomeGen: IContinuousBiomeGenerator = 
-      new ContinuousBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH, BIOME_BORDER_GRADE);
+    const biomeGen = new ContinuousBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH, BIOME_BORDER_GRADE);
 
     // Generate hills
     const hillGen = new BiomeDependentHillGenerator(WORLD_WIDTH, biomeGen);
@@ -33,20 +33,12 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
     for (let x = 0; x < WORLD_WIDTH; x++) {
       for (let z = 0; z < WORLD_WIDTH; z++) {
 
-        const y = hillGen.getYFromXZ(x, z);
+
+        const y = 0;
 
         const biome: Biome = biomeGen.getTopBiomeFromXZ(x, z);
-        let topBlock: Block;
-        if (biome == Biome.Grasslands) {
-          topBlock = Block.Grass;
-        }
-        else if (biome == Biome.Desert) {
-          topBlock = Block.Sand;
-        }
-        else {
-          topBlock = Block.Stone;
-        }
-        
+        const topBlock = BiomeBlocks.getBlockFromBiome(biome);
+
         // Set block column
         cluster.setBlock(a(x, y, z), topBlock);
         for (let i = y - 1; i >= 0; i--) {
@@ -59,9 +51,9 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
       }
     }
 
-    /*for (let point of hillGen.coords) {
-      cluster.setBlock(point, Block.Stone);
-    }*/
+    for (let point of biomeGen.points) {
+      cluster.setBlock(a(point[0], 2, point[1]), BiomeBlocks.getBlockFromBiome(point[2]));
+    }
 
     return cluster;
   }

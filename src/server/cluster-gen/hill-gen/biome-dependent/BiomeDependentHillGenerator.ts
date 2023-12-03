@@ -41,9 +41,8 @@ export class BiomeDependentHillGenerator implements IHillGenerator {
    */
   getYFromXZ(x: number, z: number): number {
 
-    //const biomeComposition = this.biomeGen.getBiomesFromXZ(x, z);
-    //const hillProps = HillProps.createFrom(biomeComposition);
-    const hillProps = BiomeHillPropData.get(this.biomeGen.getTopBiomeFromXZ(x, z));
+    const biomeComposition = this.biomeGen.getBiomesFromXZ(x, z);
+    const hillProps = HillProps.createFrom(biomeComposition);
 
     const originY = Math.round(hillProps.getAltitude() + (hillProps.getHeight() / 2));
     const origin = new AbsoluteCoordinate(x, originY, z);
