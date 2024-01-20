@@ -1,10 +1,10 @@
 import { Biome } from "@share/utility/Biome";
 import { IContinuousBiomeGenerator } from "./IContinuousBiomeGenerator";
 import { BiomeComposition, IBiomeComposition } from "./biome-composition";
-import { logistic } from "../../../share/utility/Logistic";
+import { logistic } from "@share/utility/Logistic";
 import { BiomePercentage } from "./biome-composition/biome-percentage/BiomePercentage";
 
-const BIOME_BORDER_GRADE = 4;
+const BIOME_BORDER_GRADE = 10;
 
 /**
  * Class for biome placement generator
@@ -31,7 +31,7 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
   }
 
   /**
-   * Given an x and z value, get the biome.
+   * Given an x and z value, get the biome composition.
    */
   getBiomesFromXZ(x: number, z: number): IBiomeComposition {
 

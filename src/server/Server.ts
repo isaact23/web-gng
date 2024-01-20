@@ -42,10 +42,6 @@ export class Server implements IServer {
     this.gameServer = new GameServer(socketOutgoing);
     const socketIncoming: ISocketIncoming = new SocketIncoming(this.gameServer, io);
 
-    app.get("/", (req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, "../dist/index.html"));
-    });
-
     server.listen(PORT, () => {
       console.log(`Sky Quest server listening on port ${PORT}`);
     });

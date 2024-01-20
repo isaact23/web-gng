@@ -1,14 +1,12 @@
 
 import { IClusterGenerator } from "./IClusterGenerator";
-import { BiomeDependentHillGenerator } from "./hill-gen/biome-dependent/BiomeDependentHillGenerator";
-import { InterpolatedHillGenerator } from "./hill-gen/InterpolatedHillGenerator";
+import { ContinuousBiomeGenerator, IContinuousBiomeGenerator, OneBiomeGenerator } from "./biome-gen";
+import { BiomeDependentHillGenerator, InterpolatedHillGenerator, IHillGenerator } from "./hill-gen";
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { a } from "@share/data/coordinate/CoordinateGenerators";
-import { Block, Biome } from "@share/utility";
-import { ContinuousBiomeGenerator, IContinuousBiomeGenerator } from "./biome-gen";
-import { getBlockFromBiome } from "@share/utility/getBlockFromBiome";
+import { Block, Biome, getBlockFromBiome } from "@share/utility";
 
-const WORLD_WIDTH = 200;
+const WORLD_WIDTH = 100;
 const BIOME_WIDTH = 50;
 
 /**
@@ -23,11 +21,12 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
     const cluster = new ClusterData();
 
     // Generate biomes
-    const biomeGen = new ContinuousBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
+    //const biomeGen: IContinuousBiomeGenerator = new ContinuousBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);
+    const biomeGen: IContinuousBiomeGenerator = new OneBiomeGenerator(Biome.Grasslands);
 
     // Generate hills
-    const hillGen = new BiomeDependentHillGenerator(WORLD_WIDTH, biomeGen);
-    //const hillGen = new InterpolatedHillGenerator(biomeGen);
+    const hillGen: IHillGenerator = new BiomeDependentHillGenerator(WORLD_WIDTH, biomeGen);
+    //const hillGen: IHillGenerator = new InterpolatedHillGenerator(biomeGen);
 
     for (let x = 0; x < WORLD_WIDTH; x++) {
       for (let z = 0; z < WORLD_WIDTH; z++) {
