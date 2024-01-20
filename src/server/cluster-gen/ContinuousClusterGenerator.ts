@@ -1,12 +1,12 @@
-import { Block } from "@share/utility";
-import { ClusterData, IClusterData } from "@share/data/cluster-data";
+
 import { IClusterGenerator } from "./IClusterGenerator";
-import { Biome } from "@share/utility/Biome";
 import { BiomeDependentHillGenerator } from "./hill-gen/biome-dependent/BiomeDependentHillGenerator";
-import { a } from "@share/data/coordinate/CoordinateGenerators";
-import { ContinuousBiomeGenerator, IContinuousBiomeGenerator } from "./biome-gen";
 import { InterpolatedHillGenerator } from "./hill-gen/InterpolatedHillGenerator";
-import { BiomeBlocks } from "@share/utility/BiomeBlocks";
+import { ClusterData, IClusterData } from "@share/data/cluster-data";
+import { a } from "@share/data/coordinate/CoordinateGenerators";
+import { Block, Biome } from "@share/utility";
+import { ContinuousBiomeGenerator, IContinuousBiomeGenerator } from "./biome-gen";
+import { getBlockFromBiome } from "@share/utility/getBlockFromBiome";
 
 const WORLD_WIDTH = 200;
 const BIOME_WIDTH = 50;
@@ -34,7 +34,7 @@ export class ContinuousClusterGenerator implements IClusterGenerator {
 
         const y = hillGen.getYFromXZ(x, z);
         const biome: Biome = biomeGen.getBiomesFromXZ(x, z).getTopBiome();
-        const topBlock = BiomeBlocks.getBlockFromBiome(biome);
+        const topBlock = getBlockFromBiome(biome);
 
         // Set block column
         cluster.setBlock(a(x, y, z), topBlock);
