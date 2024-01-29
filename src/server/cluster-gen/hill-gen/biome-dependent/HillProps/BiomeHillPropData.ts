@@ -6,8 +6,8 @@ const props = new Map<Biome, IHillProps>();
 let didInit = false;
 
 function init() {
-  props.set(Biome.Grasslands, new HillProps(0.0015, 15, 30, 0.7, 30));
-  props.set(Biome.Desert, new HillProps(0.0005, 10, 5, 0.7, 30));
+  props.set(Biome.Grasslands, new HillProps(0.0045, 15, 30, 0.7, 30));
+  props.set(Biome.Desert, new HillProps(0.0015, 10, 5, 0.7, 30));
 
   didInit = true;
 }
