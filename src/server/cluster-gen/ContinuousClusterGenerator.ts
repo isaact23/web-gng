@@ -1,5 +1,3 @@
-
-import { IClusterGenerator } from "./IClusterGenerator";
 import { ContinuousBiomeGenerator, IContinuousBiomeGenerator, OneBiomeGenerator } from "./biome-gen";
 import { BiomeDependentHillGenerator, InterpolatedHillGenerator, IHillGenerator } from "./hill-gen";
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
@@ -12,12 +10,12 @@ const BIOME_WIDTH = 50;
 /**
  * Generator for cluster data.
  */
-export class ContinuousClusterGenerator implements IClusterGenerator {
+export class ContinuousClusterGenerator {
 
   /**
    * Generate a standard world.
    */
-  createWorldCluster(): IClusterData {
+  static createWorldCluster(): IClusterData {
     const cluster = new ClusterData();
 
     // Generate biomes

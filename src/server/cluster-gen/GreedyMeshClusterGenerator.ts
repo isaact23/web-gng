@@ -1,17 +1,16 @@
 import { Block } from "@share/utility";
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
-import { IClusterGenerator } from "./IClusterGenerator";
 import { a } from "@share/data/coordinate/CoordinateGenerators";
 
 /**
  * Generator for cluster data.
  */
-export class GreedyMeshClusterGenerator implements IClusterGenerator {
+export class GreedyMeshClusterGenerator {
 
   /**
    * Generate a standard world.
    */
-  createWorldCluster(): IClusterData {
+  static createWorldCluster(): IClusterData {
     const cluster = new ClusterData();
 
     /*for (let x = 0; x < 16; x++) {

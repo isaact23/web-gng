@@ -12,7 +12,7 @@ import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
 // TODO: REMOVE THIS IMPORT
-import { ContinuousClusterGenerator, IClusterGenerator } from "@server/cluster-gen";
+import { ContinuousClusterGenerator } from "@server/cluster-gen";
 import { GreedyMeshClusterGenerator } from "@server/cluster-gen/GreedyMeshClusterGenerator";
 
 /**
@@ -69,9 +69,11 @@ export class Game implements IGame {
     //this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
-    //const clusterGenerator: IClusterGenerator = new GreedyMeshClusterGenerator();
-    const clusterGenerator: IClusterGenerator = new ContinuousClusterGenerator();
-    const clusterData = clusterGenerator.createWorldCluster();
+    //const clusterGenerator = new ContinuousClusterGenerator(); TODO: REMOVE THIS LINE
+    //const clusterData = clusterGenerator.createWorldCluster(); TODO: REMOVE THIS LINE
+
+    // Get world data from the server
+
     //this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
     this._cluster = new ClusterClient(clusterData, null, this._assetManager);
     this._cluster.remesh();

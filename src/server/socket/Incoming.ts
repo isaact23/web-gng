@@ -1,18 +1,18 @@
-import { IGameServer } from "@server/game-server";
-import { ISocketIncoming } from "./ISocketIncoming";
+import { GameServer } from "@server/game-server";
 import { Server as IOServer } from 'socket.io';
+import { Outgoing } from ".";
 
 /**
  * Handle incoming messages from a client and
  * send them to the IGameServer.
  */
-export class SocketIncoming implements ISocketIncoming {
+export class Incoming {
 
   /**
    * Create the SocketIncoming instance.
    */
   constructor(
-    private readonly gameServer: IGameServer,
+    private readonly gameServer: GameServer,
     private readonly io: IOServer
   ) {
     this._setup();
@@ -24,6 +24,7 @@ export class SocketIncoming implements ISocketIncoming {
   private _setup(): void {
     this.io.on("connection", (socket) => {
       console.log("socket.io detected user connection");
+      this.gameServer.onConnection(socket);
     });
   }
 }
