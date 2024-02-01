@@ -9,6 +9,7 @@ import { IAbsoluteCoordinate } from "@share/data/coordinate/absolute-coordinate"
  * into the Babylon scene.
  */
 export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
+
   /**
    * Add a new chunk. Replace any chunk in its spot.
    * @param chunk The chunk to add.
@@ -43,4 +44,10 @@ export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
    * corresponding chunk coordinates.
    */
   [Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]>;
+
+  /**
+   * Get JSON representation of blocks.
+   * @returns JSON representation of blocks.
+   */
+  toJson(): string;
 }

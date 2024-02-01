@@ -9,7 +9,7 @@ import { Face, Block } from "@share/utility";
 
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
-import { ChunkMesher, IChunkMesher } from "./mesher";
+import { ChunkMesher } from "./mesher";
 import { GreedyChunkMesher } from "./mesher/GreedyChunkMesher";
 
 /**
@@ -26,11 +26,6 @@ export class ClusterClient implements IClusterClient {
    * Store chunk meshes.
    */
   private chunkMeshes: IChunkGrid<Babylon.Mesh> = new ChunkGrid<Babylon.Mesh>;
-
-  /**
-   * Store chunk mesher algorithm.
-   */
-  private chunkMeshGen: IChunkMesher;
     
   constructor(
     private clusterData: IClusterData,
@@ -42,8 +37,6 @@ export class ClusterClient implements IClusterClient {
     for (let [coord, chunk] of clusterData) {
       this.dirtyChunks.set(coord, true);
     }
-
-    this.chunkMeshGen = new ChunkMesher();
   }
 
   /**
@@ -126,7 +119,7 @@ export class ClusterClient implements IClusterClient {
         
         // Replace mesh
         const oldMesh = this.chunkMeshes.get(coord);
-        const newMesh = this.chunkMeshGen.generateChunkMesh(chunk, this.clusterData, this.assetManager);
+        const newMesh = ChunkMesher.generateChunkMesh(chunk, this.clusterData, this.assetManager);
 
         shadowMap?.renderList?.push(newMesh);
         if (oldMesh != undefined) {

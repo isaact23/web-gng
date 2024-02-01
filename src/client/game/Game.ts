@@ -5,20 +5,17 @@ import { Vector3 } from "babylonjs";
 
 import { GUIManager, IGUIManager } from "@client/gui";
 import { ClusterClient, IClusterClient } from "@client/cluster";
-import { IGame } from ".";
 import { IView } from "@client/view";
 
 import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
-// TODO: REMOVE THIS IMPORT
-import { ContinuousClusterGenerator } from "@server/cluster-gen";
-import { GreedyMeshClusterGenerator } from "@server/cluster-gen/GreedyMeshClusterGenerator";
+import { IClusterData } from "@share/data/cluster-data";
 
 /**
  * The runner class for all game logic.
  */
-export class Game implements IGame {
+export class Game {
 
   // Overhead
   private _engine: Babylon.Engine;
@@ -30,7 +27,6 @@ export class Game implements IGame {
   private _shadowGenerator: Babylon.ShadowGenerator | null = null;
 
   // Game elements
-  private _view: IView;
   private _cluster: IClusterClient;
   private _motor: IPlayerMotor;
   private _gui: IGUIManager;
@@ -42,12 +38,12 @@ export class Game implements IGame {
    * @param debugMode Show Babylon debug GUI.
    */
   constructor(
-    view: IView,
+    private _view: IView,
+    clusterData: IClusterData,
     debugMode = false
   )
   {
-    this._view = view;
-    this._engine = new Babylon.Engine(view.getCanvas(), debugMode);
+    this._engine = new Babylon.Engine(_view.getCanvas(), debugMode);
 
     // Set up the scene
     this._scene = this._initScene(debugMode);
@@ -80,14 +76,14 @@ export class Game implements IGame {
 
     // Create local player motor
     this._motor = new PlayerMotor(
-      view.getCanvas(), this._engine, this._scene, this._cluster, new Vector3(50, 70, -50), true);
+      _view.getCanvas(), this._engine, this._scene, this._cluster, new Vector3(50, 70, -50), true);
 
     this._gui = new GUIManager();
     this._gui.mainMenuGui();
     //this.gui.gameGui();
 
     // Run engine render loop
-    const fpsElement = view.getFpsElement();
+    const fpsElement = _view.getFpsElement();
     const scene = this._scene;
     const engine = this._engine;
     this._engine.runRenderLoop(() => {

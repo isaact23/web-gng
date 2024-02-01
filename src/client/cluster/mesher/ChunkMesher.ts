@@ -1,7 +1,6 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
-import { IChunkMesher } from ".";
 import { IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IClusterData } from "@share/data/cluster-data";
 
@@ -13,11 +12,11 @@ import { cubeVerts, faceVerts } from "@share/utility/CubeVerts";
 /**
  * A naive chunk mesher algorithm.
  */
-export class ChunkMesher implements IChunkMesher {
+export class ChunkMesher {
   /**
    * Convert block data for a chunk from a cluster into a mesh.
    */
-  generateChunkMesh(
+  static generateChunkMesh(
     chunk: IChunkData,
     cluster: IClusterData,
     assetManager: IAssetManager

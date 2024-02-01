@@ -85,4 +85,12 @@ export class ClusterData implements IClusterData {
   getChunkSize(): number {
     return Settings.CHUNK_SIZE;
   }
+
+  /**
+   * Get JSON representation of blocks.
+   * @returns JSON representation of blocks.
+   */
+  toJson(): string {
+    throw new Error("Not implemented");
+  }
 }
