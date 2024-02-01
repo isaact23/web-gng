@@ -1,5 +1,4 @@
-import express, { Request, Response } from 'express';
-import path from 'path';
+import express from 'express';
 import http from 'http';
 import { Server as IOServer } from 'socket.io';
 
