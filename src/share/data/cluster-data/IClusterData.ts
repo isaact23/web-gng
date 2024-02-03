@@ -46,8 +46,11 @@ export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
   [Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]>;
 
   /**
-   * Get JSON representation of blocks.
-   * @returns JSON representation of blocks.
+   * Get a string representation of the blocks
+   * organized within their chunks in this cluster,
+   * which can be converted back into an equivalent
+   * IClusterData object.
+   * @returns String representation of this cluster.
    */
-  toJson(): string;
+  toStringRep(): string;
 }

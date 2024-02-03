@@ -2,6 +2,8 @@ import { IClusterData } from "@share/data/cluster-data";
 import { ContinuousClusterGenerator } from "@server/cluster-gen";
 import { Outgoing } from "@server/socket";
 import { Socket } from "socket.io";
+import { Grid } from "@share/data/grid";
+import { Vector3 } from "babylonjs";
 
 /**
  * Handler for server-side game logic.
@@ -18,6 +20,8 @@ export class GameServer {
     console.log("Generating world");
     this.cluster = ContinuousClusterGenerator.createWorldCluster();
     console.log("Done generating world");
+
+    console.log(this.cluster.toStringRep());
   }
 
   /**
