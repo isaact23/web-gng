@@ -16,6 +16,6 @@ export class Outgoing {
    */
   sendWorld(socket: Socket, cluster: IClusterData) {
     console.log("Sending world to " + socket.id);
-    socket.send("world", cluster.toJson());
+    socket.send("world", cluster.toStringRep());
   }
 }
