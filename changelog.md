@@ -1,7 +1,9 @@
 ## Backlog
+* Send world data between client and server
 * Sound FX
 * Fix player movement behavior (going under arches, placing blocks under self, etc.)
 * Make asset manager static
+* Remove coordinate system and greatly simplify grid system
 
 ## 0.0.4
 

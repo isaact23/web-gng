@@ -14,6 +14,27 @@ export class ClusterData implements IClusterData {
   private chunks: IChunkGrid<IChunkData> = new ChunkGrid<IChunkData>;
 
   /**
+   * Create a new ClusterData from a string
+   * representation.
+   * @returns An object of a class implementing ClusterData.
+   */
+  static fromStringRep(data: string): ClusterData {
+    throw new Error("Not implemented");
+  }
+
+  /**
+   * Get a string representation of the blocks
+   * organized within their chunks in this cluster,
+   * which can be converted back into an equivalent
+   * IClusterData object.
+   * @returns String representation of this cluster.
+   */
+  toStringRep(): string {
+    throw new Error("Not implemented");
+    //return this.chunks.toStringRep();
+  }
+
+  /**
    * Add a new chunk. Replace any chunk in its spot.
    * @param chunk The chunk to add.
    */
@@ -84,17 +105,5 @@ export class ClusterData implements IClusterData {
    */
   getChunkSize(): number {
     return Settings.CHUNK_SIZE;
-  }
-
-  /**
-   * Get a string representation of the blocks
-   * organized within their chunks in this cluster,
-   * which can be converted back into an equivalent
-   * IClusterData object.
-   * @returns String representation of this cluster.
-   */
-  toStringRep(): string {
-    throw new Error("Not implemented");
-    //return this.chunks.toStringRep();
   }
 }
