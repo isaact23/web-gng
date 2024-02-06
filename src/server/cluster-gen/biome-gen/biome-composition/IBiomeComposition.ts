@@ -15,4 +15,9 @@ export interface IBiomeComposition {
    * Get a list of biomes and their percentage compositions.
    */
   getBiomePercentages(): IBiomePercentage[];
+
+  /**
+   * Get the top biome.
+   */
+  getTopBiome(): Biome;
 }

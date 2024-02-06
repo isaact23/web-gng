@@ -1,6 +1,6 @@
-import { IBiomeComposition } from "@server/cluster-gen/biome-gen/continuous-biome-gen/biome-composition";
 import { IHillProps } from "./IHillProps";
 import { BiomeHillPropData } from "./BiomeHillPropData";
+import { IBiomeComposition } from "@server/cluster-gen/biome-gen/biome-composition";
 
 /**
  * Store the properties for a certain schema of hill generation. Values are immutable.

@@ -5,7 +5,9 @@ import { IBiomePercentage } from "./biome-percentage/IBiomePercentage";
 
 export class BiomeComposition implements IBiomeComposition {
 
-  constructor(private _biomePercentages: BiomePercentage[] = []) {}
+  private _biomePercentages: BiomePercentage[] = [];
+
+  constructor() {}
 
   /**
    * Add a biome and percentage.
@@ -29,5 +31,22 @@ export class BiomeComposition implements IBiomeComposition {
     }
 
     return this._biomePercentages;
+  }
+
+  /**
+   * Get the top biome.
+   */
+  getTopBiome(): Biome {
+    let topBiome: Biome = Biome.Grasslands;
+    let topPercentage = 0;
+    let biomePercentages = this.getBiomePercentages();
+    for (let biomePercentage of biomePercentages) {
+      let percentage = biomePercentage.getPercentage();
+      if (percentage > topPercentage) {
+        topBiome = biomePercentage.getBiome();
+        topPercentage = percentage;
+      }
+    }
+    return topBiome;
   }
 }

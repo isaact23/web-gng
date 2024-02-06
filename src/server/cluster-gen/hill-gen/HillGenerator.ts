@@ -1,6 +1,6 @@
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 import { IHillGenerator } from "./IHillGenerator";
-import { logistic } from "../Logistic";
+import { logistic } from "../../../share/utility/Logistic";
 
 /**
  * A basic hill generator.

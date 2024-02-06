@@ -2,11 +2,11 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./block-targeter/BlockTargeter";
 import { IAssetManager } from "../assets/IAssetManager";
-import { IClusterClient } from "@client/cluster-client";
 import { Block } from "@share/utility/Block";
 import { IPlayerMotor } from "./IPlayerMotor";
 import { IBlockTargeter } from "./block-targeter/IBlockTargeter";
 import { FaceVectorConverter } from "@share/utility";
+import { IClusterClient } from "@client/cluster";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;
@@ -51,6 +51,7 @@ export class PlayerMotor implements IPlayerMotor {
       "playerCamera",
       Vector3.Zero(),
       scene);
+    camera.rotation = new Vector3(0.5, 0, 0);
     camera.angularSensibility = 500;
     camera.inertia = 0;
     camera.attachControl(canvas, false);

@@ -1,12 +1,10 @@
-import express, { Request, Response } from 'express';
-import path from 'path';
+import express from 'express';
 import http from 'http';
 import { Server as IOServer } from 'socket.io';
 
 import { IServer } from ".";
-import { GameServer, IGameServer } from "./game-server";
-import { ISocketIncoming, SocketIncoming } from './socket/socket-incoming';
-import { ISocketOutgoing, SocketOutgoing } from './socket/socket-outgoing';
+import { GameServer } from "./game-server";
+import { Incoming, Outgoing } from './socket';
 
 const PORT = 3000;
 
@@ -16,7 +14,7 @@ const PORT = 3000;
  */
 export class Server implements IServer {
 
-  private gameServer: IGameServer;
+  private gameServer: GameServer;
 
   /**
    * Initialize the connection.
@@ -38,13 +36,9 @@ export class Server implements IServer {
       });
     
     // Initialize the game server and socket.io message handlers
-    const socketOutgoing: ISocketOutgoing = new SocketOutgoing();
-    this.gameServer = new GameServer(socketOutgoing);
-    const socketIncoming: ISocketIncoming = new SocketIncoming(this.gameServer, io);
-
-    app.get("/", (req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, "../dist/index.html"));
-    });
+    const outgoing = new Outgoing();
+    this.gameServer = new GameServer(outgoing);
+    const incoming = new Incoming(this.gameServer, io);
 
     server.listen(PORT, () => {
       console.log(`Sky Quest server listening on port ${PORT}`);
