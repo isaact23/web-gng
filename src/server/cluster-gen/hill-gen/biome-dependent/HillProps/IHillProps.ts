@@ -1,4 +1,3 @@
-import { IBiomeComposition } from "@server/cluster-gen/biome-gen/continuous-biome-gen/biome-composition";
 
 /**
  * Interface for storing the properties of hill generation. Values are immutable.

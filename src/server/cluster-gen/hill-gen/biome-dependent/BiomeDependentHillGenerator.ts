@@ -1,9 +1,10 @@
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 import { IHillGenerator } from "..";
-import { IContinuousBiomeGenerator } from "../../biome-gen/continuous-biome-gen";
 import { a } from "@share/data/coordinate/CoordinateGenerators";
-import { logistic } from "@server/cluster-gen/Logistic";
+import { logistic } from "@share/utility/Logistic";
 import { HillProps } from "./HillProps";
+import { IContinuousBiomeGenerator } from "@server/cluster-gen/biome-gen";
+import { BiomeHillPropData } from "./HillProps/BiomeHillPropData";
 
 /**
  * This hill generator considers the biome when determining hill properties.
@@ -43,7 +44,7 @@ export class BiomeDependentHillGenerator implements IHillGenerator {
     const biomeComposition = this.biomeGen.getBiomesFromXZ(x, z);
     const hillProps = HillProps.createFrom(biomeComposition);
 
-    const originY = Math.floor(hillProps.getAltitude() + (hillProps.getHeight() / 2));
+    const originY = Math.round(hillProps.getAltitude() + (hillProps.getHeight() / 2));
     const origin = new AbsoluteCoordinate(x, originY, z);
 
     // Determine how high this column should be based on surrounding particles
@@ -68,9 +69,9 @@ export class BiomeDependentHillGenerator implements IHillGenerator {
     if (influenceSum == 0) {
       y = 0;
     } else {
-      y = Math.floor(ySum / influenceSum);
+      y = Math.round(ySum / influenceSum);
     }
 
-    return Math.floor(y);
+    return y;
   }
 }

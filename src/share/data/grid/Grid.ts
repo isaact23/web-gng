@@ -3,11 +3,48 @@ import { Vector3 } from "babylonjs"
 
 /**
  * Store generic objects in 3D coordinates.
- * @param <T> The type of object to store.
+ * @template T The type of object to store.
  */
 export class Grid<T> implements IGrid<T> {
 
   private data = new Map<number, Map<number, Map<number, T>>>;
+
+  /**
+   * Create a new Grid from a string representation
+   * of a Grid created by grid.toStringRep().
+   * @template R The generic type of the Grid to
+   * instantiate. Must match the type encoded in
+   * the rep parameter.
+   * @param rep The string representation of a Grid
+   * to decode.
+   * @returns A new Grid with the contents in the
+   * string representation.
+   */
+  public static fromStringRep<R>(rep: string): Grid<R> {
+    throw new Error();
+  }
+
+  /**
+   * Get a string representation of this Grid's contents.
+   * This string can be used to create an identical Grid
+   * using Grid.fromStringRep(rep).
+   * @return A string representation of this Grid.
+   */
+  toStringRep(): string {
+    let rep = "";
+    this.data.forEach((xSlice, x) => {
+      rep += `${x}{`;
+      xSlice.forEach((ySlice, y) => {
+        rep += `${y}{`;
+        ySlice.forEach((item, z) => {
+          rep += `${z}{${item}}`
+        })
+        rep += "}";
+      });
+      rep += "}";
+    });
+    return rep;
+  }
 
   /**
    * Get a value at a coordinate in this grid.

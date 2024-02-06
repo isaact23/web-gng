@@ -1,7 +1,10 @@
 import { Biome } from "@share/utility/Biome";
-import { logistic } from "../../Logistic";
 import { IContinuousBiomeGenerator } from "./IContinuousBiomeGenerator";
 import { BiomeComposition, IBiomeComposition } from "./biome-composition";
+import { logistic } from "@share/utility/Logistic";
+import { BiomePercentage } from "./biome-composition/biome-percentage/BiomePercentage";
+
+const BIOME_BORDER_GRADE = 10;
 
 /**
  * Class for biome placement generator
@@ -12,8 +15,7 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
 
   constructor (
     worldWidth: number,
-    biomeWidth: number,
-    private readonly borderGrade = 0.3
+    biomeWidth: number
   ) {
     this.points = [];
     const biomeCount = Math.floor((worldWidth * worldWidth) / (biomeWidth * biomeWidth));
@@ -29,7 +31,7 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
   }
 
   /**
-   * Given an x and z value, get the biome.
+   * Given an x and z value, get the biome composition.
    */
   getBiomesFromXZ(x: number, z: number): IBiomeComposition {
 
@@ -40,7 +42,7 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
     for (let point of this.points) {
 
       const distance = Math.sqrt(Math.pow(point[0] - x, 2) + Math.pow(point[1] - z, 2));
-      let influence = logistic(distance, 1, -this.borderGrade, 0);
+      let influence = Math.pow(distance + 10, -BIOME_BORDER_GRADE);
 
       if (influence == undefined) {
         influence = 0;
@@ -48,7 +50,7 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
       totalInfluence += influence;
 
       const biome = point[2];
-      const oldInfluence = biomeInfluences.get(biome)
+      const oldInfluence = biomeInfluences.get(biome);
       if (oldInfluence == undefined) {
         biomeInfluences.set(biome, influence);
       } else {
@@ -72,23 +74,5 @@ export class ContinuousBiomeGenerator implements IContinuousBiomeGenerator {
     }
 
     return biomeComposition;
-  }
-
-  /**
-   * Given an x and z value, get the top biome.
-   */
-  getTopBiomeFromXZ(x: number, z: number): Biome {
-    let biomeComposition = this.getBiomesFromXZ(x, z);
-    let topBiome: Biome = Biome.Grasslands;
-    let topPercentage = 0;
-    let biomePercentages = biomeComposition.getBiomePercentages();
-    for (let biomePercentage of biomePercentages) {
-      let percentage = biomePercentage.getPercentage();
-      if (percentage > topPercentage) {
-        topBiome = biomePercentage.getBiome();
-        topPercentage = percentage;
-      }
-    }
-    return topBiome;
   }
 }
