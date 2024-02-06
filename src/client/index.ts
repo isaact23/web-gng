@@ -10,14 +10,10 @@ const socket = io();
 // Create view
 const view = new View();
 
-const game = new Game(view,  DEBUG_MODE);
-
-/*console.log("Waiting for world");
-socket.on("world", cluster => {
+console.log("Waiting for world");
+socket.on("world", clusterString => {
     console.log("Got world");
     
     // Create game server
-    const game = new Game(view, cluster, DEBUG_MODE);
+    const game = new Game(view, clusterString, DEBUG_MODE);
 });
-
-*/
