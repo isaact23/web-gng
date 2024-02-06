@@ -8,6 +8,7 @@ import { IChunkCoordinate } from "../chunk-coordinate";
  * 
  * The x, y and z coordinates must be within 0 and the chunk size minus 1.
  * @throws {RangeError} If the x, y or z coordinate is not within 0 and the chunk size minus 1.
+ * @throws {TypeError} If decimals are used as an input.
  */
 export interface IRelativeCoordinate {
   get x(): number;

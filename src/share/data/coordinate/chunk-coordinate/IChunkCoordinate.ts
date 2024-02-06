@@ -4,6 +4,7 @@ import { IAbsoluteCoordinate } from "../absolute-coordinate";
 /**
  * Interface for chunk coordinates. An increment of 1 shifts
  * to an adjacent chunk.
+ * @throws {TypeError} If decimals are used as an input.
  */
 export interface IChunkCoordinate {
   get x(): number;

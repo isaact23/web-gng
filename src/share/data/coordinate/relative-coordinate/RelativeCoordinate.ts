@@ -1,4 +1,3 @@
-import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { IRelativeCoordinate } from ".";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../absolute-coordinate";
 import { IChunkCoordinate } from "../chunk-coordinate";
@@ -11,6 +10,7 @@ import { Settings } from "@share/config/Settings";
  * 
  * The x, y and z coordinates must be within 0 and the chunk size minus 1.
  * @throws {RangeError} If the x, y or z coordinate is not within 0 and the chunk size minus 1.
+ * @throws {TypeError} If decimals are used as an input.
  */
 
 export class RelativeCoordinate implements IRelativeCoordinate {
@@ -33,7 +33,7 @@ export class RelativeCoordinate implements IRelativeCoordinate {
 
     // Ensure coordinates are not decimals
     if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
-      throw new Error("Cannot use decimals in RelativeCoordinate initialization");
+      throw new TypeError("Cannot use decimals in RelativeCoordinate initialization");
     }
   }
 

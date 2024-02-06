@@ -7,6 +7,7 @@ import { Settings } from "@share/config/Settings";
 /**
  * Chunk coordinates. An increment of 1 shifts
  * to an adjacent chunk.
+ * @throws {TypeError} If decimals are used as an input.
  */
 export class ChunkCoordinate implements IChunkCoordinate {
   
@@ -17,7 +18,7 @@ export class ChunkCoordinate implements IChunkCoordinate {
   ) {
     // Ensure coordinates are not decimals
     if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
-      throw new Error("Cannot use decimals in ChunkCoordinate initialization");
+      throw new TypeError("Cannot use decimals in ChunkCoordinate initialization");
     }
   }
 

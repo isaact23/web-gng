@@ -5,6 +5,7 @@ import { IRelativeCoordinate } from "../relative-coordinate";
 /**
  * Interface for absolute coordinate in world space,
  * not relative to any chunk.
+ * @throws {TypeError} If decimals are used as an input.
  */
 export interface IAbsoluteCoordinate {
   get x(): number;
