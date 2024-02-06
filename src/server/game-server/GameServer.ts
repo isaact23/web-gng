@@ -21,13 +21,13 @@ export class GameServer {
     this.cluster = ContinuousClusterGenerator.createWorldCluster();
     console.log("Done generating world");
 
-    const grid = new Grid<number>();
+    /*const grid = new Grid<number>();
     grid.set(new Vector3(0, 0, 0), 4);
     grid.set(new Vector3(0, 1, 0), 7);
     grid.set(new Vector3(1, 5, 13), -5);
     grid.set(new Vector3(0, 1, 8), 8);
     const rep = grid.toStringRep();
-    console.log("Grid representation: " + rep);
+    console.log("Grid representation: " + rep);*/
   }
 
   /**
@@ -43,6 +43,6 @@ export class GameServer {
    * @param socket The socket of the user that connected.
    */
   onConnection(socket: Socket) {
-    this.outgoing.sendWorld(socket, this.cluster);
+    //this.outgoing.sendWorld(socket, this.cluster);
   }
 }

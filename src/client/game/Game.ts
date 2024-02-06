@@ -11,6 +11,7 @@ import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
 import { IClusterData } from "@share/data/cluster-data";
+import { ContinuousClusterGenerator } from "@server/cluster-gen";
 
 /**
  * The runner class for all game logic.
@@ -39,7 +40,7 @@ export class Game {
    */
   constructor(
     private _view: IView,
-    clusterData: IClusterData,
+    //clusterData: IClusterData,
     debugMode = false
   )
   {
@@ -65,8 +66,7 @@ export class Game {
     //this.shadowGenerator.usePoissonSampling = true;
 
     // Create world cluster
-    //const clusterGenerator = new ContinuousClusterGenerator(); TODO: REMOVE THIS LINE
-    //const clusterData = clusterGenerator.createWorldCluster(); TODO: REMOVE THIS LINE
+    const clusterData = ContinuousClusterGenerator.createWorldCluster(); //TODO: REMOVE THIS LINE
 
     // Get world data from the server
 
