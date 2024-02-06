@@ -130,4 +130,15 @@ export class ClusterClient implements IClusterClient {
       }
     }
   }
+
+  /**
+   * Get a string representation of the blocks
+   * organized within their chunks in this cluster,
+   * which can be converted back into an equivalent
+   * IClusterData object.
+   * @returns String representation of this cluster.
+   */
+  toStringRep(): string {
+    return this.clusterData.toStringRep();
+  }
 }

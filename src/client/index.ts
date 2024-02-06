@@ -10,7 +10,9 @@ const socket = io();
 // Create view
 const view = new View();
 
-console.log("Waiting for world");
+const game = new Game(view,  DEBUG_MODE);
+
+/*console.log("Waiting for world");
 socket.on("world", cluster => {
     console.log("Got world");
     
@@ -18,3 +20,4 @@ socket.on("world", cluster => {
     const game = new Game(view, cluster, DEBUG_MODE);
 });
 
+*/
