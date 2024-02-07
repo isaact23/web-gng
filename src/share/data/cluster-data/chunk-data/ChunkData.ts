@@ -15,6 +15,26 @@ export class ChunkData implements IChunkData {
 
   private blocks: IGrid<Block, IRelativeCoordinate>;
 
+  /**
+   * Create a new ChunkData from a string
+   * representation.
+   * @returns A new ChunkData object.
+   */
+  static fromStringRep(data: string): ChunkData {
+    throw new Error("Not implemented");
+  }
+
+  /**
+   * Get a string representation of the blocks
+   * organized within this chunk,
+   * which can be converted back into an equivalent
+   * IChunkData object.
+   * @returns String representation of this chunk.
+   */
+  toStringRep(): string {
+    throw new Error("Not implemented");
+  }
+
   // Create an empty chunk
   constructor(
     private readonly coordinate: IChunkCoordinate

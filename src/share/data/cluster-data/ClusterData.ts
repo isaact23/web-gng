@@ -16,7 +16,7 @@ export class ClusterData implements IClusterData {
   /**
    * Create a new ClusterData from a string
    * representation.
-   * @returns An object of a class implementing ClusterData.
+   * @returns A new ClusterData object.
    */
   static fromStringRep(data: string): ClusterData {
     throw new Error("Not implemented");
