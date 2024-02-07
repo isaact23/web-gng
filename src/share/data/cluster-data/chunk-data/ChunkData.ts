@@ -13,15 +13,29 @@ import { Grid, IGrid } from "@share/data/grid";
  */
 export class ChunkData implements IChunkData {
 
-  private blocks: IGrid<Block, IRelativeCoordinate>;
+  private constructor(
+    private coordinate: IChunkCoordinate,
+    private blocks: IGrid<Block, IRelativeCoordinate>
+  ) {}
+
+  /**
+   * Create a new ChunkData with no blocks yet.
+   * @returns An empty ChunkData.
+   */
+  static new(coord: IChunkCoordinate): ChunkData {
+    const grid = new Grid<Block, IRelativeCoordinate>();
+    return new ChunkData(coord, grid);
+  }
 
   /**
    * Create a new ChunkData from a string
-   * representation.
+   * representation and a ChunkCoordinate.
+   * @param data The string to decode back into a ChunkData object.
    * @returns A new ChunkData object.
    */
-  static fromStringRep(data: string): ChunkData {
-    throw new Error("Not implemented");
+  static fromStringRep(data: string, coord: IChunkCoordinate): ChunkData {
+    const grid = Grid.fromStringRep<Block, IRelativeCoordinate>(data);
+    return new ChunkData(coord, grid);
   }
 
   /**
@@ -32,14 +46,7 @@ export class ChunkData implements IChunkData {
    * @returns String representation of this chunk.
    */
   toStringRep(): string {
-    throw new Error("Not implemented");
-  }
-
-  // Create an empty chunk
-  constructor(
-    private readonly coordinate: IChunkCoordinate
-  ) {
-    this.blocks = new Grid<Block, IRelativeCoordinate>();
+    return this.blocks.toStringRep();
   }
 
   // Get the size (width, length, height) of a chunk in blocks

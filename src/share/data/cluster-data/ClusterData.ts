@@ -3,7 +3,7 @@ import { IClusterData } from "./IClusterData";
 import { Block } from "@share/utility";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { Settings } from "@share/config/Settings";
-import { Grid } from "../grid";
+import { Grid, IGrid } from "../grid";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them
@@ -11,15 +11,26 @@ import { Grid } from "../grid";
  */
 export class ClusterData implements IClusterData {
 
-  private chunks = new Grid<IChunkData, IChunkCoordinate> 
+  private constructor(private chunks: IGrid<IChunkData, IChunkCoordinate>) {}
+
+  /**
+   * Create a new ClusterData with no chunks yet.
+   * @returns An empty ClusterData.
+   */
+  static new(): ClusterData {
+    const grid = new Grid<IChunkData, IChunkCoordinate>()
+    return new ClusterData(grid);
+  }
 
   /**
    * Create a new ClusterData from a string
    * representation.
+   * @param data The string to decode back into a ClusterData object.
    * @returns A new ClusterData object.
    */
   static fromStringRep(data: string): ClusterData {
-    throw new Error("Not implemented");
+    const chunks = Grid.fromStringRep<ChunkData, IChunkCoordinate>(data);
+    return new ClusterData(chunks);
   }
 
   /**
@@ -30,8 +41,7 @@ export class ClusterData implements IClusterData {
    * @returns String representation of this cluster.
    */
   toStringRep(): string {
-    throw new Error("Not implemented");
-    //return this.chunks.toStringRep();
+    return this.chunks.toStringRep();
   }
 
   /**
@@ -81,7 +91,7 @@ export class ClusterData implements IClusterData {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = new ChunkData(relCoord.chunkCoordinate);
+      chunk = ChunkData.new(relCoord.chunkCoordinate);
       this.addChunk(chunk);
     }
 

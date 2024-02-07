@@ -14,15 +14,18 @@ export class Grid<T, C extends ICoordinate> implements IGrid<T, C> {
   /**
    * Create a new Grid from a string representation
    * of a Grid created by grid.toStringRep().
+   * 
    * @template R The generic type of the Grid to
    * instantiate. Must match the type encoded in
    * the rep parameter.
+   * @template D The type of coordinate to use
+   * to index the new grid.
    * @param rep The string representation of a Grid
    * to decode.
    * @returns A new Grid with the contents in the
    * string representation.
    */
-  public static fromStringRep<R, C extends ICoordinate>(rep: string): Grid<R, C> {
+  public static fromStringRep<R, D extends ICoordinate>(rep: string): Grid<R, D> {
     throw new Error();
   }
 
@@ -39,7 +42,7 @@ export class Grid<T, C extends ICoordinate> implements IGrid<T, C> {
       xSlice.forEach((ySlice, y) => {
         rep += `${y}{`;
         ySlice.forEach((item, z) => {
-          rep += `${z}{${item}}`
+          rep += `${z}{${item}}` // TODO: Call toStringRep on item
         })
         rep += "}";
       });
