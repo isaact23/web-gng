@@ -2,7 +2,7 @@ import { Block } from "@share/utility";
 import { IChunkData } from ".";
 
 import { IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
-import { IRelativeCoordinate } from "@share/data/coordinate/relative-coordinate";
+import { IRelativeCoordinate, RelativeCoordinate } from "@share/data/coordinate/relative-coordinate";
 import { Settings } from "@share/config/Settings";
 import { Grid, IGrid } from "@share/data/grid";
 
@@ -102,7 +102,8 @@ export class ChunkData implements IChunkData {
   *[Symbol.iterator](): Iterator<[IRelativeCoordinate, Block], any, unknown> {
     for (const [coord, block] of this.blocks) {
       if (block != Block.Air) {
-        yield [coord, block];
+        const relCoord = new RelativeCoordinate(coord.x, coord.y, coord.z, this.coordinate);
+        yield [relCoord, block];
       }
     }
   }

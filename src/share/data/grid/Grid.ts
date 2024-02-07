@@ -95,11 +95,11 @@ export class Grid<T, C extends ICoordinate> implements IGrid<T, C> {
    * @returns An iterator that iterates through all set values in the grid
    * and their coordinates in an arbitrary order.
    */
-  public *[Symbol.iterator](): Iterator<[C, T]> {
+  public *[Symbol.iterator](): Iterator<[Vector3, T]> {
     for (const [x, row] of this.data) {
       for (const [y, col] of row) {
         for (const [z, value] of col) {
-          const coord = <C> { x: x, y: y, z: z }; // Type assertion
+          const coord = new Vector3(x, y, z); // Type assertion
           yield [coord, value];
         }
       }

@@ -1,7 +1,7 @@
 import { IChunkData, ChunkData } from "./chunk-data";
 import { IClusterData } from "./IClusterData";
 import { Block } from "@share/utility";
-import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
+import { ChunkCoordinate, IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { Settings } from "@share/config/Settings";
 import { Grid, IGrid } from "../grid";
 
@@ -20,28 +20,6 @@ export class ClusterData implements IClusterData {
   static new(): ClusterData {
     const grid = new Grid<IChunkData, IChunkCoordinate>()
     return new ClusterData(grid);
-  }
-
-  /**
-   * Create a new ClusterData from a string
-   * representation.
-   * @param data The string to decode back into a ClusterData object.
-   * @returns A new ClusterData object.
-   */
-  static fromStringRep(data: string): ClusterData {
-    const chunks = Grid.fromStringRep<ChunkData, IChunkCoordinate>(data);
-    return new ClusterData(chunks);
-  }
-
-  /**
-   * Get a string representation of the blocks
-   * organized within their chunks in this cluster,
-   * which can be converted back into an equivalent
-   * IClusterData object.
-   * @returns String representation of this cluster.
-   */
-  toStringRep(): string {
-    return this.chunks.toStringRep();
   }
 
   /**
@@ -105,8 +83,14 @@ export class ClusterData implements IClusterData {
    * @returns An iterator for all chunks in this cluster and
    * corresponding chunk coordinates.
    */
-  [Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]> {
-    return this.chunks[Symbol.iterator]();
+  *[Symbol.iterator](): Iterator<[IChunkCoordinate, IChunkData]> {
+    for (let chunk of this.chunks) {
+      const coord = chunk[0];
+      const chunkCoord = new ChunkCoordinate(coord.x, coord.y, coord.z);
+      const data = chunk[1];
+      
+      yield [chunkCoord, data];
+    }
   }
 
   /**

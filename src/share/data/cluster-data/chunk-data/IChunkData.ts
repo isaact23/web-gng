@@ -8,15 +8,6 @@ import { Block } from "@share/utility";
 export interface IChunkData extends Iterable<[IRelativeCoordinate, Block]> {
 
   /**
-   * Get a string representation of the blocks
-   * organized within this chunk,
-   * which can be converted back into an equivalent
-   * IChunkData object.
-   * @returns String representation of this chunk.
-   */
-  toStringRep(): string;
-
-  /**
    * Get the size (width, length, height) of a chunk in blocks.
    * @return The width of the chunk.
    */
