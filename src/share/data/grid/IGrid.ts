@@ -1,10 +1,11 @@
-import { Vector3 } from "babylonjs";
+import { ICoordinate } from "../coordinate/ICoordinate";
 
 /**
  * Store generic objects in 3D coordinates.
- * @param <T> The type of object to store.
+ * @template T The type of object to store.
+ * @template C The coordinate type.
  */
-export interface IGrid<T> extends Iterable<[Vector3, T]> {
+export interface IGrid<T, C extends ICoordinate> extends Iterable<[C, T]> {
 
   /**
    * Get a string representation of this Grid's contents.
@@ -19,14 +20,14 @@ export interface IGrid<T> extends Iterable<[Vector3, T]> {
    * @param coord The coordinate to access in the grid.
    * @returns The value at the coordinate, or undefined if none found.
    */
-  get(coord: Vector3): T | undefined;
+  get(coord: C): T | undefined;
 
   /**
    * Set a value at a coordinate in this grid.
    * @param coord The coordinate to update in the grid.
    * @param value The value to set at the specified coordinate in the grid.
    */
-  set(coord: Vector3, value: T): void;
+  set(coord: C, value: T): void;
 
   /**
    * Get iterator for all set items in the grid and their coordinates
@@ -34,5 +35,5 @@ export interface IGrid<T> extends Iterable<[Vector3, T]> {
    * @returns An iterator that iterates through all set values in the grid
    * and their coordinates in an arbitrary order.
    */
-  [Symbol.iterator](): Iterator<[Vector3, T]>;
+  [Symbol.iterator](): Iterator<[C, T]>;
 }

@@ -2,8 +2,8 @@ import { IChunkData, ChunkData } from "./chunk-data";
 import { IClusterData } from "./IClusterData";
 import { Block } from "@share/utility";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
-import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
 import { Settings } from "@share/config/Settings";
+import { Grid } from "../grid";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them
@@ -11,7 +11,7 @@ import { Settings } from "@share/config/Settings";
  */
 export class ClusterData implements IClusterData {
 
-  private chunks: IChunkGrid<IChunkData> = new ChunkGrid<IChunkData>;
+  private chunks = new Grid<IChunkData, IChunkCoordinate> 
 
   /**
    * Create a new ClusterData from a string

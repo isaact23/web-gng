@@ -1,11 +1,13 @@
+import { Vector3 } from "babylonjs";
 import { IGrid } from ".";
-import { Vector3 } from "babylonjs"
+import { ICoordinate } from "../coordinate/ICoordinate";
 
 /**
  * Store generic objects in 3D coordinates.
  * @template T The type of object to store.
+ * @template C The coordinate type.
  */
-export class Grid<T> implements IGrid<T> {
+export class Grid<T, C extends ICoordinate> implements IGrid<T, C> {
 
   private data = new Map<number, Map<number, Map<number, T>>>;
 
@@ -20,7 +22,7 @@ export class Grid<T> implements IGrid<T> {
    * @returns A new Grid with the contents in the
    * string representation.
    */
-  public static fromStringRep<R>(rep: string): Grid<R> {
+  public static fromStringRep<R, C extends ICoordinate>(rep: string): Grid<R, C> {
     throw new Error();
   }
 
@@ -51,7 +53,7 @@ export class Grid<T> implements IGrid<T> {
    * @param coord The coordinate to access in the grid.
    * @returns The value at the coordinate, or undefined if none found.
    */
-  public get(coord: Vector3): T | undefined {
+  public get(coord: C): T | undefined {
 
     const row = this.data.get(coord.x);
     if (row == undefined) return undefined;
@@ -67,7 +69,7 @@ export class Grid<T> implements IGrid<T> {
   * @param coord The coordinate to update in the grid.
   * @param value The value to set at the specified coordinate in the grid.
   */
-  public set(coord: Vector3, value: T): void {
+  public set(coord: C, value: T): void {
 
     let row = this.data.get(coord.x);
     if (row == undefined) {
@@ -90,11 +92,12 @@ export class Grid<T> implements IGrid<T> {
    * @returns An iterator that iterates through all set values in the grid
    * and their coordinates in an arbitrary order.
    */
-  public *[Symbol.iterator](): Iterator<[Vector3, T]> {
+  public *[Symbol.iterator](): Iterator<[C, T]> {
     for (const [x, row] of this.data) {
       for (const [y, col] of row) {
         for (const [z, value] of col) {
-          yield [new Vector3(x, y, z), value];
+          const coord = <C> { x: x, y: y, z: z }; // Type assertion
+          yield [coord, value];
         }
       }
     }
