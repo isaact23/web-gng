@@ -1,6 +1,6 @@
 {
   "name": "skyquest",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Voxels in the sky",
   "scripts": {
     "start": "ts-node src/server/index.ts",

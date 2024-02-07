@@ -11,16 +11,7 @@ import { Grid, IGrid } from "../grid";
  */
 export class ClusterData implements IClusterData {
 
-  private constructor(private chunks: IGrid<IChunkData, IChunkCoordinate>) {}
-
-  /**
-   * Create a new ClusterData with no chunks yet.
-   * @returns An empty ClusterData.
-   */
-  static new(): ClusterData {
-    const grid = new Grid<IChunkData, IChunkCoordinate>()
-    return new ClusterData(grid);
-  }
+  private chunks = new Grid<IChunkData, IChunkCoordinate>();
 
   /**
    * Add a new chunk. Replace any chunk in its spot.
@@ -69,7 +60,7 @@ export class ClusterData implements IClusterData {
     if (chunk === undefined) {
 
       // Create a new chunk if it doesn't already exist
-      chunk = ChunkData.new(relCoord.chunkCoordinate);
+      chunk = new ChunkData(relCoord.chunkCoordinate);
       this.addChunk(chunk);
     }
 
@@ -88,7 +79,7 @@ export class ClusterData implements IClusterData {
       const coord = chunk[0];
       const chunkCoord = new ChunkCoordinate(coord.x, coord.y, coord.z);
       const data = chunk[1];
-      
+
       yield [chunkCoord, data];
     }
   }
