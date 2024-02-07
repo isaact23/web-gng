@@ -1,9 +1,8 @@
-# Sky Quest
+# Green and Gold  
 
-Voxels in the sky
+Farming and mining MMORPG based on Minecraft  
 
 ## RavensQuest  
-## Green and Gold  
 
 Servers work like Minecraft servers, except that you connect via a web browser instead of a standalone client.
 

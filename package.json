@@ -1,7 +1,7 @@
 {
-  "name": "skyquest",
+  "name": "green-and-gold",
   "version": "0.1.0",
-  "description": "Voxels in the sky",
+  "description": "Farming and mining MMORPG based on Minecraft",
   "scripts": {
     "start": "ts-node src/server/index.ts",
     "build": "npx webpack --",

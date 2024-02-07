@@ -21,7 +21,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "skyquest",
+      title: "green-and-gold",
       template: "./src/index.html"
     })
   ],

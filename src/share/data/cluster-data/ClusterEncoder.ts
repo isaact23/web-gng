@@ -7,7 +7,22 @@ import { IClusterData } from "./IClusterData";
  */
 export class ClusterEncoder {
   static encode(cluster: IClusterData): string {
-    throw new Error("Not implemented");
+
+    // Need access to map internal to Grid
+
+    let rep = "";
+    this.data.forEach((xSlice, x) => {
+      rep += `${x}{`;
+      xSlice.forEach((ySlice, y) => {
+        rep += `${y}{`;
+        ySlice.forEach((item, z) => {
+          rep += `${z}{${item}}` // TODO: Call toStringRep on item
+        })
+        rep += "}";
+      });
+      rep += "}";
+    });
+    return rep;
   }
 
   static decode(data: string): IClusterData {

@@ -9,14 +9,6 @@ import { ICoordinate } from "../coordinate/ICoordinate";
 export interface IGrid<T, C extends ICoordinate> extends Iterable<[Vector3, T]> {
 
   /**
-   * Get a string representation of this Grid's contents.
-   * This string can be used to create an identical Grid
-   * using Grid.fromStringRep(rep).
-   * @return A string representation of this Grid.
-   */
-  toStringRep(): string;
-
-  /**
    * Get a value at a coordinate in this grid.
    * @param coord The coordinate to access in the grid.
    * @returns The value at the coordinate, or undefined if none found.

@@ -41,7 +41,7 @@ export class Server implements IServer {
     const incoming = new Incoming(this.gameServer, io);
 
     server.listen(PORT, () => {
-      console.log(`Sky Quest server listening on port ${PORT}`);
+      console.log(`Green and Gold server listening on port ${PORT}`);
     });
   }
 }
