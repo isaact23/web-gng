@@ -43,6 +43,6 @@ export class GameServer {
    * @param socket The socket of the user that connected.
    */
   onConnection(socket: Socket) {
-    //this.outgoing.sendWorld(socket, this.cluster);
+    this.outgoing.sendWorld(socket, this.cluster);
   }
 }

@@ -3,8 +3,8 @@ import { IGrid } from ".";
 import { Vector3 } from "babylonjs";
 
 // Store all implementations
-const implementations: [string, new () => IGrid<number>][] = [
-  ["Grid", Grid<number>]
+const implementations: [string, new () => IGrid<number, Vector3>][] = [
+  ["Grid", Grid<number, Vector3>]
 ];
 
 // Iterate through and test implementations

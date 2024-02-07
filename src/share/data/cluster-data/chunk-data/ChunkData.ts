@@ -1,10 +1,10 @@
 import { Block } from "@share/utility";
 import { IChunkData } from ".";
 
-import { ChunkCoordinate, IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
-import { IRelativeCoordinate, RelativeCoordinate } from "@share/data/coordinate/relative-coordinate";
-import { IRelativeGrid, RelativeGrid } from "@share/data/grid/relative-grid";
+import { IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
+import { IRelativeCoordinate } from "@share/data/coordinate/relative-coordinate";
 import { Settings } from "@share/config/Settings";
+import { Grid, IGrid } from "@share/data/grid";
 
 // TODO: Implement greedy meshing
 
@@ -13,13 +13,13 @@ import { Settings } from "@share/config/Settings";
  */
 export class ChunkData implements IChunkData {
 
-  private blocks: IRelativeGrid<Block>;
+  private blocks: IGrid<Block, IRelativeCoordinate>;
 
   // Create an empty chunk
   constructor(
     private readonly coordinate: IChunkCoordinate
   ) {
-    this.blocks = new RelativeGrid<Block>(coordinate);
+    this.blocks = new Grid<Block, IRelativeCoordinate>();
   }
 
   // Get the size (width, length, height) of a chunk in blocks
