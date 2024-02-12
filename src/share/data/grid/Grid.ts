@@ -9,7 +9,14 @@ import { ICoordinate } from "../coordinate/ICoordinate";
  */
 export class Grid<T, C extends ICoordinate> implements IGrid<T, C> {
 
-  private data = new Map<number, Map<number, Map<number, T>>>;
+  protected constructor(protected data: Map<number, Map<number, Map<number, T>>>) {}
+
+  /**
+   * Create a new empty grid.
+   */
+  static new<T, C extends ICoordinate>(): Grid<T, C> {
+    return new Grid<T, C>(new Map<number, Map<number, Map<number, T>>>());
+  }
 
   /**
    * Get a value at a coordinate in this grid.
@@ -18,35 +25,58 @@ export class Grid<T, C extends ICoordinate> implements IGrid<T, C> {
    */
   public get(coord: C): T | undefined {
 
-    const row = this.data.get(coord.x);
-    if (row == undefined) return undefined;
-
-    const col = row.get(coord.y);
-    if (col == undefined) return undefined;
-
-    return col.get(coord.z);
+    return this.getNum(coord.x, coord.y, coord.z);
   }
 
   /**
-  * Set a value at a coordinate in this grid.
-  * @param coord The coordinate to update in the grid.
-  * @param value The value to set at the specified coordinate in the grid.
-  */
+   * Get a value at a coordinate in this grid.
+   * @param x x coordinate of block to access.
+   * @param y y coordinate of block to access.
+   * @param z z coordinate of block to access.
+   * @returns The value at the coordinate, or undefined if none found.
+   */
+  protected getNum(x: number, y: number, z: number): T | undefined {
+    const row = this.data.get(x);
+    if (row == undefined) return undefined;
+
+    const col = row.get(y);
+    if (col == undefined) return undefined;
+
+    return col.get(z);
+  }
+
+  /**
+   * Set a value at a coordinate in this grid.
+   * @param coord The coordinate to update in the grid.
+   * @param value The value to set at the specified coordinate in the grid.
+   */
   public set(coord: C, value: T): void {
 
-    let row = this.data.get(coord.x);
+    this.setNum(coord.x, coord.y, coord.z, value);
+  }
+
+  /**
+   * Set a value at a coordinate in this grid.
+   * @param x x coordinate of block to set.
+   * @param y y coordinate of block to set.
+   * @param z z coordinate of block to set.
+   * @param value The value to set at the specified coordinate in the grid.
+   */
+  protected setNum(x: number, y: number, z: number, value: T): void {
+
+    let row = this.data.get(x);
     if (row == undefined) {
       row = new Map<number, Map<number, T>>;
-      this.data.set(coord.x, row);
+      this.data.set(x, row);
     }
 
-    let col = row.get(coord.y);
+    let col = row.get(y);
     if (col == undefined) {
       col = new Map<number, T>;
-      row.set(coord.y, col);
+      row.set(y, col);
     }
 
-    col.set(coord.z, value);
+    col.set(z, value);
   }
 
   /**

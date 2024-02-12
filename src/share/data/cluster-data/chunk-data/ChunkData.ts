@@ -13,7 +13,7 @@ import { Grid, IGrid } from "@share/data/grid";
  */
 export class ChunkData implements IChunkData {
 
-  private blocks = new Grid<Block, IRelativeCoordinate>();
+  private blocks = Grid.new<Block, IRelativeCoordinate>();
 
   constructor(
     private coordinate: IChunkCoordinate
