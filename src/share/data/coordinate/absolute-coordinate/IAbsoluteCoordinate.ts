@@ -7,6 +7,7 @@ import { ICoordinate } from "../ICoordinate";
  * Interface for absolute coordinate in world space,
  * not relative to any chunk.
  * @throws {TypeError} If decimals are used as an input.
+ * @deprecated Use Vector3 instead
  */
 export interface IAbsoluteCoordinate extends ICoordinate {
 

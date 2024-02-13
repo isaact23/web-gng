@@ -1,4 +1,3 @@
-import { Vector3 } from "babylonjs";
 import { ICoordinate } from "../../coordinate/ICoordinate";
 import { Grid } from "../Grid";
 

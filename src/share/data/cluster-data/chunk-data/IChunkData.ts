@@ -35,6 +35,13 @@ export interface IChunkData extends Iterable<[IRelativeCoordinate, Block]> {
   getCoordinate(): IChunkCoordinate;
 
   /**
+   * Get a string representation of this chunk.
+   * @returns A string representation of the blocks
+   *   in this chunk.
+   */
+  toStringRep(): string;
+
+  /**
    * Get iterator for relative coordinates of all non-air blocks in the chunk
    * @returns An iterator for non-air blocks in the chunk.
    */

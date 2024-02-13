@@ -6,6 +6,7 @@ import { ICoordinate } from "../ICoordinate";
  * Interface for chunk coordinates. An increment of 1 shifts
  * to an adjacent chunk.
  * @throws {TypeError} If decimals are used as an input.
+ * @deprecated Use Vector3 instead
  */
 export interface IChunkCoordinate extends ICoordinate {
   get x(): number;
@@ -56,4 +57,10 @@ export interface IChunkCoordinate extends ICoordinate {
    * @returns The Vector3 representation of this chunk coordinate.
    */
   vec(): Vector3;
+
+  /**
+   * Get a string representation of this chunk coordinate.
+   * @returns String representation of this chunk coordinate.
+   */
+  toString(): string;
 }

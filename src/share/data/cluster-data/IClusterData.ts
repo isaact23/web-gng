@@ -38,6 +38,13 @@ export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
   setBlock(coord: IAbsoluteCoordinate, block: Block) : void;
 
   /**
+   * Get a string representation of this cluster.
+   * @returns A string representation of the chunks
+   *   in this cluster.
+   */
+  toStringRep(): string;
+
+  /**
    * Get iterator for all chunks in the cluster and
    * corresponding chunk coordinates.
    * @returns An iterator for all chunks in this cluster and

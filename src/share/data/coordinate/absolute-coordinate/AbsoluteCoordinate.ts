@@ -8,6 +8,7 @@ import { Settings } from "@share/config/Settings";
  * Absolute coordinate in world space,
  * not relative to any chunk.
  * @throws {TypeError} If decimals are used as an input.
+ * @deprecated Use Vector3 instead
  */
 export class AbsoluteCoordinate implements IAbsoluteCoordinate {
   constructor(

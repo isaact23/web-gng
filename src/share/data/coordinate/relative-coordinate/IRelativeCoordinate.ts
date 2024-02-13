@@ -10,6 +10,7 @@ import { ICoordinate } from "../ICoordinate";
  * The x, y and z coordinates must be within 0 and the chunk size minus 1.
  * @throws {RangeError} If the x, y or z coordinate is not within 0 and the chunk size minus 1.
  * @throws {TypeError} If decimals are used as an input.
+ * @deprecated Use Vector3 instead
  */
 export interface IRelativeCoordinate extends ICoordinate {
   get chunkCoordinate(): IChunkCoordinate;
