@@ -3,20 +3,17 @@
 * Fix player movement behavior (going under arches, placing blocks under self, etc.)
 * Remove different types of coordinates and add converter class
 
-## 0.1.2
-
-* TODO: Changes in blocks are automatically synched between server and all clients
-
 ## 0.1.1
 
 * TODO: Make asset manager static
-* TODO: Shadows
+* TODO: Changes in blocks are automatically synched between server and all clients
 
 ## 0.1.0
 
 * Re-write grid system using generic parameters
-* TODO: Serverside block storage
-* TODO: Server sends block data to clients on logging in
+* Serverside block storage
+* Server sends block data to clients on logging in
+* Shadows
 
 ## 0.0.4
 
