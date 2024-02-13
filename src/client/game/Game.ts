@@ -11,7 +11,6 @@ import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
-import { ClusterEncoder } from "@share/data/cluster-data/ClusterEncoder";
 
 /**
  * The runner class for all game logic.
@@ -66,7 +65,7 @@ export class Game {
     this._shadowGenerator.usePoissonSampling = true;
 
     // Get world data from the server
-    const clusterData = ClusterEncoder.decode(clusterString);
+    const clusterData = ClusterData.fromStringRep(clusterString);
 
     this._cluster = new ClusterClient(clusterData, this._shadowGenerator, this._assetManager);
     this._cluster.remesh();

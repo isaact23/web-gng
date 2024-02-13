@@ -4,8 +4,8 @@ import { ChunkData } from "./chunk-data";
 import { AbsoluteCoordinate, ChunkCoordinate } from "@share/data/coordinate";
 
 // Store all implementations
-const implementations: [string, new () => IClusterData][] = [
-  ["ClusterData", ClusterData]
+const implementations: [string, () => IClusterData][] = [
+  ["ClusterData", ClusterData.new]
 ];
 
 // Iterate through and test implementations
@@ -18,26 +18,26 @@ for (const [name, clusterData] of implementations) {
     const c = (x: number, y: number, z: number) => new ChunkCoordinate(x, y, z);
 
     test("Add and get chunks", () => {
-      const cluster1 = new clusterData();
+      const cluster1 = clusterData();
       const chunkCoord1 = new ChunkCoordinate(0, 0, 0);
       expect(cluster1.getChunk(chunkCoord1)).toBeUndefined();
       
-      const chunk1 = new ChunkData(chunkCoord1);
+      const chunk1 = ChunkData.new(chunkCoord1);
       cluster1.addChunk(chunk1);
       expect(cluster1.getChunk(chunkCoord1)).toBe(chunk1);
 
       const chunkCoord2 = new ChunkCoordinate(4, 0, 0);
-      const chunk2 = new ChunkData(chunkCoord2);
+      const chunk2 = ChunkData.new(chunkCoord2);
       cluster1.addChunk(chunk2);
       expect(cluster1.getChunk(chunkCoord2)).toBe(chunk2);
 
-      const chunk3 = new ChunkData(chunkCoord1);
+      const chunk3 = ChunkData.new(chunkCoord1);
       cluster1.addChunk(chunk3);
       expect(cluster1.getChunk(chunkCoord1)).toBe(chunk3);
     });
 
     test("Get and set blocks", () => {
-      const cluster2 = new clusterData();
+      const cluster2 = clusterData();
 
       expect(cluster2.getBlock(a(0, 0, 0))).toBeUndefined();
       expect(cluster2.getBlock(a(400, 600, -300))).toBeUndefined();
@@ -56,13 +56,13 @@ for (const [name, clusterData] of implementations) {
     });
 
     test("Cluster chunk iterator", () => {
-      const cluster3 = new clusterData();
+      const cluster3 = clusterData();
 
       const it1 = cluster3[Symbol.iterator]();
       expect(it1.next().done).toBeTruthy();
 
-      cluster3.addChunk(new ChunkData(c(0, 0, 0)));
-      cluster3.addChunk(new ChunkData(c(4, 0, 0)));
+      cluster3.addChunk(ChunkData.new(c(0, 0, 0)));
+      cluster3.addChunk(ChunkData.new(c(4, 0, 0)));
 
       const it2 = cluster3[Symbol.iterator]();
       

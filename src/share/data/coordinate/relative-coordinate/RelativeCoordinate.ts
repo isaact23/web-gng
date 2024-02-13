@@ -34,7 +34,7 @@ export class RelativeCoordinate implements IRelativeCoordinate {
 
     // Ensure coordinates are not decimals
     if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
-      throw new TypeError("Cannot use decimals in RelativeCoordinate initialization");
+      throw new TypeError(`Cannot use decimals in RelativeCoordinate initialization - got ${x} ${y} ${z}`);
     }
   }
 

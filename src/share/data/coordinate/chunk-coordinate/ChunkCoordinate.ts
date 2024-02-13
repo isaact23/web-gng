@@ -19,7 +19,7 @@ export class ChunkCoordinate implements IChunkCoordinate {
   ) {
     // Ensure coordinates are not decimals
     if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
-      throw new TypeError("Cannot use decimals in ChunkCoordinate initialization");
+      throw new TypeError(`Cannot use decimals in ChunkCoordinate initialization - got ${x} ${y} ${z}`);
     }
   }
 
@@ -29,8 +29,9 @@ export class ChunkCoordinate implements IChunkCoordinate {
    * @returns A new ChunkCoordinate with values populated from rep.
    */
   static fromString(rep: string): ChunkCoordinate {
+
     let inner = rep.substring(1, rep.length - 1);
-    let split = rep.split(", ");
+    let split = inner.split(",");
 
     let x = parseInt(split[0]);
     let y = parseInt(split[1]);
@@ -44,7 +45,7 @@ export class ChunkCoordinate implements IChunkCoordinate {
    * @returns String representation of this chunk coordinate.
    */
   toString(): string {
-    return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+    return "(" + this.x + "," + this.y + "," + this.z + ")";
   }
 
   /**

@@ -18,7 +18,7 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
   ) {
     // Ensure coordinates are not decimals
     if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
-      throw new TypeError("Cannot use decimals in AbsoluteCoordinate initialization");
+      throw new TypeError(`Cannot use decimals in AbsoluteCoordinate initialization - got ${x} ${y} ${z}`);
     }
   }
 

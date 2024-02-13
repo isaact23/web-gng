@@ -19,12 +19,12 @@ export class ClusterClient implements IClusterClient {
   /**
    * Remember which chunks need to be re-meshed.
    */
-  private dirtyChunks: IGrid<boolean, IChunkCoordinate> = new Grid<boolean, IChunkCoordinate>;
+  private dirtyChunks: IGrid<boolean, IChunkCoordinate> = Grid.new<boolean, IChunkCoordinate>();
 
   /**
    * Store chunk meshes.
    */
-  private chunkMeshes: IGrid<Babylon.Mesh, IChunkCoordinate> = new Grid<Babylon.Mesh, IChunkCoordinate>;
+  private chunkMeshes: IGrid<Babylon.Mesh, IChunkCoordinate> = Grid.new<Babylon.Mesh, IChunkCoordinate>();
     
   constructor(
     private clusterData: IClusterData,

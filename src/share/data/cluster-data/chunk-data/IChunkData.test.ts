@@ -6,8 +6,8 @@ import { RelativeCoordinate, IRelativeCoordinate } from "@share/data/coordinate/
 import { Settings } from "@share/config/Settings";
 
 // Store all implementations
-const implementations: [string, new (coord: IChunkCoordinate) => IChunkData][] = [
-  ["ChunkData", ChunkData]
+const implementations: [string, (coord: IChunkCoordinate) => IChunkData][] = [
+  ["ChunkData", ChunkData.new]
 ];
 
 // Iterate through and test implementations
@@ -23,7 +23,7 @@ for (const [name, chunkData] of implementations) {
 
     test("Ensure no out-of-bounds block getting or setting", () => {
 
-      const chunkData1: IChunkData = new chunkData(new ChunkCoordinate(0, 5, -2));
+      const chunkData1: IChunkData = chunkData(new ChunkCoordinate(0, 5, -2));
       const c = chunkData1.getCoordinate();
 
       let errFuncs = new Array<() => void>;
@@ -48,7 +48,7 @@ for (const [name, chunkData] of implementations) {
 
     test("Set and get blocks", () => {
 
-      const chunkData1: IChunkData = new chunkData(new ChunkCoordinate(0, 5, -2));
+      const chunkData1: IChunkData = chunkData(new ChunkCoordinate(0, 5, -2));
       const c = chunkData1.getCoordinate();
 
       expect(chunkData1.getBlock(r(5, 0, 2, c))).toBe(Block.Air);
@@ -61,7 +61,7 @@ for (const [name, chunkData] of implementations) {
     });
 
     test("Get chunk coordinate", () => {
-      const chunkData1: IChunkData = new chunkData(new ChunkCoordinate(0, 5, -2));
+      const chunkData1: IChunkData = chunkData(new ChunkCoordinate(0, 5, -2));
       const c = chunkData1.getCoordinate();
 
       expect(c.x).toBe(0);
@@ -71,7 +71,7 @@ for (const [name, chunkData] of implementations) {
 
     test("ChunkData iterator", () => {
 
-      const chunkData2: IChunkData = new ChunkData(new ChunkCoordinate(4, -5, 8));
+      const chunkData2: IChunkData = chunkData(new ChunkCoordinate(4, -5, 8));
       const c2 = chunkData2.getCoordinate();
       chunkData2.setBlock(r(0, 0, 0, c2), Block.Stone);
       chunkData2.setBlock(r(5, 0, 0, c2), Block.Grass);
