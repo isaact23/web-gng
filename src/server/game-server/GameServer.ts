@@ -1,9 +1,13 @@
-import { IClusterData } from "@share/data/cluster-data";
+import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { ContinuousClusterGenerator } from "@server/cluster-gen";
 import { Outgoing } from "@server/socket";
 import { Socket } from "socket.io";
 import { Grid } from "@share/data/grid";
 import { Vector3 } from "babylonjs";
+import { SerializableGrid } from "@share/data/grid/SerializableGrid";
+import { ChunkCoordinate } from "@share/data/coordinate";
+import { join } from "path";
+import { writeFileSync } from "fs";
 
 /**
  * Handler for server-side game logic.
@@ -21,13 +25,9 @@ export class GameServer {
     this.cluster = ContinuousClusterGenerator.createWorldCluster();
     console.log("Done generating world");
 
-    /*const grid = new Grid<number>();
-    grid.set(new Vector3(0, 0, 0), 4);
-    grid.set(new Vector3(0, 1, 0), 7);
-    grid.set(new Vector3(1, 5, 13), -5);
-    grid.set(new Vector3(0, 1, 8), 8);
-    const rep = grid.toStringRep();
-    console.log("Grid representation: " + rep);*/
+    const rep = this.cluster.toStringRep();
+    //writeFileSync(join(__dirname, "output.txt"), rep, {flag: 'w'});
+    const cluster2 = ClusterData.fromStringRep(rep);
   }
 
   /**
@@ -43,6 +43,6 @@ export class GameServer {
    * @param socket The socket of the user that connected.
    */
   onConnection(socket: Socket) {
-    //this.outgoing.sendWorld(socket, this.cluster);
+    this.outgoing.sendWorld(socket, this.cluster);
   }
 }

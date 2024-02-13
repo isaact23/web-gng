@@ -1,6 +1,5 @@
 import { Socket } from "socket.io";
 import { IClusterData } from "@share/data/cluster-data";
-import { AbsoluteCoordinate } from "@share/data/coordinate";
 
 /**
  * Receive messages from IGameServer and forward
@@ -16,6 +15,6 @@ export class Outgoing {
    */
   sendWorld(socket: Socket, cluster: IClusterData) {
     console.log("Sending world to " + socket.id);
-    socket.send("world", cluster.toStringRep());
+    socket.emit("world", cluster.toStringRep());
   }
 }

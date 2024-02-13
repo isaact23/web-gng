@@ -3,8 +3,8 @@ import { IGrid } from ".";
 import { Vector3 } from "babylonjs";
 
 // Store all implementations
-const implementations: [string, new () => IGrid<number>][] = [
-  ["Grid", Grid<number>]
+const implementations: [string, () => IGrid<number, Vector3>][] = [
+  ["Grid", Grid.new<number, Vector3>]
 ];
 
 // Iterate through and test implementations
@@ -15,7 +15,7 @@ for (const [name, grid] of implementations) {
     const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
 
     test("Unset values should be undefined", () => {
-      const grid1 = new grid();
+      const grid1 = grid();
 
       expect(grid1.get(v(0, 0, 0))).toBe(undefined);
       expect(grid1.get(v(-1, -2, -3))).toBe(undefined);
@@ -23,7 +23,7 @@ for (const [name, grid] of implementations) {
     });
 
     test("Get/set values from grid", () => {
-      const grid1 = new grid();
+      const grid1 = grid();
 
       grid1.set(v(2, 5, 3),  4);
       grid1.set(v(2, 5, 7),  7);
@@ -39,7 +39,7 @@ for (const [name, grid] of implementations) {
     });
 
     test("Test grid iterator", () => {
-      const grid1 = new grid();
+      const grid1 = grid();
 
       grid1.set(v(1, 2, 3), 4);
       grid1.set(v(1, 0, 6), 10);

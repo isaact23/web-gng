@@ -7,6 +7,8 @@ import { Settings } from "@share/config/Settings";
 /**
  * Chunk coordinates. An increment of 1 shifts
  * to an adjacent chunk.
+ * @throws {TypeError} If decimals are used as an input.
+ * @deprecated Use Vector3 instead
  */
 export class ChunkCoordinate implements IChunkCoordinate {
   
@@ -17,8 +19,33 @@ export class ChunkCoordinate implements IChunkCoordinate {
   ) {
     // Ensure coordinates are not decimals
     if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
-      throw new Error("Cannot use decimals in ChunkCoordinate initialization");
+      throw new TypeError(`Cannot use decimals in ChunkCoordinate initialization - got ${x} ${y} ${z}`);
     }
+  }
+
+  /**
+   * Create a ChunkCoordinate from a string representation.
+   * @param rep The string representation of the coordinate.
+   * @returns A new ChunkCoordinate with values populated from rep.
+   */
+  static fromString(rep: string): ChunkCoordinate {
+
+    let inner = rep.substring(1, rep.length - 1);
+    let split = inner.split(",");
+
+    let x = parseInt(split[0]);
+    let y = parseInt(split[1]);
+    let z = parseInt(split[2]);
+
+    return new ChunkCoordinate(x, y, z);
+  }
+  
+  /**
+   * Get a string representation of this chunk coordinate.
+   * @returns String representation of this chunk coordinate.
+   */
+  toString(): string {
+    return "(" + this.x + "," + this.y + "," + this.z + ")";
   }
 
   /**

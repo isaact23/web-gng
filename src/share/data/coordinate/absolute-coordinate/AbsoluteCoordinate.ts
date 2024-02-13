@@ -1,4 +1,3 @@
-import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { IAbsoluteCoordinate } from ".";
 import { ChunkCoordinate, IChunkCoordinate } from "../chunk-coordinate";
 import { IRelativeCoordinate, RelativeCoordinate } from "../relative-coordinate";
@@ -8,6 +7,8 @@ import { Settings } from "@share/config/Settings";
 /**
  * Absolute coordinate in world space,
  * not relative to any chunk.
+ * @throws {TypeError} If decimals are used as an input.
+ * @deprecated Use Vector3 instead
  */
 export class AbsoluteCoordinate implements IAbsoluteCoordinate {
   constructor(
@@ -17,7 +18,7 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
   ) {
     // Ensure coordinates are not decimals
     if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
-      throw new Error("Cannot use decimals in AbsoluteCoordinate initialization");
+      throw new TypeError(`Cannot use decimals in AbsoluteCoordinate initialization - got ${x} ${y} ${z}`);
     }
   }
 

@@ -23,6 +23,8 @@ export class GreedyChunkMesher {
     assetManager: IAssetManager
   ): Babylon.Mesh {
 
+    throw new Error("Not implemented");
+
     // Initialize arrays for mesh data
     const vertices = new Array<number>;
     const normals = new Array<number>;

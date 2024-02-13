@@ -2,15 +2,14 @@ import { IClusterClient } from ".";
 import { IAssetManager } from "@client/assets";
 import { Settings } from "@share/config/Settings";
 import { IClusterData } from "@share/data/cluster-data";
-import { ChunkData, IChunkData } from "@share/data/cluster-data/chunk-data";
+import { IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
-import { ChunkGrid, IChunkGrid } from "@share/data/grid/chunk-grid";
-import { Face, Block } from "@share/utility";
+import { Block } from "@share/utility";
 
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { ChunkMesher } from "./mesher";
-import { GreedyChunkMesher } from "./mesher/GreedyChunkMesher";
+import { Grid, IGrid } from "@share/data/grid";
 
 /**
  * Manage ClusterData on the client side.
@@ -20,12 +19,12 @@ export class ClusterClient implements IClusterClient {
   /**
    * Remember which chunks need to be re-meshed.
    */
-  private dirtyChunks: IChunkGrid<boolean> = new ChunkGrid<boolean>;
+  private dirtyChunks: IGrid<boolean, IChunkCoordinate> = Grid.new<boolean, IChunkCoordinate>();
 
   /**
    * Store chunk meshes.
    */
-  private chunkMeshes: IChunkGrid<Babylon.Mesh> = new ChunkGrid<Babylon.Mesh>;
+  private chunkMeshes: IGrid<Babylon.Mesh, IChunkCoordinate> = Grid.new<Babylon.Mesh, IChunkCoordinate>();
     
   constructor(
     private clusterData: IClusterData,

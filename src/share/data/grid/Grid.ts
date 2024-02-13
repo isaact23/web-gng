@@ -1,49 +1,21 @@
+import { Vector3 } from "babylonjs";
 import { IGrid } from ".";
-import { Vector3 } from "babylonjs"
+import { ICoordinate } from "../coordinate/ICoordinate";
 
 /**
  * Store generic objects in 3D coordinates.
  * @template T The type of object to store.
+ * @template C The coordinate type.
  */
-export class Grid<T> implements IGrid<T> {
+export class Grid<T, C extends ICoordinate> implements IGrid<T, C> {
 
-  private data = new Map<number, Map<number, Map<number, T>>>;
-
-  /**
-   * Create a new Grid from a string representation
-   * of a Grid created by grid.toStringRep().
-   * @template R The generic type of the Grid to
-   * instantiate. Must match the type encoded in
-   * the rep parameter.
-   * @param rep The string representation of a Grid
-   * to decode.
-   * @returns A new Grid with the contents in the
-   * string representation.
-   */
-  public static fromStringRep<R>(rep: string): Grid<R> {
-    throw new Error();
-  }
+  protected constructor(protected data: Map<number, Map<number, Map<number, T>>>) {}
 
   /**
-   * Get a string representation of this Grid's contents.
-   * This string can be used to create an identical Grid
-   * using Grid.fromStringRep(rep).
-   * @return A string representation of this Grid.
+   * Create a new empty grid.
    */
-  toStringRep(): string {
-    let rep = "";
-    this.data.forEach((xSlice, x) => {
-      rep += `${x}{`;
-      xSlice.forEach((ySlice, y) => {
-        rep += `${y}{`;
-        ySlice.forEach((item, z) => {
-          rep += `${z}{${item}}`
-        })
-        rep += "}";
-      });
-      rep += "}";
-    });
-    return rep;
+  static new<T, C extends ICoordinate>(): Grid<T, C> {
+    return new Grid<T, C>(new Map<number, Map<number, Map<number, T>>>());
   }
 
   /**
@@ -51,37 +23,60 @@ export class Grid<T> implements IGrid<T> {
    * @param coord The coordinate to access in the grid.
    * @returns The value at the coordinate, or undefined if none found.
    */
-  public get(coord: Vector3): T | undefined {
+  public get(coord: C): T | undefined {
 
-    const row = this.data.get(coord.x);
-    if (row == undefined) return undefined;
-
-    const col = row.get(coord.y);
-    if (col == undefined) return undefined;
-
-    return col.get(coord.z);
+    return this.getNum(coord.x, coord.y, coord.z);
   }
 
   /**
-  * Set a value at a coordinate in this grid.
-  * @param coord The coordinate to update in the grid.
-  * @param value The value to set at the specified coordinate in the grid.
-  */
-  public set(coord: Vector3, value: T): void {
+   * Get a value at a coordinate in this grid.
+   * @param x x coordinate of block to access.
+   * @param y y coordinate of block to access.
+   * @param z z coordinate of block to access.
+   * @returns The value at the coordinate, or undefined if none found.
+   */
+  protected getNum(x: number, y: number, z: number): T | undefined {
+    const row = this.data.get(x);
+    if (row == undefined) return undefined;
 
-    let row = this.data.get(coord.x);
+    const col = row.get(y);
+    if (col == undefined) return undefined;
+
+    return col.get(z);
+  }
+
+  /**
+   * Set a value at a coordinate in this grid.
+   * @param coord The coordinate to update in the grid.
+   * @param value The value to set at the specified coordinate in the grid.
+   */
+  public set(coord: C, value: T): void {
+
+    this.setNum(coord.x, coord.y, coord.z, value);
+  }
+
+  /**
+   * Set a value at a coordinate in this grid.
+   * @param x x coordinate of block to set.
+   * @param y y coordinate of block to set.
+   * @param z z coordinate of block to set.
+   * @param value The value to set at the specified coordinate in the grid.
+   */
+  protected setNum(x: number, y: number, z: number, value: T): void {
+
+    let row = this.data.get(x);
     if (row == undefined) {
       row = new Map<number, Map<number, T>>;
-      this.data.set(coord.x, row);
+      this.data.set(x, row);
     }
 
-    let col = row.get(coord.y);
+    let col = row.get(y);
     if (col == undefined) {
       col = new Map<number, T>;
-      row.set(coord.y, col);
+      row.set(y, col);
     }
 
-    col.set(coord.z, value);
+    col.set(z, value);
   }
 
   /**
@@ -94,7 +89,8 @@ export class Grid<T> implements IGrid<T> {
     for (const [x, row] of this.data) {
       for (const [y, col] of row) {
         for (const [z, value] of col) {
-          yield [new Vector3(x, y, z), value];
+          const coord = new Vector3(x, y, z); // Type assertion
+          yield [coord, value];
         }
       }
     }

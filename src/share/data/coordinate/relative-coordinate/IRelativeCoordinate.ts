@@ -1,6 +1,7 @@
 import { Vector3 } from "babylonjs";
 import { IAbsoluteCoordinate } from "../absolute-coordinate";
 import { IChunkCoordinate } from "../chunk-coordinate";
+import { ICoordinate } from "../ICoordinate";
 
 /**
  * Interface for a relative coordinate, which stores the
@@ -8,11 +9,10 @@ import { IChunkCoordinate } from "../chunk-coordinate";
  * 
  * The x, y and z coordinates must be within 0 and the chunk size minus 1.
  * @throws {RangeError} If the x, y or z coordinate is not within 0 and the chunk size minus 1.
+ * @throws {TypeError} If decimals are used as an input.
+ * @deprecated Use Vector3 instead
  */
-export interface IRelativeCoordinate {
-  get x(): number;
-  get y(): number;
-  get z(): number;
+export interface IRelativeCoordinate extends ICoordinate {
   get chunkCoordinate(): IChunkCoordinate;
 
   /**

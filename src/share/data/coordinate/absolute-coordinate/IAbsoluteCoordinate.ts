@@ -1,15 +1,15 @@
 import { Vector3 } from "babylonjs";
 import { IChunkCoordinate } from "../chunk-coordinate";
 import { IRelativeCoordinate } from "../relative-coordinate";
+import { ICoordinate } from "../ICoordinate";
 
 /**
  * Interface for absolute coordinate in world space,
  * not relative to any chunk.
+ * @throws {TypeError} If decimals are used as an input.
+ * @deprecated Use Vector3 instead
  */
-export interface IAbsoluteCoordinate {
-  get x(): number;
-  get y(): number;
-  get z(): number;
+export interface IAbsoluteCoordinate extends ICoordinate {
 
   /**
    * Get the chunk coordinate of the chunk that contains this absolute coordinate.

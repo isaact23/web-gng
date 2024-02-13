@@ -16,7 +16,7 @@ export class ContinuousClusterGenerator {
    * Generate a standard world.
    */
   static createWorldCluster(): IClusterData {
-    const cluster = new ClusterData();
+    const cluster = ClusterData.new();
 
     // Generate biomes
     //const biomeGen: IContinuousBiomeGenerator = new ContinuousBiomeGenerator(WORLD_WIDTH, BIOME_WIDTH);

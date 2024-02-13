@@ -11,7 +11,7 @@ export class GreedyMeshClusterGenerator {
    * Generate a standard world.
    */
   static createWorldCluster(): IClusterData {
-    const cluster = new ClusterData();
+    const cluster = ClusterData.new();
 
     /*for (let x = 0; x < 16; x++) {
       for (let y = 0; y < 16; y++) {

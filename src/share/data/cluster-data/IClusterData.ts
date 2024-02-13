@@ -11,15 +11,6 @@ import { IAbsoluteCoordinate } from "@share/data/coordinate/absolute-coordinate"
 export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
 
   /**
-   * Get a string representation of the blocks
-   * organized within their chunks in this cluster,
-   * which can be converted back into an equivalent
-   * IClusterData object.
-   * @returns String representation of this cluster.
-   */
-  toStringRep(): string;
-
-  /**
    * Add a new chunk. Replace any chunk in its spot.
    * @param chunk The chunk to add.
    */
@@ -45,6 +36,13 @@ export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
    * @param block The block to set at the specified coordinate.
    */
   setBlock(coord: IAbsoluteCoordinate, block: Block) : void;
+
+  /**
+   * Get a string representation of this cluster.
+   * @returns A string representation of the chunks
+   *   in this cluster.
+   */
+  toStringRep(): string;
 
   /**
    * Get iterator for all chunks in the cluster and

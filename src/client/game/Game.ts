@@ -10,8 +10,7 @@ import { IView } from "@client/view";
 import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
-import { IClusterData } from "@share/data/cluster-data";
-import { ContinuousClusterGenerator } from "@server/cluster-gen";
+import { ClusterData, IClusterData } from "@share/data/cluster-data";
 
 /**
  * The runner class for all game logic.
@@ -40,7 +39,7 @@ export class Game {
    */
   constructor(
     private _view: IView,
-    //clusterData: IClusterData,
+    clusterString: string,
     debugMode = false
   )
   {
@@ -62,16 +61,13 @@ export class Game {
     this._assetManager = new AssetManager(this._scene);
 
     // Init shadow generator
-    //this.shadowGenerator = new Babylon.ShadowGenerator(1024, this.sun);
-    //this.shadowGenerator.usePoissonSampling = true;
-
-    // Create world cluster
-    const clusterData = ContinuousClusterGenerator.createWorldCluster(); //TODO: REMOVE THIS LINE
+    this._shadowGenerator = new Babylon.ShadowGenerator(1024, this._sun);
+    this._shadowGenerator.usePoissonSampling = true;
 
     // Get world data from the server
+    const clusterData = ClusterData.fromStringRep(clusterString);
 
-    //this.cluster = new ClusterClient(clusterData, this.shadowGenerator, this.assetManager);
-    this._cluster = new ClusterClient(clusterData, null, this._assetManager);
+    this._cluster = new ClusterClient(clusterData, this._shadowGenerator, this._assetManager);
     this._cluster.remesh();
 
     // Create local player motor

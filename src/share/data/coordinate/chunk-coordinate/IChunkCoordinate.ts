@@ -1,11 +1,14 @@
 import { Vector3 } from "babylonjs";
 import { IAbsoluteCoordinate } from "../absolute-coordinate";
+import { ICoordinate } from "../ICoordinate";
 
 /**
  * Interface for chunk coordinates. An increment of 1 shifts
  * to an adjacent chunk.
+ * @throws {TypeError} If decimals are used as an input.
+ * @deprecated Use Vector3 instead
  */
-export interface IChunkCoordinate {
+export interface IChunkCoordinate extends ICoordinate {
   get x(): number;
   get y(): number;
   get z(): number;
@@ -54,4 +57,10 @@ export interface IChunkCoordinate {
    * @returns The Vector3 representation of this chunk coordinate.
    */
   vec(): Vector3;
+
+  /**
+   * Get a string representation of this chunk coordinate.
+   * @returns String representation of this chunk coordinate.
+   */
+  toString(): string;
 }

@@ -1,5 +1,5 @@
 /**
- * Handle the GUI for SkyQuest.
+ * Handle the GUI for Green and Gold.
  */
 export interface IGUIManager {
 
