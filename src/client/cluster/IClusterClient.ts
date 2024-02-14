@@ -37,4 +37,9 @@ export interface IClusterClient extends IClusterData {
    * Load or reload chunk meshes in the world.
    */
   remesh(): void;
+
+  /**
+   * Delete the assets in this cluster.
+   */
+  dispose(): void;
 }

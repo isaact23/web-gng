@@ -140,4 +140,14 @@ export class ClusterClient implements IClusterClient {
   toStringRep(): string {
     return this.clusterData.toStringRep();
   }
+  
+  /**
+   * Delete the assets in this cluster.
+   */
+  dispose(): void {
+    for (let item of this.chunkMeshes) {
+      let mesh = item[1];
+      mesh.dispose();
+    }
+  }
 }

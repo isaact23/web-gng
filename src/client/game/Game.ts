@@ -11,6 +11,8 @@ import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
+import { Incoming, Outgoing } from "@client/socket";
+import { Socket } from "socket.io-client";
 
 /**
  * The runner class for all game logic.
@@ -21,16 +23,19 @@ export class Game {
   private _engine: Babylon.Engine;
   private _scene: Babylon.Scene;
 
+  // Networking
+  private _outgoing: Outgoing;
+
   // Lighting
   private _sun: Babylon.DirectionalLight;
   private _hemisphericLight: Babylon.HemisphericLight;
   private _shadowGenerator: Babylon.ShadowGenerator | null = null;
 
   // Game elements
-  private _cluster: IClusterClient;
-  private _motor: IPlayerMotor;
+  private _cluster: IClusterClient | null = null;
+  private _motor: IPlayerMotor | null = null;
   private _gui: IGUIManager;
-  private _assetManager: IAssetManager | null = null;
+  private _assetManager: IAssetManager;
 
   /**
    * Create a new Game.
@@ -39,7 +44,7 @@ export class Game {
    */
   constructor(
     private _view: IView,
-    clusterString: string,
+    socket: Socket,
     debugMode = false
   )
   {
@@ -64,15 +69,9 @@ export class Game {
     this._shadowGenerator = new Babylon.ShadowGenerator(1024, this._sun);
     this._shadowGenerator.usePoissonSampling = true;
 
-    // Get world data from the server
-    const clusterData = ClusterData.fromStringRep(clusterString);
-
-    this._cluster = new ClusterClient(clusterData, this._shadowGenerator, this._assetManager);
-    this._cluster.remesh();
-
-    // Create local player motor
-    this._motor = new PlayerMotor(
-      _view.getCanvas(), this._engine, this._scene, this._cluster, new Vector3(50, 70, -50), true);
+    // Init communications
+    this._outgoing = new Outgoing(socket);
+    new Incoming(this, socket);
 
     this._gui = new GUIManager();
     this._gui.mainMenuGui();
@@ -89,9 +88,50 @@ export class Game {
   }
 
   /**
+   * Load a cluster from a string encoding.
+   */
+  public loadClusterStr(clusterStr: string) {
+    const cluster = ClusterData.fromStringRep(clusterStr);
+    this.loadCluster(cluster);
+  }
+
+  /**
+   * Load a cluster from a ClusterData.
+   */
+  public loadCluster(cluster: IClusterData) {
+    this.unloadCluster();
+
+    // Initialize cluster client
+    this._cluster = new ClusterClient(cluster, this._shadowGenerator, this._assetManager);
+    this._cluster.remesh();
+
+    // Create local player motor
+    this._motor = new PlayerMotor(
+      this._view.getCanvas(), this._engine, this._scene, this._cluster, new Vector3(50, 70, -50), true);
+  }
+
+  /**
+   * Remove the current cluster from the world.
+   */
+  public unloadCluster() {
+    if (this._cluster !== null) {
+      this._cluster.dispose();
+      this._cluster = null;
+    }
+  }
+
+  /**
+   * Get the IClusterClient.
+   * @returns This Game's IClusterClient instance.
+   */
+  public getCluster(): IClusterClient | null {
+    return this._cluster;
+  }
+
+  /**
    * Initialize the Babylon scene before adding objects.
    */
-  _initScene(debugMode: boolean = false): Babylon.Scene {
+  private _initScene(debugMode: boolean = false): Babylon.Scene {
 
     // Set up scene
     const scene = new Babylon.Scene(this._engine);
@@ -107,7 +147,7 @@ export class Game {
   /**
    * Add event listeners.
    */ 
-  _addEventListeners() {
+  private _addEventListeners() {
     const engine = this._engine;
 
     // Window resize listener

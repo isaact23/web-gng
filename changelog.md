@@ -2,6 +2,7 @@
 * Sound FX
 * Fix player movement behavior (going under arches, placing blocks under self, etc.)
 * Reuse code between coordinate classes
+* Remove error throwing from stringify methods (return null on fail)
 
 ## 0.1.1
 
