@@ -29,3 +29,8 @@ Machu Picchu
 Biome generator should return biomes by percentage.(?)
 Write terrain generation in C++, fighting class bloat.
 Maybe try Scala to reduce class bloat.
+
+
+# Isaac's Mod / Shuffles' Mod idea  
+Game is ultimate sandbox, combining mechanics of Minecraft, 
+Super Mario 64, Garry's Mod, Portal, BOTW, etc

@@ -1,7 +1,7 @@
 ## Backlog
 * Sound FX
 * Fix player movement behavior (going under arches, placing blocks under self, etc.)
-* Remove different types of coordinates and add converter class
+* Reuse code between coordinate classes
 
 ## 0.1.1
 

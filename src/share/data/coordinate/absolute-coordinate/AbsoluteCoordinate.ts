@@ -8,7 +8,6 @@ import { Settings } from "@share/config/Settings";
  * Absolute coordinate in world space,
  * not relative to any chunk.
  * @throws {TypeError} If decimals are used as an input.
- * @deprecated Use Vector3 instead
  */
 export class AbsoluteCoordinate implements IAbsoluteCoordinate {
   constructor(
@@ -20,6 +19,31 @@ export class AbsoluteCoordinate implements IAbsoluteCoordinate {
     if (x % 1 != 0 || y % 1 != 0 || z % 1 != 0) {
       throw new TypeError(`Cannot use decimals in AbsoluteCoordinate initialization - got ${x} ${y} ${z}`);
     }
+  }
+  
+  /**
+   * Create an AbsoluteCoordinate from a string representation.
+   * @param rep The string representation of the coordinate.
+   * @returns A new AbsoluteCoordinate with values populated from rep.
+   */
+  static fromString(rep: string): AbsoluteCoordinate {
+
+    let inner = rep.substring(1, rep.length - 1);
+    let split = inner.split(",");
+
+    let x = parseInt(split[0]);
+    let y = parseInt(split[1]);
+    let z = parseInt(split[2]);
+
+    return new AbsoluteCoordinate(x, y, z);
+  }
+  
+  /**
+   * Get a string representation of this absolute coordinate.
+   * @returns String representation of this absolute coordinate.
+   */
+  toString(): string {
+    return "(" + this.x + "," + this.y + "," + this.z + ")";
   }
 
   /**

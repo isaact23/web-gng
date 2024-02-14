@@ -2,7 +2,7 @@ import { Socket } from "socket.io";
 import { IClusterData } from "@share/data/cluster-data";
 
 /**
- * Receive messages from IGameServer and forward
+ * Receive messages from GameServer and forward
  * them to the client.
  */
 export class Outgoing {

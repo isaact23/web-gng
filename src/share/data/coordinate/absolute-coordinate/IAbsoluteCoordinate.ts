@@ -6,8 +6,6 @@ import { ICoordinate } from "../ICoordinate";
 /**
  * Interface for absolute coordinate in world space,
  * not relative to any chunk.
- * @throws {TypeError} If decimals are used as an input.
- * @deprecated Use Vector3 instead
  */
 export interface IAbsoluteCoordinate extends ICoordinate {
 
@@ -63,4 +61,10 @@ export interface IAbsoluteCoordinate extends ICoordinate {
    * @returns The Vector3 representation of this absolute coordinate.
    */
   vec(): Vector3;
+
+  /**
+   * Get a string representation of this absolute coordinate.
+   * @returns String representation of this absolute coordinate.
+   */
+  toString(): string;
 }
