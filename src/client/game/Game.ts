@@ -1,4 +1,3 @@
-// Code from https://www.babylonjs-playground.com/#3EDS3A#22
 
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
