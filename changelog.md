@@ -4,10 +4,11 @@
 * Reuse code between coordinate classes
 * Remove error throwing from stringify methods (return null on fail)
 * Move IPlayerMotor inside of IPlayer system
+* Make asset manager static
 
 ## 0.1.1
 
-* TODO: Make asset manager static
+* TODO: Implement action system
 * TODO: Changes in blocks are automatically synched between server and all clients
 
 ## 0.1.0

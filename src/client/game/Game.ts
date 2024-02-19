@@ -81,7 +81,8 @@ export class Game {
     const scene = this._scene;
     const engine = this._engine;
     this._engine.runRenderLoop(() => {
-      scene.render();
+      if (this._motor !== null)
+        scene.render();
       fpsElement.innerHTML = engine.getFps().toFixed();
     });
   }
