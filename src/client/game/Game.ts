@@ -10,8 +10,9 @@ import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
 import { ClusterData, IClusterData } from "@share/data/cluster-data";
-import { Incoming, Outgoing } from "@client/socket";
+import { ClientIncoming, ClientOutgoing } from "@client/socket";
 import { Socket } from "socket.io-client";
+import { Action } from "@share/action/Action";
 
 /**
  * The runner class for all game logic.
@@ -23,7 +24,7 @@ export class Game {
   private _scene: Babylon.Scene;
 
   // Networking
-  private _outgoing: Outgoing;
+  private _outgoing: ClientOutgoing;
 
   // Lighting
   private _sun: Babylon.DirectionalLight;
@@ -69,8 +70,8 @@ export class Game {
     this._shadowGenerator.usePoissonSampling = true;
 
     // Init communications
-    this._outgoing = new Outgoing(socket);
-    new Incoming(this, socket);
+    this._outgoing = new ClientOutgoing(socket);
+    new ClientIncoming(this, socket);
 
     this._gui = new GUIManager();
     this._gui.mainMenuGui();
@@ -85,6 +86,13 @@ export class Game {
         scene.render();
       fpsElement.innerHTML = engine.getFps().toFixed();
     });
+  }
+
+  /**
+   * Process an Action to update the game state.
+   */
+  public processAction(action: Action) {
+    
   }
 
   /**

@@ -6,7 +6,7 @@ import { Socket } from "socket.io-client";
 /**
  * Handle incoming messages from the server to the client.
  */
-export class Incoming {
+export class ClientIncoming {
 
   private loadedCluster = false;
 

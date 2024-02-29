@@ -1,12 +1,11 @@
 import { GameServer } from "@server/game-server";
 import { Server as IOServer } from 'socket.io';
-import { Outgoing } from ".";
 
 /**
  * Handle incoming messages from a client and
  * send them to the IGameServer.
  */
-export class Incoming {
+export class ServerIncoming {
 
   /**
    * Create the SocketIncoming instance.

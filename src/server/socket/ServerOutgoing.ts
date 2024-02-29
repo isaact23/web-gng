@@ -5,7 +5,7 @@ import { IClusterData } from "@share/data/cluster-data";
  * Receive messages from GameServer and forward
  * them to the client.
  */
-export class Outgoing {
+export class ServerOutgoing {
 
   /**
    * Send cluster data to a socket.
