@@ -1,4 +1,4 @@
-import { IClusterClient } from ".";
+import { IClusterManager } from ".";
 import { IAssetManager } from "@client/assets";
 import { Settings } from "@share/config/Settings";
 import { IClusterData } from "@share/data/cluster-data";
@@ -12,11 +12,14 @@ import { ChunkMesher } from "./mesher";
 import { Grid, IGrid } from "@share/data/grid";
 import { Action } from "@share/action";
 import { AddBlockAction } from "@share/action/block/AddBlockAction";
+import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
+
+// TODO: Remove dispose() method, add load and unload methods here instead of in Game
 
 /**
  * Manage ClusterData on the client side.
  */
-export class ClusterClient implements IClusterClient {
+export class ClusterManager implements IClusterManager {
 
   /**
    * Remember which chunks need to be re-meshed.
@@ -102,6 +105,10 @@ export class ClusterClient implements IClusterClient {
    */
   processAction(action: Action) {
     this.clusterData.processAction(action);
+
+    if (action instanceof AddBlockAction || action instanceof RemoveBlockAction) {
+      this.remesh();
+    }
   }
 
   /**

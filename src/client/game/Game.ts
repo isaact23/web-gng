@@ -3,17 +3,20 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
 import { GUIManager, IGUIManager } from "@client/gui";
-import { ClusterClient, IClusterClient } from "@client/cluster";
 import { IView } from "@client/view";
 
 import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor, IPlayerMotor } from "@client/movement";
 
-import { ClusterData, IClusterData } from "@share/data/cluster-data";
+import { IClusterData } from "@share/data/cluster-data";
 import { ClientIncoming, ClientOutgoing } from "@client/socket";
 import { Socket } from "socket.io-client";
 import { Action } from "@share/action/Action";
 import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
+import { LoadClusterAction } from "@share/action/cluster/LoadClusterAction";
+import { UnloadClusterAction } from "@share/action/cluster/UnloadClusterAction";
+import { IClusterManager } from "@client/cluster/IClusterManager";
+import { ClusterManager } from "@client/cluster";
 
 /**
  * The runner class for all game logic.
@@ -34,7 +37,7 @@ export class Game {
   private _shadowGenerator: Babylon.ShadowGenerator | null = null;
 
   // Game elements
-  private _cluster: IClusterClient | null = null;
+  private _clusterManager: IClusterManager | null = null;
   private _motor: IPlayerMotor | null = null;
   private _gui: IGUIManager;
   private _assetManager: IAssetManager;
@@ -95,15 +98,16 @@ export class Game {
    * Process an Action to update the game state.
    */
   public processAction(action: Action) {
-    this._cluster?.processAction(action);
-  }
 
-  /**
-   * Load a cluster from a string encoding.
-   */
-  public loadClusterStr(clusterStr: string) {
-    const cluster = ClusterData.fromStringRep(clusterStr);
-    this.loadCluster(cluster);
+    // TODO: Move cluster loading/unloading inside ClusterManager
+    if (action instanceof LoadClusterAction) {
+      this.loadCluster(action.cluster);
+    }
+    else if (action instanceof UnloadClusterAction) {
+      this.unloadCluster();
+    }
+
+    this._clusterManager?.processAction(action);
   }
 
   /**
@@ -113,30 +117,30 @@ export class Game {
     this.unloadCluster();
 
     // Initialize cluster client
-    this._cluster = new ClusterClient(cluster, this._shadowGenerator, this._assetManager);
-    this._cluster.remesh();
+    this._clusterManager = new ClusterManager(cluster, this._shadowGenerator, this._assetManager);
+    this._clusterManager.remesh();
 
     // Create local player motor
     this._motor = new PlayerMotor(
-      this._view.getCanvas(), this._engine, this._scene, this._cluster, new Vector3(50, 70, -50), true);
+      this._view.getCanvas(), this._engine, this._scene, this._actionProcessor, new Vector3(50, 70, -50), true);
   }
 
   /**
    * Remove the current cluster from the world.
    */
   public unloadCluster() {
-    if (this._cluster !== null) {
-      this._cluster.dispose();
-      this._cluster = null;
+    if (this._clusterManager !== null) {
+      this._clusterManager.dispose();
+      this._clusterManager = null;
     }
   }
 
   /**
-   * Get the IClusterClient.
-   * @returns This Game's IClusterClient instance.
+   * Get the IClusterManager.
+   * @returns This Game's IClusterManager instance.
    */
-  public getCluster(): IClusterClient | null {
-    return this._cluster;
+  public getCluster(): IClusterManager | null {
+    return this._clusterManager;
   }
 
   /**

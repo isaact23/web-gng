@@ -5,6 +5,7 @@
 * Remove error throwing from stringify methods (return null on fail)
 * Move IPlayerMotor inside of IPlayer system
 * Make asset manager static
+* Remove dispose() method in ClusterClient, add load and unload methods there instead of in Game
 
 ## 0.1.1
 

@@ -1,12 +1,12 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./block-targeter/BlockTargeter";
-import { IAssetManager } from "../assets/IAssetManager";
 import { Block } from "@share/utility/Block";
-import { IPlayerMotor } from "./IPlayerMotor";
 import { IBlockTargeter } from "./block-targeter/IBlockTargeter";
 import { FaceVectorConverter } from "@share/utility";
-import { IClusterClient } from "@client/cluster";
+import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
+import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
+import { AddBlockAction } from "@share/action/block/AddBlockAction";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;
@@ -19,7 +19,7 @@ const JUMP_VELOCITY = 6;
 /**
  * Control the local player movement.
  */
-export class PlayerMotor implements IPlayerMotor {
+export class PlayerMotor {
 
   private blockTargeter: IBlockTargeter;
 
@@ -29,7 +29,7 @@ export class PlayerMotor implements IPlayerMotor {
     canvas: HTMLCanvasElement,
     engine: Babylon.Engine,
     scene: Babylon.Scene,
-    cluster: IClusterClient,
+    actionProcessor: ClientActionProcessor,
     position: Vector3 | null = null,
     noclip: boolean = false
   ) {
@@ -77,8 +77,8 @@ export class PlayerMotor implements IPlayerMotor {
         if (pointerInfo.event.inputIndex === Babylon.PointerInput.LeftClick) {
           let target = this.blockTargeter.getTargetBlockAndFace();
           if (target != null) {
-            cluster.setBlock(target[0], Block.Air);
-            cluster.remesh();
+            const action = new RemoveBlockAction(target[0]);
+            actionProcessor.updateLocalAndRemote(action);
           }
         }
 
@@ -88,8 +88,8 @@ export class PlayerMotor implements IPlayerMotor {
           if (target != null) {
             const offset = FaceVectorConverter.getVectorFromFace(target[1]);
             const coord = target[0].addScalars(offset.x, offset.y, offset.z);
-            cluster.setBlock(coord, Block.Stone);
-            cluster.remesh();
+            const action = new AddBlockAction(coord, Block.Stone);
+            actionProcessor.updateLocalAndRemote(action);
           }
         }
       }

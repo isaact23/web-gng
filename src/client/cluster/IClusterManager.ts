@@ -6,7 +6,7 @@ import { Block } from "@share/utility";
 /**
  * Manage ClusterData on the client side.
  */
-export interface IClusterClient extends IClusterData {
+export interface IClusterManager extends IClusterData {
 
   /**
    * Get the chunk at a chunk coordinate.
