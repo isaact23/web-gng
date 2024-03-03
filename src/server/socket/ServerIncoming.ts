@@ -30,6 +30,7 @@ export class ServerIncoming {
     this.io.on("action", actionStr => {
       console.log("Server received action");
       const action = ActionDeserializer.fromStr(actionStr);
-    })
+      this.gameServer.processAction(action);
+    });
   }
 }

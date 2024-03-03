@@ -6,7 +6,7 @@ import { GUIManager, IGUIManager } from "@client/gui";
 import { IView } from "@client/view";
 
 import { AssetManager, IAssetManager } from "@client/assets";
-import { PlayerMotor, IPlayerMotor } from "@client/movement";
+import { PlayerMotor } from "@client/movement";
 
 import { IClusterData } from "@share/data/cluster-data";
 import { ClientIncoming, ClientOutgoing } from "@client/socket";
@@ -38,7 +38,7 @@ export class Game {
 
   // Game elements
   private _clusterManager: IClusterManager | null = null;
-  private _motor: IPlayerMotor | null = null;
+  private _motor: PlayerMotor | null = null;
   private _gui: IGUIManager;
   private _assetManager: IAssetManager;
 

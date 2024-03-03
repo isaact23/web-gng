@@ -24,7 +24,7 @@ export class ActionDeserializer {
     let className = str.substring(0, i);
     let data;
     if (i < str.length) {
-      data = str.substring(i);
+      data = str.substring(i + 1);
     } else {
       data = "";
     }

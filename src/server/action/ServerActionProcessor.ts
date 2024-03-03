@@ -1,4 +1,5 @@
 import { Game } from "@client/game";
+import { GameServer } from "@server/game-server";
 import { ServerOutgoing } from "@server/socket";
 import { Action } from "@share/action";
 
@@ -9,7 +10,10 @@ import { Action } from "@share/action";
  */
 export class ServerActionProcessor {
 
-  constructor(private outgoing: ServerOutgoing) {}
+  constructor(
+    private outgoing: ServerOutgoing,
+    private gameServer: GameServer
+  ) {}
 
   /**
    * Update both the server and client with an action.
@@ -23,7 +27,7 @@ export class ServerActionProcessor {
    * Update the server only (local) with an action.
    */
   updateServer(action: Action) {
-    this.game.processAction(action);
+    this.gameServer.processAction(action);
   }
 
   /**

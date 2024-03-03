@@ -1,7 +1,6 @@
 import { Socket } from "socket.io";
-import { IClusterData } from "@share/data/cluster-data";
-import { LoadClusterAction } from "@share/action/cluster/LoadClusterAction";
 import { Action } from "@share/action";
+import { Server as IOServer } from 'socket.io';
 
 /**
  * Receive messages from GameServer and forward
@@ -9,7 +8,11 @@ import { Action } from "@share/action";
  */
 export class ServerOutgoing {
 
+  constructor(
+    private readonly io: IOServer
+  ) {}
+
   sendAction(action: Action) {
-    
+    this.io.emit("action", action.toStr());
   }
 }
