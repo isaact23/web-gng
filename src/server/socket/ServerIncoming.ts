@@ -1,4 +1,5 @@
 import { GameServer } from "@server/game-server";
+import { ActionDeserializer } from "@share/action/ActionDeserializer";
 import { Server as IOServer } from 'socket.io';
 
 /**
@@ -21,9 +22,14 @@ export class ServerIncoming {
    * Set up callbacks for incoming messages
    */
   private _setup(): void {
-    this.io.on("connection", (socket) => {
+    this.io.on("connection", socket => {
       console.log("socket.io detected user connection");
       this.gameServer.onConnection(socket);
     });
+
+    this.io.on("action", actionStr => {
+      console.log("Server received action");
+      const action = ActionDeserializer.fromStr(actionStr);
+    })
   }
 }

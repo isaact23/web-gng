@@ -12,6 +12,6 @@ export class ClientOutgoing {
    * Send an Action to the server.
    */
   sendAction(action: Action) {
-    
+    this.socket.emit("action", action.toStr());
   }
 }

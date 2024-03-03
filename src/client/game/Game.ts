@@ -13,6 +13,7 @@ import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { ClientIncoming, ClientOutgoing } from "@client/socket";
 import { Socket } from "socket.io-client";
 import { Action } from "@share/action/Action";
+import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
 
 /**
  * The runner class for all game logic.
@@ -25,6 +26,7 @@ export class Game {
 
   // Networking
   private _outgoing: ClientOutgoing;
+  private _actionProcessor: ClientActionProcessor;
 
   // Lighting
   private _sun: Babylon.DirectionalLight;
@@ -71,7 +73,8 @@ export class Game {
 
     // Init communications
     this._outgoing = new ClientOutgoing(socket);
-    new ClientIncoming(this, socket);
+    this._actionProcessor = new ClientActionProcessor(this, this._outgoing);
+    new ClientIncoming(socket, this._actionProcessor);
 
     this._gui = new GUIManager();
     this._gui.mainMenuGui();
@@ -92,7 +95,7 @@ export class Game {
    * Process an Action to update the game state.
    */
   public processAction(action: Action) {
-    
+    this._cluster?.processAction(action);
   }
 
   /**

@@ -10,6 +10,8 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { ChunkMesher } from "./mesher";
 import { Grid, IGrid } from "@share/data/grid";
+import { Action } from "@share/action";
+import { AddBlockAction } from "@share/action/block/AddBlockAction";
 
 /**
  * Manage ClusterData on the client side.
@@ -93,6 +95,13 @@ export class ClusterClient implements IClusterClient {
       if (relCoord.y == chunkSize - 1)   flagAdj(Vector3.Up());
       if (relCoord.z == chunkSize - 1)   flagAdj(Vector3.Forward());
     }
+  }
+
+  /**
+   * Apply an action to this ClusterClient.
+   */
+  processAction(action: Action) {
+    this.clusterData.processAction(action);
   }
 
   /**

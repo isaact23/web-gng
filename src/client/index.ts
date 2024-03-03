@@ -1,6 +1,5 @@
 import { Game } from "@client/game";
 import { View } from "@client/view";
-import { Incoming, Outgoing } from "./socket";
 import io from "socket.io-client";
 
 const DEBUG_MODE = false;

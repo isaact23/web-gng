@@ -4,6 +4,9 @@ import { Block } from "@share/utility";
 import { ChunkCoordinate, IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { Settings } from "@share/config/Settings";
 import { SerializableGrid } from "../grid/SerializableGrid";
+import { Action } from "@share/action";
+import { AddBlockAction } from "@share/action/block/AddBlockAction";
+import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them
@@ -96,6 +99,19 @@ export class ClusterData implements IClusterData {
 
     // Set the block from the chunk
     chunk.setBlock(relCoord, block);
+  }
+
+  /**
+   * Apply an Action to this cluster. If the action is not
+   * applicable, do nothing.
+   */
+  processAction(action: Action): void {
+    if (action instanceof AddBlockAction) {
+      this.setBlock(action.coord, action.block);
+    }
+    else if (action instanceof RemoveBlockAction) {
+      this.setBlock(action.coord, Block.Air);
+    }
   }
 
   /**

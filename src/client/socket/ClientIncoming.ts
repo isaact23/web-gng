@@ -1,4 +1,6 @@
+import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
 import { Game } from "@client/game";
+import { Action } from "@share/action";
 import { AbsoluteCoordinate } from "@share/data/coordinate";
 import { Block } from "@share/utility";
 import { Socket } from "socket.io-client";
@@ -11,27 +13,17 @@ export class ClientIncoming {
   private loadedCluster = false;
 
   constructor(
-    private game: Game,
-    private socket: Socket
+    private socket: Socket,
+    private actionProcessor: ClientActionProcessor
   ) {
-    socket.on("loadCluster",   clusterStr  => game.loadClusterStr(clusterStr));
-    socket.on("unloadCluster", ()          => game.unloadCluster());
-    socket.on("removeBlock",   coordStr    => this.removeBlock(coordStr));
+    socket.on("action", action => this.handleAction(action));
   }
 
   /**
-   * Handle server request to remove a block locally.
-   * @param coordStr The string representation of the coordinate
-   *   of the block to remove.
+   * Handle an incoming Action from the server to
+   * update the client locally.
    */
-  removeBlock(coordStr: string) {
-    const coord = AbsoluteCoordinate.fromString(coordStr);
-    const cluster = this.game.getCluster();
-    if (cluster === null) {
-      console.error("Tried to remove block " + coordStr + " but the cluster is not loaded");
-    }
-    else {
-      cluster.setBlock(coord, Block.Air);
-    }
+  handleAction(action: Action) {
+    this.actionProcessor.updateLocal(action);
   }
 }
