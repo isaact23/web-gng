@@ -98,7 +98,7 @@ export class Game {
    * Process an Action to update the game state.
    */
   public processAction(action: Action) {
-
+    
     // TODO: Move cluster loading/unloading inside ClusterManager
     if (action instanceof LoadClusterAction) {
       this.loadCluster(action.cluster);

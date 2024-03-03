@@ -22,15 +22,16 @@ export class ServerIncoming {
    * Set up callbacks for incoming messages
    */
   private _setup(): void {
+    console.log("Setting up server incoming");
+
     this.io.on("connection", socket => {
       console.log("socket.io detected user connection");
       this.gameServer.onConnection(socket);
-    });
 
-    this.io.on("action", actionStr => {
-      console.log("Server received action");
-      const action = ActionDeserializer.fromStr(actionStr);
-      this.gameServer.processAction(action);
+      socket.on("action", actionStr => {
+        const action = ActionDeserializer.fromStr(actionStr);
+        this.gameServer.processAction(action);
+      })
     });
   }
 }

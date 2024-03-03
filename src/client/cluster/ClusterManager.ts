@@ -104,9 +104,15 @@ export class ClusterManager implements IClusterManager {
    * Apply an action to this ClusterClient.
    */
   processAction(action: Action) {
-    this.clusterData.processAction(action);
 
-    if (action instanceof AddBlockAction || action instanceof RemoveBlockAction) {
+    if (action instanceof AddBlockAction) {
+      this.clusterData.setBlock(action.coord, action.block);
+      this.dirtyChunks.set(action.coord.getChunkCoordinate(), true);
+      this.remesh();
+    }
+    else if (action instanceof RemoveBlockAction) {
+      this.clusterData.setBlock(action.coord, Block.Air);
+      this.dirtyChunks.set(action.coord.getChunkCoordinate(), true);
       this.remesh();
     }
   }
