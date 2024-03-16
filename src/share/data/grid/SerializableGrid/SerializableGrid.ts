@@ -73,7 +73,7 @@ export class SerializableGrid<T, C extends ICoordinate> extends Grid<T, C> {
 
         const item = rep.substring(index + 1, index + strlen + 1);
         if (Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(z)) {
-          throw new Error(`NaN number found from xyz ${x} ${y} ${z} - context ${rep.substring(index - 5, index + 5)}`);
+          throw new Error(`NaN number found from xyz ${x} ${y} ${z} - context ${rep.substring(index - 30, index + 30)}`);
         }
         grid.setNum(x, y, z, objFunc(item));
 

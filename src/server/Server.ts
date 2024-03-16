@@ -4,7 +4,6 @@ import { Server as IOServer } from 'socket.io';
 
 import { IServer } from ".";
 import { GameServer } from "./game-server";
-import { Incoming, Outgoing } from './socket';
 
 const PORT = 3000;
 
@@ -36,9 +35,7 @@ export class Server implements IServer {
       });
     
     // Initialize the game server and socket.io message handlers
-    const outgoing = new Outgoing();
-    this.gameServer = new GameServer(outgoing);
-    const incoming = new Incoming(this.gameServer, io);
+    this.gameServer = new GameServer(io);
 
     server.listen(PORT, () => {
       console.log(`Green and Gold server listening on port ${PORT}`);

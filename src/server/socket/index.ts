@@ -1,2 +1,2 @@
-export { Incoming } from './Incoming';
-export { Outgoing } from './Outgoing';
+export { ServerIncoming } from './ServerIncoming';
+export { ServerOutgoing } from './ServerOutgoing';

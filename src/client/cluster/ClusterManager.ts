@@ -1,4 +1,4 @@
-import { IClusterClient } from ".";
+import { IClusterManager } from ".";
 import { IAssetManager } from "@client/assets";
 import { Settings } from "@share/config/Settings";
 import { IClusterData } from "@share/data/cluster-data";
@@ -10,11 +10,16 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { ChunkMesher } from "./mesher";
 import { Grid, IGrid } from "@share/data/grid";
+import { Action } from "@share/action";
+import { AddBlockAction } from "@share/action/block/AddBlockAction";
+import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
+
+// TODO: Remove dispose() method, add load and unload methods here instead of in Game
 
 /**
  * Manage ClusterData on the client side.
  */
-export class ClusterClient implements IClusterClient {
+export class ClusterManager implements IClusterManager {
 
   /**
    * Remember which chunks need to be re-meshed.
@@ -96,6 +101,23 @@ export class ClusterClient implements IClusterClient {
   }
 
   /**
+   * Apply an action to this ClusterClient.
+   */
+  processAction(action: Action) {
+
+    if (action instanceof AddBlockAction) {
+      this.clusterData.setBlock(action.coord, action.block);
+      this.dirtyChunks.set(action.coord.getChunkCoordinate(), true);
+      this.remesh();
+    }
+    else if (action instanceof RemoveBlockAction) {
+      this.clusterData.setBlock(action.coord, Block.Air);
+      this.dirtyChunks.set(action.coord.getChunkCoordinate(), true);
+      this.remesh();
+    }
+  }
+
+  /**
    * Get iterator for all chunks in the world.
    * @returns An iterator for all chunks in this world
    * with respective chunk coordinates.
@@ -139,5 +161,15 @@ export class ClusterClient implements IClusterClient {
    */
   toStringRep(): string {
     return this.clusterData.toStringRep();
+  }
+  
+  /**
+   * Delete the assets in this cluster.
+   */
+  dispose(): void {
+    for (let item of this.chunkMeshes) {
+      let mesh = item[1];
+      mesh.dispose();
+    }
   }
 }

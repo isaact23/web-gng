@@ -1,2 +1,2 @@
-export { ClusterClient } from "./ClusterClient";
-export { IClusterClient } from "./IClusterClient";
+export { ClusterManager } from "./ClusterManager";
+export { IClusterManager } from "./IClusterManager";

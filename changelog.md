@@ -1,12 +1,20 @@
 ## Backlog
 * Sound FX
 * Fix player movement behavior (going under arches, placing blocks under self, etc.)
-* Remove different types of coordinates and add converter class
+* Reuse code between coordinate classes
+* Remove error throwing from stringify methods (return null on fail)
+* Move IPlayerMotor inside of IPlayer system
+* Make asset manager static
+* Remove dispose() method in ClusterClient, add load and unload methods there instead of in Game
+
+## 0.1.2
+
+* Add avatars
 
 ## 0.1.1
 
-* TODO: Make asset manager static
-* TODO: Changes in blocks are automatically synched between server and all clients
+* Implemented action system
+* Changes in blocks are automatically synched between server and all clients
 
 ## 0.1.0
 

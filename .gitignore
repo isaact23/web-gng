@@ -1,3 +1,7 @@
+# Audacity
+*.aup
+*.au
+
 # Logs
 logs
 *.log

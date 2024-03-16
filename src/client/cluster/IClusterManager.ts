@@ -6,7 +6,7 @@ import { Block } from "@share/utility";
 /**
  * Manage ClusterData on the client side.
  */
-export interface IClusterClient extends IClusterData {
+export interface IClusterManager extends IClusterData {
 
   /**
    * Get the chunk at a chunk coordinate.
@@ -37,4 +37,9 @@ export interface IClusterClient extends IClusterData {
    * Load or reload chunk meshes in the world.
    */
   remesh(): void;
+
+  /**
+   * Delete the assets in this cluster.
+   */
+  dispose(): void;
 }

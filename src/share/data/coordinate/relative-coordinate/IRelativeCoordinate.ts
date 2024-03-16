@@ -6,11 +6,6 @@ import { ICoordinate } from "../ICoordinate";
 /**
  * Interface for a relative coordinate, which stores the
  * position of a block relative to its chunk.
- * 
- * The x, y and z coordinates must be within 0 and the chunk size minus 1.
- * @throws {RangeError} If the x, y or z coordinate is not within 0 and the chunk size minus 1.
- * @throws {TypeError} If decimals are used as an input.
- * @deprecated Use Vector3 instead
  */
 export interface IRelativeCoordinate extends ICoordinate {
   get chunkCoordinate(): IChunkCoordinate;
@@ -43,4 +38,10 @@ export interface IRelativeCoordinate extends ICoordinate {
    * excluding the chunk coordinate.
    */
   vec(): Vector3;
+
+  /**
+   * Get a string representation of this relative coordinate.
+   * @returns String representation of this relative coordinate.
+   */
+  toString(): string;
 }

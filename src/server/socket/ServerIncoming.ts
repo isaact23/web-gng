@@ -1,12 +1,13 @@
+import { ActionData } from "@server/action/ActionData";
 import { GameServer } from "@server/game-server";
+import { ActionDeserializer } from "@share/action/ActionDeserializer";
 import { Server as IOServer } from 'socket.io';
-import { Outgoing } from ".";
 
 /**
  * Handle incoming messages from a client and
  * send them to the IGameServer.
  */
-export class Incoming {
+export class ServerIncoming {
 
   /**
    * Create the SocketIncoming instance.
@@ -22,9 +23,17 @@ export class Incoming {
    * Set up callbacks for incoming messages
    */
   private _setup(): void {
-    this.io.on("connection", (socket) => {
+    console.log("Setting up server incoming");
+
+    this.io.on("connection", socket => {
       console.log("socket.io detected user connection");
       this.gameServer.onConnection(socket);
+
+      socket.on("action", actionStr => {
+        const action = ActionDeserializer.fromStr(actionStr);
+        const actionData = new ActionData(action, socket);
+        this.gameServer.processAction(actionData);
+      })
     });
   }
 }

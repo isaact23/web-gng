@@ -4,20 +4,9 @@ import io from "socket.io-client";
 
 const DEBUG_MODE = false;
 
-// Create socket.io connection to server
-const socket = io();
-
 // Create view
 const view = new View();
 
-let gotWorld = false;
-console.log("Waiting for world");
+export const socket = io();
 
-socket.on("world", clusterString => {
-    if (gotWorld) return;
-    console.log("Got world");
-    gotWorld = true;
-    
-    // Create game server
-    const game = new Game(view, clusterString, DEBUG_MODE);
-});
+const game = new Game(view, socket, DEBUG_MODE);
