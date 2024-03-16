@@ -1,3 +1,4 @@
+import { ActionData } from "@server/action/ActionData";
 import { GameServer } from "@server/game-server";
 import { ActionDeserializer } from "@share/action/ActionDeserializer";
 import { Server as IOServer } from 'socket.io';
@@ -30,7 +31,8 @@ export class ServerIncoming {
 
       socket.on("action", actionStr => {
         const action = ActionDeserializer.fromStr(actionStr);
-        this.gameServer.processAction(action);
+        const actionData = new ActionData(action, socket);
+        this.gameServer.processAction(actionData);
       })
     });
   }

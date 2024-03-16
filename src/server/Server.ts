@@ -4,8 +4,6 @@ import { Server as IOServer } from 'socket.io';
 
 import { IServer } from ".";
 import { GameServer } from "./game-server";
-import { ServerIncoming, ServerOutgoing } from './socket';
-import { ServerActionProcessor } from './action/ServerActionProcessor';
 
 const PORT = 3000;
 

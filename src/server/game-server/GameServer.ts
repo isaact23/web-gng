@@ -5,9 +5,9 @@ import { Server as IOServer } from 'socket.io';
 import { Action } from "@share/action";
 import { ServerIncoming, ServerOutgoing } from "@server/socket";
 import { LoadClusterAction } from "@share/action/cluster/LoadClusterAction";
-import { ServerActionProcessor } from "@server/action/ServerActionProcessor";
 import { AddBlockAction } from "@share/action/block/AddBlockAction";
 import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
+import { ActionData } from "@server/action/ActionData";
 
 /**
  * Handler for server-side game logic.
@@ -15,7 +15,6 @@ import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
 export class GameServer {
   private cluster: IClusterData;
   private outgoing: ServerOutgoing;
-  private actionProcessor: ServerActionProcessor;
 
   /**
    * Initialize the game server.
@@ -25,7 +24,6 @@ export class GameServer {
   ) {
     // Set up server-client comms
     this.outgoing = new ServerOutgoing(io);
-    this.actionProcessor = new ServerActionProcessor(this.outgoing, this);
     new ServerIncoming(this, io);
 
     // Generate a cluster
@@ -54,11 +52,15 @@ export class GameServer {
   /**
    * Handle an action on the server side.
    */
-  processAction(action: Action) {
+  processAction(actionData: ActionData) {
+
+    const action = actionData.action;
     this.cluster.processAction(action);
 
     if (action instanceof AddBlockAction || action instanceof RemoveBlockAction) {
+
       // Update all clients except for the one that sent the action
+      this.outgoing.sendActionFrom(action, actionData.actor);
     }
   }
 }
