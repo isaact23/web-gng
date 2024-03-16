@@ -7,10 +7,14 @@
 * Make asset manager static
 * Remove dispose() method in ClusterClient, add load and unload methods there instead of in Game
 
+## 0.1.2
+
+* Add avatars
+
 ## 0.1.1
 
-* TODO: Implement action system
-* TODO: Changes in blocks are automatically synched between server and all clients
+* Implemented action system
+* Changes in blocks are automatically synched between server and all clients
 
 ## 0.1.0
 
