@@ -5,7 +5,7 @@ import { Server as IOServer } from 'socket.io';
 import { IServer } from ".";
 import { GameServer } from "./game-server";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 /**
  * Handler for basic services connecting the server to the client,
