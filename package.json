@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "Farming and mining MMORPG based on Minecraft",
   "scripts": {
-    "start": "ts-node src/server/index.ts",
+    "start": "npm run build && npm run go",
+    "go": "ts-node src/server/index.ts",
     "build": "npx webpack --",
     "test": "jest --"
   },
