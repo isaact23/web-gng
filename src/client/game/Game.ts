@@ -6,7 +6,7 @@ import { GUIManager, IGUIManager } from "@client/gui";
 import { IView } from "@client/view";
 
 import { AssetManager } from "@client/assets";
-import { PlayerMotor } from "@client/movement";
+import { PlayerMotor } from "@client/player";
 
 import { IClusterData } from "@share/data/cluster-data";
 import { ClientIncoming, ClientOutgoing } from "@client/socket";

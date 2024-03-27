@@ -7,9 +7,9 @@ export class MeshManager {
   }
 
   // Get avatar mesh and armature
-  async getAvatar(): Promise<[Babylon.AbstractMesh[], Babylon.Skeleton[]]> {
+  async getAvatar(): Promise<[Babylon.AbstractMesh[], Babylon.Skeleton]> {
     const result = await Babylon.SceneLoader.ImportMeshAsync("avatar", "fbx/", "avatar.fbx", this.scene);
-    return [result.meshes, result.skeletons];
+    return [result.meshes, result.skeletons[0]];
   }
 
   // Get face indicator mesh
