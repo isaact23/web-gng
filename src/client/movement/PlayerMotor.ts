@@ -2,7 +2,6 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { BlockTargeter } from "./block-targeter/BlockTargeter";
 import { Block } from "@share/utility/Block";
-import { IBlockTargeter } from "./block-targeter/IBlockTargeter";
 import { FaceVectorConverter } from "@share/utility";
 import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
 import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
@@ -21,7 +20,7 @@ const JUMP_VELOCITY = 6;
  */
 export class PlayerMotor {
 
-  private blockTargeter: IBlockTargeter;
+  private blockTargeter: BlockTargeter;
 
   // Add a local player controller to the game.
   constructor(

@@ -5,7 +5,7 @@ import { Vector3 } from "babylonjs";
 import { GUIManager, IGUIManager } from "@client/gui";
 import { IView } from "@client/view";
 
-import { AssetManager, IAssetManager } from "@client/assets";
+import { AssetManager } from "@client/assets";
 import { PlayerMotor } from "@client/movement";
 
 import { IClusterData } from "@share/data/cluster-data";
@@ -40,7 +40,7 @@ export class Game {
   private _clusterManager: IClusterManager | null = null;
   private _motor: PlayerMotor | null = null;
   private _gui: IGUIManager;
-  private _assetManager: IAssetManager;
+  private _assetManager: AssetManager;
 
   /**
    * Create a new Game.

@@ -1,5 +1,4 @@
 import { IClusterManager } from ".";
-import { IAssetManager } from "@client/assets";
 import { Settings } from "@share/config/Settings";
 import { IClusterData } from "@share/data/cluster-data";
 import { IChunkData } from "@share/data/cluster-data/chunk-data";
@@ -13,6 +12,7 @@ import { Grid, IGrid } from "@share/data/grid";
 import { Action } from "@share/action";
 import { AddBlockAction } from "@share/action/block/AddBlockAction";
 import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
+import { AssetManager } from "@client/assets";
 
 // TODO: Remove dispose() method, add load and unload methods here instead of in Game
 
@@ -34,7 +34,7 @@ export class ClusterManager implements IClusterManager {
   constructor(
     private clusterData: IClusterData,
     private readonly shadowGenerator: Babylon.ShadowGenerator | null,
-    private readonly assetManager: IAssetManager,
+    private readonly assetManager: AssetManager,
   ) {
 
     // Initialize all chunks as needing update
@@ -140,7 +140,7 @@ export class ClusterManager implements IClusterManager {
         
         // Replace mesh
         const oldMesh = this.chunkMeshes.get(coord);
-        const newMesh = ChunkMesher.generateChunkMesh(chunk, this.clusterData, this.assetManager);
+        const newMesh = new ChunkMesher().generateChunkMesh(chunk, this.clusterData, this.assetManager);
 
         shadowMap?.renderList?.push(newMesh);
         if (oldMesh != undefined) {
