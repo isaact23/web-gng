@@ -7,6 +7,12 @@ export class MeshManager implements IMeshManager {
 
   }
 
+  // Get avatar
+  async getAvatar(): Promise<Babylon.AbstractMesh[]> {
+    const result = await Babylon.SceneLoader.ImportMeshAsync("avatar", "fbx/", "avatar.fbx", this.scene);
+    return result.meshes;
+  }
+
   // Get face indicator mesh
   async getFaceIndicatorMesh(): Promise<Babylon.AbstractMesh> {
     const result = await Babylon.SceneLoader.ImportMeshAsync(

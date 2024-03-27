@@ -6,6 +6,9 @@
 * Move IPlayerMotor inside of IPlayer system
 * Make asset manager static
 * Remove dispose() method in ClusterClient, add load and unload methods there instead of in Game
+* Rename to Ravensquest
+* Add in-game API calls to create in-game IOT w/ Venmo & Auth0 system
+* Ragdolls, Drones & Robots, Planes, Fun stuff
 
 ## 0.1.2
 
