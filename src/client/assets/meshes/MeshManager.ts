@@ -1,8 +1,7 @@
 import * as Babylon from "babylonjs";
 import "@babylonjs/loaders";
-import { IMeshManager } from "./IMeshManager";
 
-export class MeshManager implements IMeshManager {
+export class MeshManager {
   constructor(private scene: Babylon.Scene) {
 
   }

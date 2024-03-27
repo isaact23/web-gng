@@ -6,20 +6,22 @@ import { IClusterData } from "@share/data/cluster-data";
 
 import { Block, Face } from "@share/utility";
 import * as Utility from "@share/utility";
-import { IAssetManager } from "@client/assets";
 import { cubeVerts, faceVerts } from "@share/utility/CubeVerts";
+import { AssetManager } from "@client/assets";
+import { IChunkMesher } from "./IChunkMesher";
 
 /**
  * A naive chunk mesher algorithm.
  */
-export class ChunkMesher {
+export class ChunkMesher implements IChunkMesher {
+
   /**
    * Convert block data for a chunk from a cluster into a mesh.
    */
-  static generateChunkMesh(
+  generateChunkMesh(
     chunk: IChunkData,
     cluster: IClusterData,
-    assetManager: IAssetManager
+    assetManager: AssetManager
   ): Babylon.Mesh {
     
     // Initialize arrays for mesh data
@@ -89,7 +91,7 @@ export class ChunkMesher {
     vertexData.applyToMesh(mesh);
 
     mesh.position = chunk.getCoordinate().getAbsoluteCoordinate().vec();
-    mesh.material = assetManager.getMaterialManager().getTilemapMaterial();
+    mesh.material = assetManager.materialManager.getTilemapMaterial();
 
     mesh.checkCollisions = true;
     mesh.receiveShadows = true;

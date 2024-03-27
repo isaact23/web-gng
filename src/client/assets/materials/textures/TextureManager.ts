@@ -1,7 +1,6 @@
 import * as Babylon from "babylonjs";
-import { ITextureManager } from "./ITextureManager";
 
-export class TextureManager implements ITextureManager {
+export class TextureManager {
   private tex: Babylon.Texture;
 
   constructor(private scene: Babylon.Scene) {

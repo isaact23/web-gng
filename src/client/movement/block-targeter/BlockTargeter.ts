@@ -1,13 +1,10 @@
 import * as Babylon from "babylonjs";
-import { Vector3 } from "babylonjs";
 import { Face, FaceVectorConverter } from "@share/utility";
-import { IAssetManager } from "@client/assets";
-import { IBlockTargeter } from "./IBlockTargeter";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 
 const VIEW_DISTANCE = 5;
 
-export class BlockTargeter implements IBlockTargeter {
+export class BlockTargeter {
 
   /**
    * Create a new BlockTargeter instance for an IPlayerMotor.

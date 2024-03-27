@@ -6,21 +6,22 @@ import { IClusterData } from "@share/data/cluster-data";
 
 import { Block, Face } from "@share/utility";
 import * as Utility from "@share/utility";
-import { IAssetManager } from "@client/assets";
 import { cubeVerts, faceVerts } from "@share/utility/CubeVerts";
+import { IChunkMesher } from "./IChunkMesher";
+import { AssetManager } from "@client/assets";
 
 /**
  * A chunk mesher implementation that combines redundant faces.
  */
-export class GreedyChunkMesher {
+export class GreedyChunkMesher implements IChunkMesher {
 
   /**
    * Convert block data for a chunk from a cluster into a mesh.
    */
-  static generateChunkMesh(
+  generateChunkMesh(
     chunk: IChunkData,
     cluster: IClusterData,
-    assetManager: IAssetManager
+    assetManager: AssetManager
   ): Babylon.Mesh {
 
     throw new Error("Not implemented");
