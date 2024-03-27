@@ -4,7 +4,6 @@
 * Reuse code between coordinate classes
 * Remove error throwing from stringify methods (return null on fail)
 * Move IPlayerMotor inside of IPlayer system
-* Make asset manager static
 * Remove dispose() method in ClusterClient, add load and unload methods there instead of in Game
 * Rename to Ravensquest
 * Add in-game API calls to create in-game IOT w/ Venmo & Auth0 system
@@ -12,7 +11,8 @@
 
 ## 0.1.2
 
-* Add avatars
+* TODO: Add avatars
+* Remove lots of interfaces
 
 ## 0.1.1
 
