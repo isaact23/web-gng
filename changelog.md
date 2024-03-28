@@ -11,8 +11,10 @@
 
 ## 0.1.2
 
+* TODO: Add authentication
+* TODO: Completely revamp Player class
 * TODO: Add avatars
-* Remove lots of interfaces
+* Removed lots of interfaces
 
 ## 0.1.1
 

@@ -1,25 +1,25 @@
-
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 
+import { Socket } from "socket.io-client";
+
 import { GUIManager, IGUIManager } from "@client/gui";
 import { IView } from "@client/view";
-
 import { AssetManager } from "@client/assets";
-import { PlayerMotor } from "@client/player";
-
 import { IClusterData } from "@share/data/cluster-data";
 import { ClientIncoming, ClientOutgoing } from "@client/socket";
-import { Socket } from "socket.io-client";
 import { Action } from "@share/action/Action";
 import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
 import { LoadClusterAction } from "@share/action/cluster/LoadClusterAction";
 import { UnloadClusterAction } from "@share/action/cluster/UnloadClusterAction";
 import { IClusterManager } from "@client/cluster/IClusterManager";
 import { ClusterManager } from "@client/cluster";
+import { Player } from "@client/user/player";
+import { User } from "@client/user/User";
 
 /**
- * The runner class for all game logic.
+ * The runner class for the entire game. Contains logic
+ * for the GUIs as well as the ingame play.
  */
 export class Game {
 
@@ -31,6 +31,9 @@ export class Game {
   private _outgoing: ClientOutgoing;
   private _actionProcessor: ClientActionProcessor;
 
+  // User -> Player -> Avatar
+  private _user: User | null = null;
+
   // Lighting
   private _sun: Babylon.DirectionalLight;
   private _hemisphericLight: Babylon.HemisphericLight;
@@ -38,7 +41,6 @@ export class Game {
 
   // Game elements
   private _clusterManager: IClusterManager | null = null;
-  private _motor: PlayerMotor | null = null;
   private _gui: IGUIManager;
   private _assetManager: AssetManager;
 

@@ -1,5 +1,5 @@
 import { AssetManager } from "@client/assets";
-import { AbstractMesh, Skeleton, Vector3 } from "babylonjs";
+import { AbstractMesh, Scene, Skeleton, Vector3 } from "babylonjs";
 import { Camera } from "./camera";
 
 /**
@@ -18,17 +18,17 @@ export class Avatar {
   /**
    * Factory function to asynchronously create Avatar
    */
-  static async create(assetManager: AssetManager): Promise<Avatar> {
+  static async create(assetManager: AssetManager, scene: Scene, canvas: HTMLCanvasElement): Promise<Avatar> {
     const assets = await assetManager.meshManager.getAvatar();
 
-    return new Avatar(assets);
+    return new Avatar(assets, scene, canvas);
   }
 
   /**
    * Create a new Avatar. Can only be called via the static async factory function.
    */
-  private constructor(assets: any) {
-    this.camera = new Camera();
+  private constructor(assets: any, scene: Scene, canvas: HTMLCanvasElement) {
+    this.camera = new Camera(scene, canvas);
     this.pos = Vector3.Zero();
     this.vel = Vector3.Zero();
 
