@@ -1,6 +1,6 @@
 import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
-import { BlockTargeter } from "./block-targeter/BlockTargeter";
+import { BlockTargeter } from "./avatar/camera/block-targeter/BlockTargeter";
 import { Block } from "@share/utility/Block";
 import { FaceVectorConverter } from "@share/utility";
 import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
@@ -33,14 +33,11 @@ export class PlayerMotor {
     noclip: boolean = false
   ) {
 
-    let playerPos = Vector3.Zero();
+    let playerPos = position ?? Vector3.Zero();
     let playerVel = Vector3.Zero();
-    if (position != null) {
-      playerPos = position;
-    }
 
     const capsule = Babylon.MeshBuilder.CreateCapsule("playerCapsule", {
-      radius: 0.5,
+      radius: 0.4,
       height: 1.8
     }, scene);
     capsule.position = playerPos;
@@ -74,7 +71,7 @@ export class PlayerMotor {
       if (pointerInfo.type === Babylon.PointerEventTypes.POINTERDOWN) {
         // Destroy blocks on left click
         if (pointerInfo.event.inputIndex === Babylon.PointerInput.LeftClick) {
-          let target = this.blockTargeter.getTargetBlockAndFace();
+          let target = this.blockTargeter.getTarget();
           if (target != null) {
             const action = new RemoveBlockAction(target[0]);
             actionProcessor.updateLocalAndRemote(action);
@@ -83,7 +80,7 @@ export class PlayerMotor {
 
         // Place blocks on right click
         else if (pointerInfo.event.inputIndex === Babylon.PointerInput.RightClick) {
-          let target = this.blockTargeter.getTargetBlockAndFace();
+          let target = this.blockTargeter.getTarget();
           if (target != null) {
             const offset = FaceVectorConverter.getVectorFromFace(target[1]);
             const coord = target[0].addScalars(offset.x, offset.y, offset.z);

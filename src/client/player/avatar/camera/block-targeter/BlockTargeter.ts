@@ -27,7 +27,7 @@ export class BlockTargeter {
    * Determine the block and face the player is currently targeting.
    * @returns The position and face of the targeted block, or null if no block is targeted.
    */
-  public getTargetBlockAndFace() : [IAbsoluteCoordinate, Face] | null {
+  public getTarget() : [IAbsoluteCoordinate, Face] | null {
 
     // Raycast
     const direction = this.camera.getDirection(Babylon.Axis.Z);
