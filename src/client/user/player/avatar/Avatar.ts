@@ -36,4 +36,11 @@ export class Avatar {
     this.head = assets[0][1];
     this.armature = assets[1];
   }
+
+  dispose() {
+    this.camera.dispose();
+    this.body.dispose();
+    this.head.dispose();
+    this.armature.dispose();
+  }
 }

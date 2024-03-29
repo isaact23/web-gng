@@ -24,4 +24,8 @@ export class Player {
   private constructor(private avatar: Avatar) {
 
   }
+
+  dispose() {
+    this.avatar?.dispose();
+  }
 }

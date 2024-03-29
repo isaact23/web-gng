@@ -27,4 +27,8 @@ export class Camera {
     camera.minZ = 0;
     return camera;
   }
+
+  dispose() {
+    this.cam.dispose();
+  }
 }

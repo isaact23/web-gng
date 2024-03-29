@@ -17,7 +17,7 @@ export class World {
   /**
    * Asynchronously load ingame elements.
    */
-  static async load(scene: Babylon.Scene, cluster: IClusterData, assetManager: AssetManager) {
+  static async load(scene: Babylon.Scene, assetManager: AssetManager, cluster: IClusterData, canvas: HTMLCanvasElement) {
 
     // Set up lighting
     const sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), scene);
@@ -35,15 +35,20 @@ export class World {
     const clusterManager = new ClusterManager(cluster, shadowGenerator, assetManager);
     await clusterManager.remesh();
 
-    return new World(clusterManager);
+    return new World(clusterManager, scene, assetManager, canvas);
   }
 
   /**
    * Create new World. Must be called via static async load() factory function.
    */
-  private constructor(private _clusterManager: IClusterManager) {
+  private constructor(
+    private _clusterManager: IClusterManager,
+    scene: Babylon.Scene,
+    assetManager: AssetManager,
+    canvas: HTMLCanvasElement
+  ) {
     this._user = new User();
-    this._user.spawnPlayer();
+    this._user.spawnPlayer(assetManager, scene, canvas);
   }
 
   /**

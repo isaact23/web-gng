@@ -85,7 +85,6 @@ export class Game {
    */
   public processAction(action: Action) {
     
-    // TODO: Move cluster loading/unloading inside ClusterManager
     if (action instanceof LoadClusterAction) {
       this._loadCluster(action.cluster);
     }
@@ -99,10 +98,11 @@ export class Game {
   /**
    * Load a cluster (creates the world)
    */
-  private _loadCluster(cluster: IClusterData) {
+  private async _loadCluster(cluster: IClusterData) {
     if (this._world != null) {
       this._world.unload();
     }
+    this._world = await World.load(this._scene, this._assetManager, cluster, this._view.getCanvas());
   }
 
   /**
