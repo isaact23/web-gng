@@ -18,7 +18,7 @@ import { Player } from "@client/user/player";
 import { User } from "@client/user/User";
 
 /**
- * The runner class for the entire game. Contains logic
+ * The runner class for the Babylon game. Contains logic
  * for the GUIs as well as the ingame play.
  */
 export class Game {
