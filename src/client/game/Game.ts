@@ -33,13 +33,7 @@ export class Game {
   // User -> Player -> Avatar
   private _user: User | null = null;
 
-  // Lighting
-  private _sun: Babylon.DirectionalLight;
-  private _hemisphericLight: Babylon.HemisphericLight;
-  private _shadowGenerator: Babylon.ShadowGenerator | null = null;
-
   // Game elements
-  private _clusterManager: IClusterManager | null = null;
   private _gui: IGUIManager;
   private _assetManager: AssetManager;
 
@@ -60,20 +54,8 @@ export class Game {
     this._scene = this._initScene(debugMode);
     this._addEventListeners();
 
-    // Set up lighting
-    this._sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), this._scene);
-    this._sun.intensity = 1.2;
-    this._sun.position = new Vector3(100, 100, 100);
-    this._hemisphericLight = new Babylon.HemisphericLight(
-      "ambience", new Vector3(-1, 1, -1), this._scene);
-    this._hemisphericLight.intensity = 0.3;
-
     // Init asset manager
     this._assetManager = new AssetManager(this._scene);
-
-    // Init shadow generator
-    this._shadowGenerator = new Babylon.ShadowGenerator(1024, this._sun);
-    this._shadowGenerator.usePoissonSampling = true;
 
     // Init communications
     this._outgoing = new ClientOutgoing(socket);
@@ -108,35 +90,6 @@ export class Game {
     }
 
     this._clusterManager?.processAction(action);
-  }
-
-  /**
-   * Load a cluster from a ClusterData.
-   */
-  public loadCluster(cluster: IClusterData) {
-    this.unloadCluster();
-
-    // Initialize cluster client
-    this._clusterManager = new ClusterManager(cluster, this._shadowGenerator, this._assetManager);
-    this._clusterManager.remesh();
-  }
-
-  /**
-   * Remove the current cluster from the world.
-   */
-  public unloadCluster() {
-    if (this._clusterManager !== null) {
-      this._clusterManager.dispose();
-      this._clusterManager = null;
-    }
-  }
-
-  /**
-   * Get the IClusterManager.
-   * @returns This Game's IClusterManager instance.
-   */
-  public getCluster(): IClusterManager | null {
-    return this._clusterManager;
   }
 
   /**
