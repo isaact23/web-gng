@@ -1,54 +1,62 @@
+import { AssetManager } from "@client/assets";
 import { ClusterManager, IClusterManager } from "@client/cluster";
+import { User } from "@client/user";
+import { Action } from "@share/action";
+import { IClusterData } from "@share/data/cluster-data";
 import * as Babylon from "babylonjs";
 import {Vector3} from "babylonjs";
 
 /**
- * Handler for all in-game logic.
+ * Handler for all in-game logic. Only exists when the world is loaded.
+ * Out-of-game logic handled in the wrapper class Game (i.e. the main menu)
  */
 export class World {
 
-  // Lighting
-  private _sun: Babylon.DirectionalLight;
-  private _hemisphericLight: Babylon.HemisphericLight;
-  private _shadowGenerator: Babylon.ShadowGenerator;
-
-  private _clusterManager: IClusterManager;
+  private _user: User;
 
   /**
    * Asynchronously load ingame elements.
    */
-  static async load() {
+  static async load(scene: Babylon.Scene, cluster: IClusterData, assetManager: AssetManager) {
+
+    // Set up lighting
+    const sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), scene);
+    sun.intensity = 1.2;
+    sun.position = new Vector3(100, 100, 100);
+    const hemisphericLight = new Babylon.HemisphericLight(
+      "ambience", new Vector3(-1, 1, -1), scene);
+    hemisphericLight.intensity = 0.3;
+
+    // Init shadow generator
+    const shadowGenerator = new Babylon.ShadowGenerator(1024, sun);
+    shadowGenerator.usePoissonSampling = true;
 
     // Initialize cluster client
-    this._clusterManager = new ClusterManager(cluster, this._shadowGenerator, this._assetManager);
-    this._clusterManager.remesh();
+    const clusterManager = new ClusterManager(cluster, shadowGenerator, assetManager);
+    await clusterManager.remesh();
 
-    return new World();
+    return new World(clusterManager);
   }
 
   /**
    * Create new World. Must be called via static async load() factory function.
    */
-  private constructor() {
+  private constructor(private _clusterManager: IClusterManager) {
+    this._user = new User();
+    this._user.spawnPlayer();
+  }
 
-    // Set up lighting
-    this._sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), this._scene);
-    this._sun.intensity = 1.2;
-    this._sun.position = new Vector3(100, 100, 100);
-    this._hemisphericLight = new Babylon.HemisphericLight(
-      "ambience", new Vector3(-1, 1, -1), this._scene);
-    this._hemisphericLight.intensity = 0.3;
-
-    // Init shadow generator
-    this._shadowGenerator = new Babylon.ShadowGenerator(1024, this._sun);
-    this._shadowGenerator.usePoissonSampling = true;
-
+  /**
+   * Handle an Action if it applies to this World.
+   */
+  public processAction(action: Action) {
+    this._clusterManager.processAction(action);
   }
 
   /**
    * Unload this world.
    */
-  public dispose() {
+  public unload() {
     this._clusterManager.dispose();
   }
 

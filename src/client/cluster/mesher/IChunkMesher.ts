@@ -12,5 +12,5 @@ export interface IChunkMesher {
     chunk: IChunkData,
     cluster: IClusterData,
     assetManager: AssetManager
-  ): Babylon.Mesh;
+  ): Promise<Babylon.Mesh>;
 }

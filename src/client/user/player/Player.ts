@@ -13,6 +13,7 @@ export class Player {
    * Factory function to create player asynchronously
    */
   static async create(assetManager: AssetManager, scene: Scene, canvas: HTMLCanvasElement): Promise<Player> {
+
     const avatar = await Avatar.create(assetManager, scene, canvas);
     return new Player(avatar);
   }

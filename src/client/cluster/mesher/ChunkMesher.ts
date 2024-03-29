@@ -17,12 +17,13 @@ export class ChunkMesher implements IChunkMesher {
 
   /**
    * Convert block data for a chunk from a cluster into a mesh.
+   * TODO: Add await calls
    */
-  generateChunkMesh(
+  async generateChunkMesh(
     chunk: IChunkData,
     cluster: IClusterData,
     assetManager: AssetManager
-  ): Babylon.Mesh {
+  ): Promise<Babylon.Mesh> {
     
     // Initialize arrays for mesh data
     const vertices = new Array<number>;

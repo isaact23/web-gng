@@ -46,7 +46,7 @@ export class GameServer {
    */
   onConnection(socket: Socket) {
     const action = new LoadClusterAction(this.cluster);
-    this.outgoing.sendAction(action);
+    this.outgoing.sendActionTo(action, socket);
   }
 
   /**

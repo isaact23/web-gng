@@ -15,6 +15,7 @@ import { UnloadClusterAction } from "@share/action/cluster/UnloadClusterAction";
 import { IClusterManager } from "@client/cluster/IClusterManager";
 import { ClusterManager } from "@client/cluster";
 import { User } from "@client/user/User";
+import { World } from "./world";
 
 /**
  * The runner class for the Babylon game. Contains logic
@@ -36,6 +37,9 @@ export class Game {
   // Game elements
   private _gui: IGUIManager;
   private _assetManager: AssetManager;
+
+  // Handle in-world component
+  private _world: World | null = null;
 
   /**
    * Create a new Game.
@@ -83,13 +87,32 @@ export class Game {
     
     // TODO: Move cluster loading/unloading inside ClusterManager
     if (action instanceof LoadClusterAction) {
-      this.loadCluster(action.cluster);
+      this._loadCluster(action.cluster);
     }
     else if (action instanceof UnloadClusterAction) {
-      this.unloadCluster();
+      this._unloadCluster();
     }
 
-    this._clusterManager?.processAction(action);
+    this._world?.processAction(action);
+  }
+
+  /**
+   * Load a cluster (creates the world)
+   */
+  private _loadCluster(cluster: IClusterData) {
+    if (this._world != null) {
+      this._world.unload();
+    }
+  }
+
+  /**
+   * Unload the cluster (removes the world)
+   */
+  private _unloadCluster() {
+    if (this._world != null) {
+      this._world.unload();
+    }
+    this._world = null;
   }
 
   /**

@@ -18,11 +18,11 @@ export class GreedyChunkMesher implements IChunkMesher {
   /**
    * Convert block data for a chunk from a cluster into a mesh.
    */
-  generateChunkMesh(
+  async generateChunkMesh(
     chunk: IChunkData,
     cluster: IClusterData,
     assetManager: AssetManager
-  ): Babylon.Mesh {
+  ): Promise<Babylon.Mesh> {
 
     throw new Error("Not implemented");
 

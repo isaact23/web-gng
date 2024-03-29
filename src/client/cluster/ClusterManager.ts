@@ -129,8 +129,9 @@ export class ClusterManager implements IClusterManager {
   /**
    * Load or reload chunk meshes in the world.
    */
-  remesh(): void {
+  async remesh() {
     const shadowMap = this.shadowGenerator?.getShadowMap();
+    const chunkMesher = new ChunkMesher();
     
     // Iterate through each chunk
     for (let [coord, chunk] of this) {
@@ -140,7 +141,7 @@ export class ClusterManager implements IClusterManager {
         
         // Replace mesh
         const oldMesh = this.chunkMeshes.get(coord);
-        const newMesh = new ChunkMesher().generateChunkMesh(chunk, this.clusterData, this.assetManager);
+        const newMesh = await chunkMesher.generateChunkMesh(chunk, this.clusterData, this.assetManager);
 
         shadowMap?.renderList?.push(newMesh);
         if (oldMesh != undefined) {

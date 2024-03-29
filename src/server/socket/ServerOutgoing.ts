@@ -18,6 +18,13 @@ export class ServerOutgoing {
   sendAction(action: Action) {
     this.io.emit("action", action.toStr());
   }
+  
+  /**
+   * Send an action to one client.
+   */
+  sendActionTo(action: Action, socket: Socket) {
+    socket.send("action", action.toStr());
+  }
 
   /**
    * Send action to all clients except one.

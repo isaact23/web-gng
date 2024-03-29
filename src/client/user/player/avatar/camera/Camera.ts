@@ -15,6 +15,7 @@ export class Camera {
    * Create and setup the Babylon UniversalCamera.
    */
   initCamera(): Babylon.UniversalCamera {
+    
     const camera = new Babylon.UniversalCamera(
       "playerCamera",
       Vector3.Zero(),
