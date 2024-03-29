@@ -25,6 +25,7 @@ export class ClientIncoming {
    * update the client locally.
    */
   handleAction(actionStr: string) {
+    console.log("RECEIVED ACTION");
     const action = ActionDeserializer.fromStr(actionStr);
     this.actionProcessor.updateLocal(action);
   }
