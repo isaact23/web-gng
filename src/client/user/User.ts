@@ -6,7 +6,7 @@ import { Player } from "./player";
  */
 export class User {
 
-  private player: Player | null;
+  private player: Player | null = null;
 
   /**
    * Create the player, the in-game component of this user. The

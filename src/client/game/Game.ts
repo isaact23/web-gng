@@ -14,7 +14,6 @@ import { LoadClusterAction } from "@share/action/cluster/LoadClusterAction";
 import { UnloadClusterAction } from "@share/action/cluster/UnloadClusterAction";
 import { IClusterManager } from "@client/cluster/IClusterManager";
 import { ClusterManager } from "@client/cluster";
-import { Player } from "@client/user/player";
 import { User } from "@client/user/User";
 
 /**
@@ -90,8 +89,7 @@ export class Game {
     const scene = this._scene;
     const engine = this._engine;
     this._engine.runRenderLoop(() => {
-      if (this._motor !== null)
-        scene.render();
+      scene.render();
       fpsElement.innerHTML = engine.getFps().toFixed();
     });
   }
@@ -121,10 +119,6 @@ export class Game {
     // Initialize cluster client
     this._clusterManager = new ClusterManager(cluster, this._shadowGenerator, this._assetManager);
     this._clusterManager.remesh();
-
-    // Create local player motor
-    this._motor = new PlayerMotor(
-      this._view.getCanvas(), this._engine, this._scene, this._actionProcessor, new Vector3(50, 70, -50), true);
   }
 
   /**
