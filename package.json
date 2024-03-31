@@ -23,7 +23,6 @@
   "devDependencies": {
     "@babylonjs/core": "^7.0.0",
     "@babylonjs/gui": "^7.0.0",
-    "@babylonjs/inspector": "^7.0.0",
     "@babylonjs/loaders": "^7.0.0",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.5",
