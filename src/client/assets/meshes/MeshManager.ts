@@ -1,5 +1,5 @@
 import * as Babylon from "babylonjs";
-import "@babylonjs/loaders";
+import "@babylonjs/loaders/glTF";
 
 export class MeshManager {
   constructor(private scene: Babylon.Scene) {
@@ -8,7 +8,9 @@ export class MeshManager {
 
   // Get avatar mesh and armature
   async getAvatar(): Promise<[Babylon.AbstractMesh[], Babylon.Skeleton]> {
-    const result = await Babylon.SceneLoader.ImportMeshAsync("avatar", "fbx/", "avatar.fbx", this.scene);
+    console.log("Getting avatar");
+    const result = await Babylon.SceneLoader.ImportMeshAsync("avatar", "glb/avatar/", "avatar.glb", this.scene);
+    console.log("Got avatar");
     return [result.meshes, result.skeletons[0]];
   }
 

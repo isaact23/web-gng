@@ -99,9 +99,7 @@ export class Game {
    * Load a cluster (creates the world)
    */
   private async _loadCluster(cluster: IClusterData) {
-    if (this._world != null) {
-      this._world.unload();
-    }
+    this._world?.unload();
     this._world = await World.load(this._scene, this._assetManager, cluster, this._view.getCanvas());
   }
 
@@ -109,9 +107,7 @@ export class Game {
    * Unload the cluster (removes the world)
    */
   private _unloadCluster() {
-    if (this._world != null) {
-      this._world.unload();
-    }
+    this._world?.unload();
     this._world = null;
   }
 

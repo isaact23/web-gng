@@ -23,7 +23,7 @@ export class Server implements IServer {
     const app = express();
     app.use(express.static("dist"));
     app.use(express.static("public"));
-
+    
     const server = http.createServer(app);
 
     const io = new IOServer
