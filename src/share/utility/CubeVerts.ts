@@ -1,4 +1,4 @@
-import { Vector3 } from "babylonjs";
+import { Vector3 } from "@babylonjs/core";
 import { Face } from ".";
 
 // Vertices for each face in a cube

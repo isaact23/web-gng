@@ -1,7 +1,7 @@
 import { IRelativeCoordinate } from ".";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "../absolute-coordinate";
 import { ChunkCoordinate, IChunkCoordinate } from "../chunk-coordinate";
-import { Vector3 } from "babylonjs";
+import { Vector3 } from "@babylonjs/core";
 import { Settings } from "@share/config/Settings";
 
 /**

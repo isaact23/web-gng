@@ -1,6 +1,6 @@
 import { BlockTargeter } from "./block-targeter";
-import * as Babylon from "babylonjs";
-import { Vector3 } from "babylonjs";
+import * as Babylon from "@babylonjs/core";
+import { Vector3 } from "@babylonjs/core";
 
 export class Camera {
   private targeter: BlockTargeter;

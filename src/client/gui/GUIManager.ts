@@ -1,5 +1,5 @@
-import * as Babylon from "babylonjs";
-import * as BabylonGUI from "babylonjs-gui";
+import * as Babylon from "@babylonjs/core";
+import * as BabylonGUI from "@babylonjs/gui";
 import { IGUIManager } from "./IGUIManager";
 import { IMainMenuGUI, MainMenuGUI } from "./main-menu";
 import { GameGUI, IGameGUI } from "./game-gui";

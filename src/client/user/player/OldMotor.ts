@@ -1,5 +1,5 @@
-import * as Babylon from "babylonjs";
-import { Vector3 } from "babylonjs";
+import * as Babylon from "@babylonjs/core";
+import { Vector3 } from "@babylonjs/core";
 import { BlockTargeter } from "./avatar/camera/block-targeter/BlockTargeter";
 import { Block } from "@share/utility/Block";
 import { FaceVectorConverter } from "@share/utility";

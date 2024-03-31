@@ -1,7 +1,7 @@
 import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { RelativeCoordinate, IRelativeCoordinate } from ".";
 import { ChunkCoordinate, IChunkCoordinate } from "../chunk-coordinate";
-import { Vector3 } from "babylonjs";
+import { Vector3 } from "@babylonjs/core";
 import { Settings } from "@share/config/Settings";
 
 // Store all implementations

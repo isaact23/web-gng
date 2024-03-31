@@ -1,7 +1,7 @@
 import { AssetManager } from "@client/assets";
 import { IClusterData } from "@share/data/cluster-data";
 import { IChunkData } from "@share/data/cluster-data/chunk-data";
-import * as Babylon from "babylonjs";
+import * as Babylon from "@babylonjs/core";
 
 export interface IChunkMesher {
 

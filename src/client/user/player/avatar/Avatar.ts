@@ -1,5 +1,5 @@
 import { AssetManager } from "@client/assets";
-import { AbstractMesh, Scene, Skeleton, Vector3 } from "babylonjs";
+import { AbstractMesh, Scene, Skeleton, Vector3 } from "@babylonjs/core";
 import { Camera } from "./camera";
 
 /**

@@ -1,4 +1,4 @@
-import * as Babylon from "babylonjs";
+import * as Babylon from "@babylonjs/core";
 import { TextureManager } from "./textures/TextureManager";
 
 let mat: Babylon.StandardMaterial | null = null;

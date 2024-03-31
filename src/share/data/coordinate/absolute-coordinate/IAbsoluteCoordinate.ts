@@ -1,4 +1,4 @@
-import { Vector3 } from "babylonjs";
+import { Vector3 } from "@babylonjs/core";
 import { IChunkCoordinate } from "../chunk-coordinate";
 import { IRelativeCoordinate } from "../relative-coordinate";
 import { ICoordinate } from "../ICoordinate";

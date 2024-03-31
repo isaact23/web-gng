@@ -1,4 +1,4 @@
-import { Vector3 } from "babylonjs";
+import { Vector3 } from "@babylonjs/core";
 import { Face } from "./Face";
 
 // Vectors for each face (to get adjacent block)

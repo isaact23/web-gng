@@ -1,6 +1,6 @@
 import { AssetManager } from "@client/assets";
 import { Avatar } from "./avatar";
-import { Scene } from "babylonjs";
+import { Scene } from "@babylonjs/core";
 
 /**
  * The in-game representation of a user. Handles everything ingame

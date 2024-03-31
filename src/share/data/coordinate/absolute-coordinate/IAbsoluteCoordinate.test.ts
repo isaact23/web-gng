@@ -1,6 +1,6 @@
 import { ChunkData } from "@share/data/cluster-data/chunk-data";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from ".";
-import { Vector3 } from "babylonjs";
+import { Vector3 } from "@babylonjs/core";
 
 // Store all implementations
 const implementations: [string, new (x: number, y: number, z: number) => IAbsoluteCoordinate][] = [

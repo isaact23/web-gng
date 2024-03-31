@@ -1,4 +1,4 @@
-import * as Babylon from "babylonjs";
+import * as Babylon from "@babylonjs/core";
 
 export class TextureManager {
   private tex: Babylon.Texture;

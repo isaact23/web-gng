@@ -1,6 +1,6 @@
 import { AssetManager } from "@client/assets";
 import { Player } from "./player";
-import * as Babylon from "babylonjs";
+import * as Babylon from "@babylonjs/core";
 
 /**
  * The user currently associated with this session. An

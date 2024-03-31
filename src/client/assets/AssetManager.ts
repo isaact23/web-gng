@@ -1,4 +1,4 @@
-import * as Babylon from "babylonjs";
+import * as Babylon from "@babylonjs/core";
 import { MaterialManager } from "./materials/MaterialManager";
 import { MeshManager } from "./meshes/MeshManager";
 

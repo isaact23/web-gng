@@ -1,5 +1,5 @@
 import { IGameGUI } from "./IGameGUI";
-import * as BabylonGUI from "babylonjs-gui";
+import * as BabylonGUI from "@babylonjs/gui";
 
 /**
  * Class for the game GUI.

@@ -3,8 +3,8 @@ import { ClusterManager, IClusterManager } from "@client/cluster";
 import { User } from "@client/user";
 import { Action } from "@share/action";
 import { IClusterData } from "@share/data/cluster-data";
-import * as Babylon from "babylonjs";
-import {Vector3} from "babylonjs";
+import * as Babylon from "@babylonjs/core";
+import {Vector3} from "@babylonjs/core";
 
 /**
  * Handler for all in-game logic. Only exists when the world is loaded.

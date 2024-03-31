@@ -1,5 +1,5 @@
 import { IMainMenuGUI } from "./IMainMenuGUI";
-import * as BabylonGUI from "babylonjs-gui";
+import * as BabylonGUI from "@babylonjs/gui";
 
 /**
  * Class for the main menu GUI.

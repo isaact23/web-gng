@@ -1,4 +1,4 @@
-import * as Babylon from "babylonjs";
+import * as Babylon from "@babylonjs/core";
 import { Face, FaceVectorConverter } from "@share/utility";
 import { AbsoluteCoordinate, IAbsoluteCoordinate } from "@share/data/coordinate";
 

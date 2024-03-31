@@ -1,4 +1,4 @@
-import * as Babylon from "babylonjs";
+import * as Babylon from "@babylonjs/core";
 import "@babylonjs/loaders/glTF";
 
 export class MeshManager {

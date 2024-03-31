@@ -1,6 +1,6 @@
 import { Grid } from ".";
 import { IGrid } from ".";
-import { Vector3 } from "babylonjs";
+import { Vector3 } from "@babylonjs/core";
 
 // Store all implementations
 const implementations: [string, () => IGrid<number, Vector3>][] = [

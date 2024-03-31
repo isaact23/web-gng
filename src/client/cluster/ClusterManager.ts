@@ -5,8 +5,8 @@ import { IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IAbsoluteCoordinate, IChunkCoordinate } from "@share/data/coordinate";
 import { Block } from "@share/utility";
 
-import * as Babylon from "babylonjs";
-import { Vector3 } from "babylonjs";
+import * as Babylon from "@babylonjs/core";
+import { Vector3 } from "@babylonjs/core";
 import { ChunkMesher } from "./mesher";
 import { Grid, IGrid } from "@share/data/grid";
 import { Action } from "@share/action";

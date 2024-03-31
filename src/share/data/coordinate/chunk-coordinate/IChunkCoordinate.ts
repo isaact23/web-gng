@@ -1,4 +1,4 @@
-import { Vector3 } from "babylonjs";
+import { Vector3 } from "@babylonjs/core";
 import { IAbsoluteCoordinate } from "../absolute-coordinate";
 import { ICoordinate } from "../ICoordinate";
 
