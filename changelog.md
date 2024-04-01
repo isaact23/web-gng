@@ -9,6 +9,7 @@
 * Add in-game API calls to create in-game IOT w/ Venmo & Auth0 system
 * Ragdolls, Drones & Robots, Planes, Fun stuff
 * Add action queue
+* Optimize Babylon out of serverside build
 
 ## 0.1.2
 

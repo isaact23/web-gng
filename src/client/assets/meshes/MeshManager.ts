@@ -8,9 +8,7 @@ export class MeshManager {
 
   // Get avatar mesh and armature
   async getAvatar(): Promise<[Babylon.AbstractMesh[], Babylon.Skeleton]> {
-    console.log("Getting avatar");
-    const result = await Babylon.SceneLoader.ImportMeshAsync("avatar", "glb/avatar/", "avatar.glb", this.scene);
-    console.log("Got avatar");
+    const result = await Babylon.SceneLoader.ImportMeshAsync("", "glb/avatar/", "avatar.glb", this.scene);
     return [result.meshes, result.skeletons[0]];
   }
 
