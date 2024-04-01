@@ -1,3 +1,7 @@
+# green 'n gold specific stuff
+dist-client/
+dist-server/
+
 # Audacity
 *.aup
 *.au

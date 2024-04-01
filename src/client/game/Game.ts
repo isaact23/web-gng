@@ -1,5 +1,4 @@
 import * as Babylon from "@babylonjs/core";
-import { Vector3 } from "@babylonjs/core";
 
 import { Socket } from "socket.io-client";
 

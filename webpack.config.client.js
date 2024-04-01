@@ -1,8 +1,12 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const CONFIG = {
   mode: 'development',
   entry: './src/client/index.ts',
   devtool: 'inline-source-map',
@@ -22,11 +26,13 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "green-and-gold",
-      template: "./src/index.html"
+      template: path.resolve(__dirname, 'src/index.html')
     })
   ],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist-client'),
   },
 };
+
+export default CONFIG;
