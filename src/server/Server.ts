@@ -21,7 +21,7 @@ export class Server implements IServer {
   constructor() {
 
     const app = express();
-    app.use(express.static("dist"));
+    app.use(express.static("dist-client"));
     app.use(express.static("public"));
     
     const server = http.createServer(app);
