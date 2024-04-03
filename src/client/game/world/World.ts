@@ -12,8 +12,6 @@ import {Vector3} from "@babylonjs/core";
  */
 export class World {
 
-  private _user: User;
-
   /**
    * Asynchronously load ingame elements.
    */
@@ -35,7 +33,11 @@ export class World {
     const clusterManager = new ClusterManager(cluster, shadowGenerator, assetManager);
     await clusterManager.remesh();
 
-    return new World(clusterManager, scene, assetManager, canvas);
+    // Initialize user
+    const user = new User();
+    await user.spawnPlayer(assetManager, scene, canvas)
+
+    return new World(clusterManager, user);
   }
 
   /**
@@ -43,13 +45,8 @@ export class World {
    */
   private constructor(
     private _clusterManager: IClusterManager,
-    scene: Babylon.Scene,
-    assetManager: AssetManager,
-    canvas: HTMLCanvasElement
-  ) {
-    this._user = new User();
-    this._user.spawnPlayer(assetManager, scene, canvas);
-  }
+    private _user: User
+  ) {}
 
   /**
    * Handle an Action if it applies to this World.

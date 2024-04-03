@@ -23,6 +23,7 @@ export class ServerOutgoing {
    * Send an action to one client.
    */
   sendActionTo(action: Action, socket: Socket) {
+    console.log("Sending action to socket");
     socket.emit("action", action.toStr());
   }
 

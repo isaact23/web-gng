@@ -1,14 +1,12 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const CONFIG = {
-  mode: 'development',
-  entry: './src/client/index.ts',
+const WEBPACK_SERVER = {
+  entry: './src/server/index.ts',
   devtool: 'inline-source-map',
   module: {
     rules: [
@@ -23,16 +21,11 @@ const CONFIG = {
     plugins: [new TsconfigPathsPlugin()],
     extensions: ['.tsx', '.ts', '.js'],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: "green-and-gold",
-      template: path.resolve(__dirname, 'src/index.html')
-    })
-  ],
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist-client'),
+    filename: 'bundle.cjs',
+    path: path.resolve(__dirname, 'dist-server'),
   },
+  target: 'node'
 };
 
-export default CONFIG;
+export default WEBPACK_SERVER;

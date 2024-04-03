@@ -74,7 +74,9 @@ export class Game {
     const scene = this._scene;
     const engine = this._engine;
     this._engine.runRenderLoop(() => {
-      scene.render();
+      if (this._world != null) {
+        scene.render();
+      }
       fpsElement.innerHTML = engine.getFps().toFixed();
     });
   }
@@ -83,6 +85,7 @@ export class Game {
    * Process an Action to update the game state.
    */
   public processAction(action: Action) {
+    console.log("Game received action");
     
     if (action instanceof LoadClusterAction) {
       this._loadCluster(action.cluster);
@@ -99,7 +102,9 @@ export class Game {
    */
   private async _loadCluster(cluster: IClusterData) {
     this._world?.unload();
+    console.log("Loading world");
     this._world = await World.load(this._scene, this._assetManager, cluster, this._view.getCanvas());
+    console.log("Done loading world");
   }
 
   /**
