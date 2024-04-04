@@ -13,6 +13,7 @@ import { LoadClusterAction } from "@share/action/cluster/LoadClusterAction";
 import { UnloadClusterAction } from "@share/action/cluster/UnloadClusterAction";
 import { User } from "@client/user/User";
 import { World } from "./world";
+import { UserActionProcessor } from "@client/action/UserActionProcessor";
 
 /**
  * The runner class for the Babylon game. Contains logic
@@ -24,9 +25,10 @@ export class Game {
   private _engine: Babylon.Engine;
   private _scene: Babylon.Scene;
 
-  // Networking
+  // Networking and Actions
   private _outgoing: ClientOutgoing;
   private _actionProcessor: ClientActionProcessor;
+  private _userAP: UserActionProcessor;
 
   // User -> Player -> Avatar
   private _user: User | null = null; // Main user
@@ -63,6 +65,7 @@ export class Game {
     this._outgoing = new ClientOutgoing(socket);
     this._actionProcessor = new ClientActionProcessor(this, this._outgoing);
     new ClientIncoming(socket, this._actionProcessor);
+    this._userAP = new UserActionProcessor(this._actionProcessor);
 
     this._gui = new GUIManager();
     this._gui.mainMenuGui();
@@ -99,6 +102,7 @@ export class Game {
   public getAssetManager() { return this._assetManager; }
   public getScene()        { return this._scene; }
   public getView()         { return this._view; }
+  public getUserAP()       { return this._userAP; }
 
   /**
    * Load a cluster (creates the world)
