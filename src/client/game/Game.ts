@@ -31,7 +31,8 @@ export class Game {
   private _actionProcessor: ClientActionProcessor;
 
   // User -> Player -> Avatar
-  private _user: User | null = null;
+  private _user: User | null = null; // Main user
+  // Add other users
 
   // Game elements
   private _gui: IGUIManager;

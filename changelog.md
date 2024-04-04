@@ -11,12 +11,19 @@
 * Add action queue
 * Optimize Babylon out of serverside build
 
-## 0.1.2
+## 0.1.4
 
 * TODO: Add authentication
-* TODO: Completely revamp Player class
-* TODO: Add avatars
-* Removed lots of interfaces
+
+## 0.1.3
+
+* TODO: Finish avatars
+
+## 0.1.2
+
+Start revamping Player class
+Begin adding avatars
+Removed lots of interfaces
 
 ## 0.1.1
 

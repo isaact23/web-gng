@@ -18,7 +18,7 @@ export class Camera {
     
     const camera = new Babylon.UniversalCamera(
       "playerCamera",
-      Vector3.Zero(),
+      new Vector3(50, 50, 50),
       this.scene);
     camera.rotation = new Vector3(0.5, 0, 0);
     camera.angularSensibility = 500;
