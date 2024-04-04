@@ -1,12 +1,15 @@
 import { AssetManager } from "@client/assets";
 import { AbstractMesh, Scene, Skeleton, Vector3 } from "@babylonjs/core";
 import { Camera } from "./camera";
+import { InputHandler } from "./input-handler";
 
 /**
  * Store the model and skeleton of the user and control
  * its movement.
  */
 export class Avatar {
+  private inputHandler: InputHandler;
+
   private camera: Camera;
   private pos: Vector3;
   private vel: Vector3;
@@ -28,6 +31,8 @@ export class Avatar {
    * Create a new Avatar. Can only be called via the static async factory function.
    */
   private constructor(assets: any, scene: Scene, canvas: HTMLCanvasElement) {
+    this.inputHandler = new InputHandler(scene);
+
     this.body = assets[0][0];
     this.head = assets[0][1];
     this.armature = assets[1];
