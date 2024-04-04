@@ -1,6 +1,5 @@
-import { AssetManager } from "@client/assets";
 import { Avatar } from "./avatar";
-import { Scene } from "@babylonjs/core";
+import { Game } from "@client/game";
 
 /**
  * The in-game representation of a user. Handles everything ingame
@@ -12,9 +11,9 @@ export class Player {
   /**
    * Factory function to create player asynchronously
    */
-  static async create(assetManager: AssetManager, scene: Scene, canvas: HTMLCanvasElement): Promise<Player> {
+  static async create(game: Game): Promise<Player> {
 
-    const avatar = await Avatar.create(assetManager, scene, canvas);
+    const avatar = await Avatar.create(game);
     return new Player(avatar);
   }
 

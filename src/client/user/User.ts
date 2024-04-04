@@ -1,6 +1,5 @@
-import { AssetManager } from "@client/assets";
 import { Player } from "./player";
-import * as Babylon from "@babylonjs/core";
+import { Game } from "@client/game";
 
 /**
  * The user currently associated with this session. An
@@ -14,8 +13,8 @@ export class User {
    * Create the player, the in-game component of this user. The
    * player should only exist if the world is loaded.
    */
-  async spawnPlayer(assetManager: AssetManager, scene: Babylon.Scene, canvas: HTMLCanvasElement) {
-    this.player = await Player.create(assetManager, scene, canvas);
+  async spawnPlayer(game: Game) {
+    this.player = await Player.create(game);
   }
 
   /**

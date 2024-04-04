@@ -11,8 +11,6 @@ import { Action } from "@share/action/Action";
 import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
 import { LoadClusterAction } from "@share/action/cluster/LoadClusterAction";
 import { UnloadClusterAction } from "@share/action/cluster/UnloadClusterAction";
-import { IClusterManager } from "@client/cluster/IClusterManager";
-import { ClusterManager } from "@client/cluster";
 import { User } from "@client/user/User";
 import { World } from "./world";
 
@@ -97,6 +95,10 @@ export class Game {
 
     this._world?.processAction(action);
   }
+
+  public getAssetManager() { return this._assetManager; }
+  public getScene()        { return this._scene; }
+  public getView()         { return this._view; }
 
   /**
    * Load a cluster (creates the world)

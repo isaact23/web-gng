@@ -1,7 +1,7 @@
-import { AssetManager } from "@client/assets";
 import { AbstractMesh, Scene, Skeleton, Vector3 } from "@babylonjs/core";
 import { Camera } from "./camera";
 import { InputHandler } from "./input-handler";
+import { Game } from "@client/game";
 
 /**
  * Store the model and skeleton of the user and control
@@ -21,10 +21,10 @@ export class Avatar {
   /**
    * Factory function to asynchronously create Avatar
    */
-  static async create(assetManager: AssetManager, scene: Scene, canvas: HTMLCanvasElement): Promise<Avatar> {
-    const assets = await assetManager.meshManager.getAvatar();
+  static async create(game: Game): Promise<Avatar> {
+    const assets = await game.getAssetManager().meshManager.getAvatar();
 
-    return new Avatar(assets, scene, canvas);
+    return new Avatar(assets, game.getScene(), game.getView().getCanvas());
   }
 
   /**
