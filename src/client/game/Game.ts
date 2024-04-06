@@ -99,6 +99,8 @@ export class Game {
     this._world?.processAction(action);
   }
 
+  // Getters
+  public getEngine()       { return this._engine; }
   public getAssetManager() { return this._assetManager; }
   public getScene()        { return this._scene; }
   public getView()         { return this._view; }
