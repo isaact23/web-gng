@@ -9,6 +9,8 @@ import { UserActionProcessor } from "@client/action";
  * its movement.
  */
 export class Avatar {
+
+  private ap: UserActionProcessor;
   private inputHandler: InputHandler;
 
   private camera: Camera;
@@ -25,18 +27,21 @@ export class Avatar {
   static async create(game: Game): Promise<Avatar> {
     const assets = await game.getAssetManager().meshManager.getAvatar();
 
-    return new Avatar(game.getUserAP(), assets, game.getScene(), game.getView().getCanvas());
+    return new Avatar(game, assets);
   }
 
   /**
    * Create a new Avatar. Can only be called via the static async factory function.
    */
   private constructor(
-    private ap: UserActionProcessor, 
-    assets: any, 
-    scene: Scene, 
-    canvas: HTMLCanvasElement
+    game: Game,
+    assets: any,
   ) {
+
+    this.ap = game.getUserAP();
+    const scene = game.getScene();
+    const canvas = game.getView().getCanvas();
+
     this.inputHandler = new InputHandler(scene);
 
     this.body = assets[0][0];
