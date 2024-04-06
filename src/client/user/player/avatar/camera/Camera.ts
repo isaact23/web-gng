@@ -1,6 +1,8 @@
 import { BlockTargeter } from "./block-targeter";
 import * as Babylon from "@babylonjs/core";
 import { Vector3 } from "@babylonjs/core";
+import { IAbsoluteCoordinate } from "@share/data/coordinate";
+import { Face } from "@share/utility";
 
 export class Camera {
   private targeter: BlockTargeter;
@@ -28,7 +30,15 @@ export class Camera {
     return camera;
   }
 
-  dispose() {
+  /**
+   * Determine the block and face the player is currently targeting.
+   * @returns The position and face of the targeted block, or null if no block is targeted.
+   */
+  public getTarget() : [IAbsoluteCoordinate, Face] | null {
+    return this.targeter.getTarget();
+  }
+
+  public dispose() {
     this.cam.dispose();
   }
 }

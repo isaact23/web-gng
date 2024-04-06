@@ -110,7 +110,7 @@ export class Game {
   private async _loadCluster(cluster: IClusterData) {
     this._world?.unload();
     console.log("Loading world");
-    this._world = await World.load(this._scene, this._assetManager, cluster, this._view.getCanvas());
+    this._world = await World.load(this, cluster);
     console.log("Done loading world");
   }
 

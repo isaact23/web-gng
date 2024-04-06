@@ -1,5 +1,5 @@
 import * as Babylon from "@babylonjs/core";
-import { KeyboardInfo, PointerInfo, Scene } from "@babylonjs/core"
+import { KeyboardInfo, PointerEventTypes, PointerInfo, PointerInput, Scene } from "@babylonjs/core"
 
 type InputStatus = {
   forward: boolean,
@@ -11,12 +11,18 @@ type InputStatus = {
 };
 
 /**
- * Handler from events from Babylon's input system
+ * Handler from events from Babylon's input system.
+ * Provides polling for user movement (continuous) and callbacks
+ * for user actions (discrete).
  */
 export class InputHandler {
   private input: InputStatus;
 
-  constructor(scene: Scene) {
+  constructor(
+    private onLeftClick: () => void,
+    private onRightClick: () => void,
+    scene: Scene
+  ) {
 
     // Initialize empty input
     this.input = {
@@ -33,13 +39,13 @@ export class InputHandler {
     scene.onPointerObservable.add(pointerInfo => this.handlePointer(pointerInfo));
   }
 
-  // Get the current input status.
-  getInput(): InputStatus {
+  // Get the current input status (polling).
+  public getInput(): InputStatus {
     return this.input;
   }
 
   // Handle a keyboard event.
-  handleKey(kbInfo: KeyboardInfo) {
+  private handleKey(kbInfo: KeyboardInfo) {
     const key = kbInfo.event.key.toLowerCase();
 
     switch (kbInfo.type) {
@@ -68,26 +74,15 @@ export class InputHandler {
   }
 
   // Handle a pointer event.
-  handlePointer(pointerInfo: PointerInfo) {
-    if (pointerInfo.type === Babylon.PointerEventTypes.POINTERDOWN) {
-      // Destroy blocks on left click
-      if (pointerInfo.event.inputIndex === Babylon.PointerInput.LeftClick) {
-        let target = this.blockTargeter.getTarget();
-        if (target != null) {
-          const action = new RemoveBlockAction(target[0]);
-          actionProcessor.updateLocalAndRemote(action);
-        }
+  private handlePointer(pointerInfo: PointerInfo) {
+    if (pointerInfo.type === PointerEventTypes.POINTERDOWN) {
+      if (pointerInfo.event.inputIndex === PointerInput.LeftClick) {
+        this.onLeftClick();
       }
 
       // Place blocks on right click
-      else if (pointerInfo.event.inputIndex === Babylon.PointerInput.RightClick) {
-        let target = this.blockTargeter.getTarget();
-        if (target != null) {
-          const offset = FaceVectorConverter.getVectorFromFace(target[1]);
-          const coord = target[0].addScalars(offset.x, offset.y, offset.z);
-          const action = new AddBlockAction(coord, Block.Stone);
-          actionProcessor.updateLocalAndRemote(action);
-        }
+      else if (pointerInfo.event.inputIndex === PointerInput.RightClick) {
+        this.onRightClick();
       }
     }
   }

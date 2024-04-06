@@ -5,6 +5,7 @@ import { Action } from "@share/action";
 import { IClusterData } from "@share/data/cluster-data";
 import * as Babylon from "@babylonjs/core";
 import {Vector3} from "@babylonjs/core";
+import { Game } from "..";
 
 /**
  * Handler for all in-game logic. Only exists when the world is loaded.
@@ -15,7 +16,8 @@ export class World {
   /**
    * Asynchronously load ingame elements.
    */
-  static async load(scene: Babylon.Scene, assetManager: AssetManager, cluster: IClusterData, canvas: HTMLCanvasElement) {
+  static async load(game: Game, cluster: IClusterData) {
+    const scene = game.getScene();
 
     // Set up lighting
     const sun = new Babylon.DirectionalLight("sun", new Vector3(-1, -1, -1), scene);
@@ -30,12 +32,13 @@ export class World {
     shadowGenerator.usePoissonSampling = true;
 
     // Initialize cluster client
+    const assetManager = game.getAssetManager();
     const clusterManager = new ClusterManager(cluster, shadowGenerator, assetManager);
     await clusterManager.remesh();
 
     // Initialize user
     const user = new User();
-    await user.spawnPlayer(assetManager, scene, canvas)
+    await user.spawnPlayer(game);
 
     return new World(clusterManager, user);
   }

@@ -20,11 +20,12 @@ export class Player {
   /**
    * Player constructor - must be called from factory function
    */
-  private constructor(private avatar: Avatar) {
+  private constructor(private avatar: Avatar) {}
 
-  }
-
-  dispose() {
+  /**
+   * Remove Player assets from the world.
+   */
+  public dispose() {
     this.avatar?.dispose();
   }
 }

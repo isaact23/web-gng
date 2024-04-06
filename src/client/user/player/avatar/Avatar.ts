@@ -3,6 +3,17 @@ import { Camera } from "./camera";
 import { InputHandler } from "./input-handler";
 import { Game } from "@client/game";
 import { UserActionProcessor } from "@client/action";
+import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
+import { Block, FaceVectorConverter } from "@share/utility";
+import { AddBlockAction } from "@share/action/block/AddBlockAction";
+
+const GRAVITY = -25;
+const MAX_FALL_SPEED = 50;
+const WALK_SPEED = 7;
+const NOCLIP_SPEED = 30;
+const LATERAL_ACCELERATION = 50;
+const NOCLIP_ACCELERATION = 200;
+const JUMP_VELOCITY = 6;
 
 /**
  * Store the model and skeleton of the user and control
@@ -42,7 +53,7 @@ export class Avatar {
     const scene = game.getScene();
     const canvas = game.getView().getCanvas();
 
-    this.inputHandler = new InputHandler(scene);
+    this.inputHandler = new InputHandler(this.handleLeftClick, this.handleRightClick, scene);
 
     this.body = assets[0][0];
     this.head = assets[0][1];
@@ -56,7 +67,42 @@ export class Avatar {
     this.camera = new Camera(scene, canvas);
   }
 
-  dispose() {
+  /**
+   * On callback from InputHandler, break the targeted block.
+   */
+  private handleLeftClick() {
+
+    // Find block
+    let target = this.camera.getTarget();
+    if (target != null) {
+
+      // Break block
+      const action = new RemoveBlockAction(target[0]);
+      this.ap.update(action);
+    }
+  }
+
+  /**
+   * On callback from InputHandler, place a block.
+   */
+  private handleRightClick() {
+
+    // Find block
+    let target = this.camera.getTarget();
+    if (target != null) {
+
+      // Place block
+      const offset = FaceVectorConverter.getVectorFromFace(target[1]);
+      const coord = target[0].addScalars(offset.x, offset.y, offset.z);
+      const action = new AddBlockAction(coord, Block.Stone);
+      this.ap.update(action);
+    }
+  }
+
+  /**
+   * Remove Avatar assets from the game.
+   */
+  public dispose() {
     this.camera.dispose();
     this.body.dispose();
     this.head.dispose();
