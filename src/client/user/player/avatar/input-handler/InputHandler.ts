@@ -1,5 +1,6 @@
 import * as Babylon from "@babylonjs/core";
 import { KeyboardInfo, PointerEventTypes, PointerInfo, PointerInput, Scene } from "@babylonjs/core"
+import { Avatar } from "..";
 
 type InputStatus = {
   forward: boolean,
@@ -19,8 +20,7 @@ export class InputHandler {
   private input: InputStatus;
 
   constructor(
-    private onLeftClick: () => void,
-    private onRightClick: () => void,
+    private avatar: Avatar,
     scene: Scene
   ) {
 
@@ -77,12 +77,12 @@ export class InputHandler {
   private handlePointer(pointerInfo: PointerInfo) {
     if (pointerInfo.type === PointerEventTypes.POINTERDOWN) {
       if (pointerInfo.event.inputIndex === PointerInput.LeftClick) {
-        this.onLeftClick();
+        this.avatar.handleLeftClick();
       }
 
       // Place blocks on right click
       else if (pointerInfo.event.inputIndex === PointerInput.RightClick) {
-        this.onRightClick();
+        this.avatar.handleRightClick();
       }
     }
   }
