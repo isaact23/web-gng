@@ -1,4 +1,5 @@
 import * as Babylon from "@babylonjs/core";
+import "@babylonjs/inspector";
 
 import { Socket } from "socket.io-client";
 
@@ -69,7 +70,7 @@ export class Game {
 
     this._gui = new GUIManager();
     this._gui.mainMenuGui();
-    //this.gui.gameGui();
+    //this._gui.gameGui();
 
     // Run engine render loop
     const fpsElement = _view.getFpsElement();
@@ -132,6 +133,7 @@ export class Game {
     // Set up scene
     const scene = new Babylon.Scene(this._engine);
     if (debugMode) {
+      console.log("Entering debug mode");
       scene.debugLayer.show();
     }
 

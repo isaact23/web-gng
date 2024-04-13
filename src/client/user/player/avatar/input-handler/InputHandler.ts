@@ -85,5 +85,9 @@ export class InputHandler {
         this.avatar.handleRightClick();
       }
     }
+
+    else if (pointerInfo.type === PointerEventTypes.POINTERMOVE) {
+      this.avatar.handlePointerMove();
+    }
   }
 }

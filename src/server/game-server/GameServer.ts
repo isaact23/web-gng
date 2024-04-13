@@ -8,6 +8,7 @@ import { LoadClusterAction } from "@share/action/cluster/LoadClusterAction";
 import { AddBlockAction } from "@share/action/block/AddBlockAction";
 import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
 import { ActionData } from "@server/action/ActionData";
+import { GreedyMeshClusterGenerator } from "@server/cluster-gen/GreedyMeshClusterGenerator";
 
 /**
  * Handler for server-side game logic.
@@ -28,7 +29,8 @@ export class GameServer {
 
     // Generate a cluster
     console.log("Generating world");
-    this.cluster = ContinuousClusterGenerator.createWorldCluster();
+    //this.cluster = ContinuousClusterGenerator.createWorldCluster();
+    this.cluster = GreedyMeshClusterGenerator.createWorldCluster();
     console.log("Done generating world");
   }
 

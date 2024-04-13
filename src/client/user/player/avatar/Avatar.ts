@@ -7,6 +7,7 @@ import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
 import { Block, FaceVectorConverter } from "@share/utility";
 import { AddBlockAction } from "@share/action/block/AddBlockAction";
 import { BlockTargeter } from "./block-targeter";
+import { LAYER_MASK_PLAYER } from "@share/static/Layers";
 
 const NOCLIP = true;
 
@@ -66,31 +67,44 @@ export class Avatar {
     this.engine = game.getEngine();
     const canvas = game.getView().getCanvas();
 
-    this.root = new Babylon.Mesh("player-root");
+    // Load meshes
     this.body = assets[0][0];
     this.head = assets[0][1];
     this.armature = assets[1];
 
+    // Collision capsule
+    this.root = Babylon.MeshBuilder.CreateCapsule("playerCapsule", {
+      radius: 0.4,
+      height: 1.8
+    }, this.scene);
+    //this.capsule.position = Vector3.Zero();
+    this.root.isPickable = false;
+    this.root.isVisible = false;
+
+    // Set up avatar parent hierarchy
     this.body.setParent(this.root);
     this.head.setParent(this.body);
 
-    this.root.position = new Vector3(0, 40, 0);
+    this.root.position = new Vector3(20, 30, 20);
+    this.body.position = new Vector3(0, -0.9, 0);
 
     this.pos = Vector3.Zero();
     this.vel = Vector3.Zero();
 
-    this.scene.registerBeforeRender(() => this.update);
+    this.scene.registerBeforeRender(() => {this.update()});
 
     // Initialize camera
     this.camera = new Babylon.UniversalCamera(
       "playerCamera",
-      new Vector3(50, 50, 50),
+      new Vector3(0, 1.8, 0),
       this.scene);
     this.camera.rotation = new Vector3(0.5, 0, 0);
     this.camera.angularSensibility = 500;
     this.camera.inertia = 0;
     this.camera.attachControl(canvas, false);
     this.camera.minZ = 0;
+    this.camera.parent = this.head;
+    this.camera.layerMask = 0x1;
 
     // Init misc. subsystems
     this.targeter = new BlockTargeter(this.camera, this.scene);
@@ -127,6 +141,13 @@ export class Avatar {
       const action = new AddBlockAction(coord, Block.Stone);
       this.ap.update(action);
     }
+  }
+
+  /**
+   * On callback from InputHandler, look around.
+   */
+  public handlePointerMove() {
+
   }
 
   /**
@@ -218,7 +239,7 @@ export class Avatar {
     const movement = rotatedVel.divide(new Vector3(fps, fps, fps));
     const newPos = this.root.position.add(movement);
 
-    //capsule.moveWithCollisions(movement);
+    //this.root.moveWithCollisions(movement);
     this.root.position = newPos;
 
     // Highlight the block the player is looking at
