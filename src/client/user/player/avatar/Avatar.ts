@@ -96,14 +96,18 @@ export class Avatar {
     // Initialize camera
     this.camera = new Babylon.UniversalCamera(
       "playerCamera",
-      new Vector3(0, 1.8, 0),
+      new Vector3(0, 0, 0),
       this.scene);
+    this.camera.position = new Vector3(5, 5, 5);
     this.camera.rotation = new Vector3(0.5, 0, 0);
     this.camera.angularSensibility = 500;
     this.camera.inertia = 0;
-    this.camera.attachControl(canvas, false);
     this.camera.minZ = 0;
-    this.camera.layerMask = 0x1;
+    //this.camera.layerMask = 0x1;
+    this.camera.attachControl(canvas, false);
+
+    this.camera.ellipsoid = new Vector3(0.45, 0.9, 0.45);
+    this.camera.checkCollisions = true;
 
     // Init misc. subsystems
     this.targeter = new BlockTargeter(this.camera, this.scene);
