@@ -103,7 +103,6 @@ export class Avatar {
     this.camera.inertia = 0;
     this.camera.attachControl(canvas, false);
     this.camera.minZ = 0;
-    this.camera.parent = this.head;
     this.camera.layerMask = 0x1;
 
     // Init misc. subsystems
