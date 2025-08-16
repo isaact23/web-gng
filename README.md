@@ -1,4 +1,4 @@
-# Green and Gold  
+# Green and Gold (Babylon.js implementation)  
 
 Farming and mining MMORPG based on Minecraft  
 
