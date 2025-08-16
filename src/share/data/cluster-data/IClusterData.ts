@@ -46,12 +46,6 @@ export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
   toStringRep(): string;
 
   /**
-   * Apply an Action to this cluster. If the action is not
-   * applicable, do nothing.
-   */
-  processAction(action: Action): void;
-
-  /**
    * Get iterator for all chunks in the cluster and
    * corresponding chunk coordinates.
    * @returns An iterator for all chunks in this cluster and
