@@ -1,6 +1,5 @@
-import { ClusterData, IClusterData } from "@share/data/cluster-data";
+import { IClusterData } from "@share/data/cluster-data";
 import { ContinuousClusterGenerator } from "@server/cluster-gen";
-import { Socket } from "socket.io";
 import { Server as IOServer } from 'socket.io';
 
 /**
@@ -15,6 +14,11 @@ export class GameServer {
   constructor(
     private readonly io: IOServer
   ) {
+    io.on("connection", (socket) => {
+      console.log("User connected");
+      socket.emit("cluster-data", this.cluster.toStringRep());
+    });
+
     // Generate a cluster
     console.log("Generating world");
     this.cluster = ContinuousClusterGenerator.createWorldCluster();
@@ -27,13 +31,5 @@ export class GameServer {
    */
   getCluster(): IClusterData {
     return this.cluster;
-  }
-
-  /**
-   * Handle a user connection.
-   * @param socket The socket of the user that connected.
-   */
-  onConnection(socket: Socket) {
-
   }
 }

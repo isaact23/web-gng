@@ -1,5 +1,4 @@
 import * as Babylon from "babylonjs";
-import { Vector3 } from "babylonjs";
 
 import { IChunkData } from "@share/data/cluster-data/chunk-data";
 import { IClusterData } from "@share/data/cluster-data";

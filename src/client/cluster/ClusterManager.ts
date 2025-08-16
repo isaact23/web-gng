@@ -10,9 +10,6 @@ import * as Babylon from "babylonjs";
 import { Vector3 } from "babylonjs";
 import { ChunkMesher } from "./mesher";
 import { Grid, IGrid } from "@share/data/grid";
-import { Action } from "@share/action";
-import { AddBlockAction } from "@share/action/block/AddBlockAction";
-import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
 
 // TODO: Remove dispose() method, add load and unload methods here instead of in Game
 
@@ -98,23 +95,8 @@ export class ClusterManager implements IClusterManager {
       if (relCoord.y == chunkSize - 1)   flagAdj(Vector3.Up());
       if (relCoord.z == chunkSize - 1)   flagAdj(Vector3.Forward());
     }
-  }
 
-  /**
-   * Apply an action to this ClusterClient.
-   */
-  processAction(action: Action) {
-
-    if (action instanceof AddBlockAction) {
-      this.clusterData.setBlock(action.coord, action.block);
-      this.dirtyChunks.set(action.coord.getChunkCoordinate(), true);
-      this.remesh();
-    }
-    else if (action instanceof RemoveBlockAction) {
-      this.clusterData.setBlock(action.coord, Block.Air);
-      this.dirtyChunks.set(action.coord.getChunkCoordinate(), true);
-      this.remesh();
-    }
+    this.remesh();
   }
 
   /**
