@@ -1,9 +1,7 @@
 import { Block } from "share/utility";
 import { IChunkData } from "./chunk-data/IChunkData";
-import { Vector3 } from "babylonjs";
 import { IChunkCoordinate } from "@share/data/coordinate/chunk-coordinate";
 import { IAbsoluteCoordinate } from "@share/data/coordinate/absolute-coordinate";
-import { Action } from "@share/action";
 
 /**
  * Manage multiple chunks, generating their meshes and loading them
@@ -44,12 +42,6 @@ export interface IClusterData extends Iterable<[IChunkCoordinate, IChunkData]> {
    *   in this cluster.
    */
   toStringRep(): string;
-
-  /**
-   * Apply an Action to this cluster. If the action is not
-   * applicable, do nothing.
-   */
-  processAction(action: Action): void;
 
   /**
    * Get iterator for all chunks in the cluster and

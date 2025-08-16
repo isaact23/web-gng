@@ -8,13 +8,8 @@ import { IView } from "@client/view";
 import { AssetManager, IAssetManager } from "@client/assets";
 import { PlayerMotor } from "@client/movement";
 
-import { IClusterData } from "@share/data/cluster-data";
-import { ClientIncoming, ClientOutgoing } from "@client/socket";
+import { ClusterData, IClusterData } from "@share/data/cluster-data";
 import { Socket } from "socket.io-client";
-import { Action } from "@share/action/Action";
-import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
-import { LoadClusterAction } from "@share/action/cluster/LoadClusterAction";
-import { UnloadClusterAction } from "@share/action/cluster/UnloadClusterAction";
 import { IClusterManager } from "@client/cluster/IClusterManager";
 import { ClusterManager } from "@client/cluster";
 
@@ -26,10 +21,6 @@ export class Game {
   // Overhead
   private _engine: Babylon.Engine;
   private _scene: Babylon.Scene;
-
-  // Networking
-  private _outgoing: ClientOutgoing;
-  private _actionProcessor: ClientActionProcessor;
 
   // Lighting
   private _sun: Babylon.DirectionalLight;
@@ -74,14 +65,14 @@ export class Game {
     this._shadowGenerator = new Babylon.ShadowGenerator(1024, this._sun);
     this._shadowGenerator.usePoissonSampling = true;
 
-    // Init communications
-    this._outgoing = new ClientOutgoing(socket);
-    this._actionProcessor = new ClientActionProcessor(this, this._outgoing);
-    new ClientIncoming(socket, this._actionProcessor);
-
     this._gui = new GUIManager();
     this._gui.mainMenuGui();
     //this.gui.gameGui();
+
+    socket.on("cluster-data", (data) => {
+      let cluster = ClusterData.fromStringRep(data);
+      this.loadCluster(cluster);
+    });
 
     // Run engine render loop
     const fpsElement = _view.getFpsElement();
@@ -92,22 +83,6 @@ export class Game {
         scene.render();
       fpsElement.innerHTML = engine.getFps().toFixed();
     });
-  }
-
-  /**
-   * Process an Action to update the game state.
-   */
-  public processAction(action: Action) {
-    
-    // TODO: Move cluster loading/unloading inside ClusterManager
-    if (action instanceof LoadClusterAction) {
-      this.loadCluster(action.cluster);
-    }
-    else if (action instanceof UnloadClusterAction) {
-      this.unloadCluster();
-    }
-
-    this._clusterManager?.processAction(action);
   }
 
   /**
@@ -122,7 +97,7 @@ export class Game {
 
     // Create local player motor
     this._motor = new PlayerMotor(
-      this._view.getCanvas(), this._engine, this._scene, this._actionProcessor, new Vector3(50, 70, -50), true);
+      this._view.getCanvas(), this._engine, this._scene, this._clusterManager, new Vector3(50, 70, -50), true);
   }
 
   /**

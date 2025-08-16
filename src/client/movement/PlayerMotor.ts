@@ -4,9 +4,7 @@ import { BlockTargeter } from "./block-targeter/BlockTargeter";
 import { Block } from "@share/utility/Block";
 import { IBlockTargeter } from "./block-targeter/IBlockTargeter";
 import { FaceVectorConverter } from "@share/utility";
-import { ClientActionProcessor } from "@client/action/ClientActionProcessor";
-import { RemoveBlockAction } from "@share/action/block/RemoveBlockAction";
-import { AddBlockAction } from "@share/action/block/AddBlockAction";
+import { IClusterManager } from "@client/cluster";
 
 const GRAVITY = -25;
 const MAX_FALL_SPEED = 50;
@@ -29,7 +27,7 @@ export class PlayerMotor {
     canvas: HTMLCanvasElement,
     engine: Babylon.Engine,
     scene: Babylon.Scene,
-    actionProcessor: ClientActionProcessor,
+    cluster: IClusterManager,
     position: Vector3 | null = null,
     noclip: boolean = false
   ) {
@@ -77,8 +75,7 @@ export class PlayerMotor {
         if (pointerInfo.event.inputIndex === Babylon.PointerInput.LeftClick) {
           let target = this.blockTargeter.getTargetBlockAndFace();
           if (target != null) {
-            const action = new RemoveBlockAction(target[0]);
-            actionProcessor.updateLocalAndRemote(action);
+            cluster.setBlock(target[0], Block.Air);
           }
         }
 
@@ -88,8 +85,7 @@ export class PlayerMotor {
           if (target != null) {
             const offset = FaceVectorConverter.getVectorFromFace(target[1]);
             const coord = target[0].addScalars(offset.x, offset.y, offset.z);
-            const action = new AddBlockAction(coord, Block.Stone);
-            actionProcessor.updateLocalAndRemote(action);
+            cluster.setBlock(target[0], Block.Stone);
           }
         }
       }
